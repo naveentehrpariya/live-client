@@ -70,10 +70,10 @@ export default function Pricing() {
     }
 
   return (
-    <div className='px-8'>
+    <div id='pricing' className='px-8'>
       <div className='pricing py-24 bg-dark1 rounded-[35px]'>
          <div className='container m-auto' >
-            <h2 className='heading-md text-center ' >Explore Our <span className='text-main' >Feature</span>  </h2>
+            <h2 className='heading-md text-center ' >Our <span className='text-main' >Pricing</span>  </h2>
             <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
          
             <div className='mt-12 grid grid-cols-4 gap-5' >

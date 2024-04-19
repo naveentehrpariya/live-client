@@ -86,7 +86,7 @@ export default function Testimonials(){
 
 
       `}</style>
-         <div className='testimonials py-12'>
+         <div id="reviews" className='testimonials py-12'>
             <div className='container m-auto' >
                <div className='relative w-full' > 
                   <img loading="lazy" src={heart} alt={'heart-icons'} className="absolute hert-image max-w-[500px]" />;

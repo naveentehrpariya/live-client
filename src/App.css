@@ -8,6 +8,7 @@ body {
   --dark:#010A0F;
   --dark1:#06131C;
   --dark2:rgba(255, 255, 255, 0.05);
+  --dark3:#213848;
 }
 
 body { 
@@ -31,6 +32,9 @@ body {
 .bg-dark2 { 
   background: var(--dark2) ;
 }
+.bg-dark3 { 
+  background: var(--dark3) ;
+}
 
 .text-main { 
   color: var(--main) ;
@@ -43,6 +47,17 @@ body {
 .font-mona-i {
   font-family: 'monasans-italic', 'sans-serif';
 }
+
+.input-field { 
+  border:1px solid var(--dark3);
+}
+.input:focus{ 
+  border:1px solid var(--dark2);
+  box-shadow: none;
+  outline: none;
+  background: var(--dark2);
+}
+
 
 @layer components {
 
@@ -78,4 +93,7 @@ body {
 
   .para { @apply text-white text-[24px] font-bold }
 
+  .input { @apply input-field justify-center input-field border items-start px-[25px] py-[21px] mt-2.5 w-full whitespace-nowrap rounded-[20px]  bg-dark1 max-w-full  }
+
 }
+

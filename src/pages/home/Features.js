@@ -2,7 +2,7 @@ import React from 'react'
 import feature from '../../img/features.png';
 export default function Features() {
   return (
-    <div className='features py-24'>
+    <div id='features' className='features py-24'>
       <div className='container m-auto' >
          <h2 className='heading-md text-center ' >Explore Our <span className='text-main' >Feature</span>  </h2>
          <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>

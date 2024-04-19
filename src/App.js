@@ -4,18 +4,19 @@ import Header from './pages/common/Header';
 import Footer from './pages/common/Footer';
 import Help from './pages/Help';
 import Homepage from './pages/home/Homepage';
+import LogIn from './pages/login/LogIn';
+import Signup from './pages/signup/Signup';
 function App() {
   return (
     <div className="App">
       <Router>
         <div className="App">
-          <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/about" element={"dfjhsfjs"} />
             <Route path="/help" element={<Help />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
-          <Footer />
         </div>
       </Router>
     </div>
