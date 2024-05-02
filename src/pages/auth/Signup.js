@@ -26,6 +26,7 @@ export default function Signup() {
       confirmPassword: "",
     });
 
+    
     const handleinput = (e) => {
       setData({ ...data, [e.target.name]: e.target.value});
     }
@@ -54,6 +55,13 @@ export default function Signup() {
         setLoading(false);
         if(res.data.status){
           toast.success(res.data.message);
+          setData({
+            name: "",
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
         } else { 
           toast.error(res.data.message);
         }

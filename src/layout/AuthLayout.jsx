@@ -1,5 +1,6 @@
 import * as React from "react";
-import Sidebar from "./Sidebar";
+import CheckLogin from "../pages/auth/CheckLogin";
+import Sidebar from "../pages/dashboard/Sidebar";
 
 function IconImage({ src, alt }) {
   return (
@@ -11,9 +12,10 @@ function IconImage({ src, alt }) {
     />
   );
 }
-export default function MyComponent() {
+
+export default function AuthLayout({children}) {
   return (
-    <div className="gap-10 auth-wrap flex justify-between bg-gray-950 max-md:flex-wrap">
+    <div className="auth-wrap flex justify-between  max-md:flex-wrap">
       <Sidebar />
       <main className="main-wrap flex flex-col self-start max-md:max-w-full">
         <header className="sticky top-0 bg-dark border-b border-gray-900 px-7 py-6 flex items-center w-full max-md:flex-wrap max-md:max-w-full">
@@ -33,14 +35,11 @@ export default function MyComponent() {
             </div>
           </div>
         </header>
-
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/17caf19634711f245514bf588028f14ff5f46dac206a2f03c1a6a611600c6a85?apiKey=2e16c10895744f95b3906b7e14da906a&"
-          alt="Stream preview"
-          className="self-center mt-52 max-w-full aspect-[1.96] rounded-[30px] w-[749px] max-md:mt-10"
-        />
+         <div className="content p-8" >
+            {children}
+         </div>
       </main>
+      <CheckLogin />
     </div>
   );
 }

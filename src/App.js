@@ -4,9 +4,10 @@ import Help from './pages/Help';
 import Homepage from './pages/home/Homepage';
 import LogIn from './pages/auth/LogIn';
 import Signup from './pages/auth/Signup';
-import AuthWrapper from './pages/dashboard/AuthWrapper';
 import { Toaster } from 'react-hot-toast';
 import UserContextProvider from './context/AuthProvider';
+import Home from './pages/dashboard/Home';
+import CreateStreamForm from './pages/dashboard/stream/CreateStreamForm';
 
 function App() {
   return (
@@ -19,7 +20,10 @@ function App() {
                     <Route path="/help" element={<Help />} />
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
-                    <Route path="/home" element={<AuthWrapper />} />
+                    <Route path="/home" element={<Home />} />
+
+                    {/* Stream Routes */}
+                    <Route path="/create-stream" element={<CreateStreamForm />} />
                   </Routes>
                 </div>
               </Router>

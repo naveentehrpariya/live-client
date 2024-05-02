@@ -3,9 +3,9 @@ import Header from "../pages/common/Header";
 
 const HomeLayout = ({ children }) => {
   return <>
-  <Header />
-      {children}
-   <Footer />
+    <Header />
+        {children}
+    <Footer />
   </>
 };
 

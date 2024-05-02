@@ -1,5 +1,6 @@
 import React from 'react'
 import Logo from '../common/Logo';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
 
@@ -46,7 +47,7 @@ export default function Sidebar() {
     <>
       <nav className="sidebar-wrapper  border-r border-gray-900  text-base">
          <div className='sticky top-0 p-8 bg-dark flex justify-start items-center sidebar-logo' >
-            <Logo />
+           <Link to='/' > <Logo /></Link>
          </div>
 
         <div className='menus p-8' >

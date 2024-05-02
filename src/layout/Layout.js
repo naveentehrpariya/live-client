@@ -3,10 +3,10 @@ import Header from "../pages/common/Header";
 
 const Layout = ({ children }) => {
   return <>
-  <div className="d-none" >
-      <Header />
-      <Footer />
-  </div>
+      <div className="d-none" >
+        <Header />
+        <Footer />
+      </div>
       {children}
   </>
 };

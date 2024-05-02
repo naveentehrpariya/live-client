@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import Button from "../common/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import Endpoints from "../../api/Endpoints";
 import { UserContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
+import CheckLogin from "./CheckLogin";
 
 export default function Login() {
   
@@ -26,6 +27,7 @@ export default function Login() {
     }
 
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     function handleLogin(e) {
       e.preventDefault();
       if (data.email === "" || data.password === "") {
@@ -39,6 +41,8 @@ export default function Login() {
         setLoading(false);
         if(res.data.status){
           toast.success(res.data.message);
+          localStorage.setItem("token", res.data.token);
+          navigate("/home");
         } else { 
           toast.error(res.data.message);
         }
@@ -62,6 +66,7 @@ export default function Login() {
 
     return (
       <Layout>
+        <CheckLogin  redirect={true} />
         <div className="h-[100vh] flex justify-center items-center" >
           <div className="w-full max-w-[500px] flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
           <header>
@@ -70,7 +75,7 @@ export default function Login() {
           </header>
           <main className="mt-8" >
               <LoginForm />
-          </main>
+          </main> 
           <footer>
               <Link to="/signup" className="text-center mt-4 text-sm table m-auto font-bold text-white">
                 Create an account?
