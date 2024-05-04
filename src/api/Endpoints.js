@@ -22,6 +22,10 @@ class Endpoints extends Component {
         return Api.post(`/kill-stream`,data);
     }
 
+    async lists_streams() {
+        return Api.get(`/my-streams`);
+    }
+
     render() {
         return <></>
     }

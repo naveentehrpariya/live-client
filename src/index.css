@@ -69,3 +69,6 @@ header nav {
 main.main-wrap {
   height: 100vh;
 }
+select.input {
+  appearance: none;
+}

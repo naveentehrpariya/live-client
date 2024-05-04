@@ -1,6 +1,6 @@
 import React from 'react'
 import Logo from '../common/Logo';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Sidebar() {
 
@@ -16,11 +16,13 @@ export default function Sidebar() {
     }
     function MenuItem({ icon, label }) {
       return (
-        <div className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+        <NavLink to="/home" activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
           <IconImage src={icon} alt="" /> <div className="my-auto">{label}</div>
-        </div>
+        </NavLink>
       );
     }
+
+
     function UpgradePlan() {
       return (
         <div className="flex flex-col p-8 mt-12 text-base text-center  max-md:mt-10">
@@ -47,16 +49,23 @@ export default function Sidebar() {
     <>
       <nav className="sidebar-wrapper  border-r border-gray-900  text-base">
          <div className='sticky top-0 p-8 bg-dark flex justify-start items-center sidebar-logo' >
-           <Link to='/' > <Logo /></Link>
+           <Link to='/home' > <Logo /></Link>
          </div>
 
         <div className='menus p-8' >
+
+            <MenuItem
+            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/b76f3632fa4a0cbf10773892b2a869fe65c0026f494edf9021b4c11ac2ed80e9?apiKey=2e16c10895744f95b3906b7e14da906a&"
+            label="My Streams" />
+
             <MenuItem
             icon="https://cdn.builder.io/api/v1/image/assets/TEMP/b76f3632fa4a0cbf10773892b2a869fe65c0026f494edf9021b4c11ac2ed80e9?apiKey=2e16c10895744f95b3906b7e14da906a&"
             label="Manage Subscription" />
+
             <MenuItem
             icon="https://cdn.builder.io/api/v1/image/assets/TEMP/0ee633a9a7d3d33d8ec68ab435cce9c978e8d96a626ce901eb24a0c1e9eedc00?apiKey=2e16c10895744f95b3906b7e14da906a&"
             label="My Profile" />
+
         </div>
 
         <UpgradePlan />

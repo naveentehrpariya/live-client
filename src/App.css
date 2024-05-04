@@ -20,6 +20,7 @@ body{background:var(--dark);}
 .font-mona-i{font-family:'monasans-italic','sans-serif';}
 .input-field{border:1px solid var(--dark3);}
 .input:focus{border:1px solid var(--dark2);box-shadow:none;outline:none;background:var(--dark2);}
+
 @layer components{
   .btn{@apply cursor-pointer text-white bg-main font-medium rounded-[30px] text-sm px-6 py-2.5 text-center}
   .md{@apply text-[16px] px-7 py-3 text-center}
@@ -32,4 +33,10 @@ body{background:var(--dark);}
   .para{@apply text-white text-[24px] font-bold}
   .input{@apply input-field justify-center input-field border items-start px-[25px] py-[21px] mt-2.5 w-full whitespace-nowrap text-white rounded-[20px] bg-dark1 max-w-full}
   .box{@apply rounded-[30px] bg-dark1 }
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor:none;
 }

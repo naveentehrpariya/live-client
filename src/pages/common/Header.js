@@ -10,7 +10,7 @@ export default function Header() {
             <nav className="px-3 py-3 ">
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                      <Link to="/" class="ms-8 flex items-center">
-                        <h2 className='heading ' >Upstream</h2>
+                        <h2 className='heading ' >RunStream</h2>
                      </Link>
                      <div class="flex items-center lg:order-2">
                         <Link to="/login" class="text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">Login</Link>
