@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Button from "../common/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import Endpoints from "../../api/Endpoints";
 import { UserContext } from "../../context/AuthProvider";
@@ -10,6 +10,7 @@ export default function Signup() {
     const {Errors} = useContext(UserContext);
     function LoginForm(){
 
+    const navigate = useNavigate();
     const inputFields = [
       { type:"text", name :"name", label: "Your Name" },
       { type:"text", name :"username", label: "Username" },
@@ -25,7 +26,6 @@ export default function Signup() {
       password: "",
       confirmPassword: "",
     });
-
     
     const handleinput = (e) => {
       setData({ ...data, [e.target.name]: e.target.value});
@@ -62,6 +62,9 @@ export default function Signup() {
             password: "",
             confirmPassword: "",
           });
+          setTimeout(()=>{
+            navigate('/login');
+          },2000);
         } else { 
           toast.error(res.data.message);
         }
