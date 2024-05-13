@@ -4,21 +4,6 @@ import Endpoints from "../../api/Endpoints";
 import { useEffect, useState } from "react";
 import StreamLists from "./stream/StreamLists";
 import Loading from "../common/Loading";
-
-function IconImage({ src, alt }) {
-  return (
-    <img
-      loading="lazy"
-      src={src}
-      alt={alt}
-      className="shrink-0 w-5 aspect-square"
-    />
-  );
-}
-
-
-
-
 export default function Home() {
 
     const [lists, setLists] = useState([]);

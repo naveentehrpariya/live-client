@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Pricing() {
 
-   const {isAuthenticated} = useContext(UserContext);
-
+   const {user} = useContext(UserContext);
    const [lists, setLists] = useState([]);
    const [loading, setLoading] = useState(false);
    function fetch_plans() {
@@ -37,13 +36,13 @@ export default function Pricing() {
          { text: "Instant server availability" },
       ]
       const navigate = useNavigate();
-
       const [subscribing, setSubscribing ] = useState(false);
+
       const subscribePlan = (id) => { 
-         if(!isAuthenticated){
-            navigate('/login');
-            return false;
-         }
+         // if(!user){
+         //    navigate('/login');
+         //    return false;
+         // }
          setSubscribing(true);
          const m = new Endpoints();
          const resp = m.subscribePlan({

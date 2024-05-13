@@ -36,8 +36,8 @@ export default function UserContextProvider(props) {
 
   const values = {
     Errors,
-    isAuthenticated,
-    user,
+    isAuthenticated, setIsAuthenticated,
+    user, setUser,
     login,
     logout
   };
