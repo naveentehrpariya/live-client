@@ -1,61 +1,80 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import Endpoints from '../../api/Endpoints';
+import { UserContext } from '../../context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 export default function Pricing() {
 
-   const plans = [
-      {
-         title :"Lite",
-         price: "$30/M",
-         features : [
-            { text: "Number of streams: 1" },
-            { text: "Stream duration: 24/7" },
-            { text: "Storage: 65GB" },
-            { text: "Stream builder" },
-            { text: "Video quality: 1080p@30fps" },
-            { text: "Audio quality: 320kbps" },
-            { text: "Instant server availability" },
-         ]
-      },
-      {
-         title :"Lite",
-         price: "$30/M",
-         features : [
-            { text: "Number of streams: 1" },
-            { text: "Stream duration: 24/7" },
-            { text: "Storage: 65GB" },
-            { text: "Stream builder" },
-            { text: "Video quality: 1080p@30fps" },
-            { text: "Audio quality: 320kbps" },
-            { text: "Instant server availability" },
-         ]
-      },
-      {
-         title :"Lite",
-         price: "$30/M",
-         features : [
-            { text: "Number of streams: 1" },
-            { text: "Stream duration: 24/7" },
-            { text: "Storage: 65GB" },
-            { text: "Stream builder" },
-            { text: "Video quality: 1080p@30fps" },
-            { text: "Audio quality: 320kbps" },
-            { text: "Instant server availability" },
-         ]
-      },
-      {
-         title :"Lite",
-         price: "$30/M",
-         features : [
-            { text: "Number of streams: 1" },
-            { text: "Stream duration: 24/7" },
-            { text: "Storage: 65GB" },
-            { text: "Stream builder" },
-            { text: "Video quality: 1080p@30fps" },
-            { text: "Audio quality: 320kbps" },
-            { text: "Instant server availability" },
-         ]
-      },
-   ];
+   const {isAuthenticated} = useContext(UserContext);
+
+   const [lists, setLists] = useState([]);
+   const [loading, setLoading] = useState(false);
+   function fetch_plans() {
+      setLoading(true);
+      const m = new Endpoints();
+      const resp = m.pricingPlanLists();
+      resp.then((res) => {
+      setLoading(false);
+      setLists(res.data.items);
+      }).catch((err) => {
+      setLoading(false);
+      });
+   }
+  
+    useEffect(()=>{
+      fetch_plans();
+    },[]);
+
+   const PLAN = ({p, i}) => { 
+
+      const features =  [
+         { text: `Number of streams: ${p.allowed_streams}`},
+         { text: "Stream duration: 24/7" },
+         { text: `Storage: ${p.storage}GB` },
+         { text: "Stream builder" },
+         { text: "Video quality: 1080p@30fps" },
+         { text: "Audio quality: 320kbps" },
+         { text: "Instant server availability" },
+      ]
+      const navigate = useNavigate();
+
+      const [subscribing, setSubscribing ] = useState(false);
+      const subscribePlan = (id) => { 
+         if(!isAuthenticated){
+            navigate('/login');
+            return false;
+         }
+         setSubscribing(true);
+         const m = new Endpoints();
+         const resp = m.subscribePlan({
+            productId : id
+         });
+         resp.then((res) => {
+            setSubscribing(false);
+            if(res.data.url){
+               window.location.href = res.data.url;
+            }
+         }).catch((err) => {
+            setSubscribing(false);
+         });
+      }
+
+      return <div key={p._id} className="bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10">
+      <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
+      <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">${p.price}</div>
+      <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
+      <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
+      {features && features.map((f, index) => (
+         <FeatureItem key={index} >
+            {f.text}
+         </FeatureItem>
+      ))}
+      <button onClick={()=>subscribePlan(p.productId)} className="btn md mt-8">
+         {subscribing ? "Loading" : "Start your free trial"}
+      </button>
+      </div>
+   </div>
+   }
 
     function FeatureItem({ icon, children }) {
       return (
@@ -77,22 +96,8 @@ export default function Pricing() {
             <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
          
             <div className='mt-12 grid grid-cols-4 gap-5' >
-               {plans && plans.map((p, i)=>{
-                  return <div key={`plan-${i}`} className="bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10">
-                     <h2 className='text-[25px] font-bold  ' >{p.title}</h2>
-                     <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">{p.price}</div>
-                     <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
-                     <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
-                     {p && p.features.map((f, index) => (
-                        <FeatureItem key={index} >
-                           {f.text}
-                        </FeatureItem>
-                     ))}
-                     <button className="btn md mt-8">
-                        Start your free trial
-                     </button>
-                     </div>
-                  </div>
+               {lists && lists.map((p, i)=>{
+                  return <PLAN p={p} key={`plan-${i}`} i={i} />
                })}
             </div>
          </div>

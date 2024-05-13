@@ -9,7 +9,8 @@ import CheckLogin from "./CheckLogin";
 
 export default function Login() {
   
-    const {Errors} = useContext(UserContext);
+
+    const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
     function LoginForm(){
 
     const inputFields = [
@@ -42,6 +43,8 @@ export default function Login() {
         if(res.data.status){
           toast.success(res.data.message);
           localStorage.setItem("token", res.data.token);
+          setUser(res.data.user);
+          setIsAuthenticated(true);
           navigate("/home");
         } else { 
           toast.error(res.data.message);

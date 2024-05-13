@@ -25,6 +25,13 @@ class Endpoints extends Component {
     async lists_streams() {
         return Api.get(`/my-streams`);
     }
+    
+    async pricingPlanLists() {
+        return Api.get(`/pricing-plans`);
+    }
+    async subscribePlan(data) {
+        return Api.post(`/subscribe`,data);
+    }
 
     render() {
         return <></>

@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreateStreamForm() {
 
-
   const navigate = useNavigate();
   const {Errors} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
