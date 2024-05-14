@@ -38,7 +38,7 @@ export default function Sidebar() {
           <div className="mt-2.5 leading-5 text-neutral-200">
             Upgrade your plan to create 24/7 streams
           </div>
-          <Link to='/#pricing' className="justify-center px-12 py-3.5 mt-7 text-white capitalize bg-red-500 leading-[90%] rounded-[180px] max-md:px-5">
+          <Link to='/upgrade/subscription' className="justify-center px-12 py-3.5 mt-7 text-white capitalize bg-red-500 leading-[90%] rounded-[180px] max-md:px-5">
             Upgrade Plan
           </Link>
         </div>

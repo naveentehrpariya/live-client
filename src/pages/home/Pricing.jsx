@@ -3,7 +3,7 @@ import Endpoints from '../../api/Endpoints';
 import { UserContext } from '../../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
-export default function Pricing() {
+export default function Pricing({classes, colclasses}) {
 
    const {user} = useContext(UserContext);
    const [lists, setLists] = useState([]);
@@ -58,7 +58,7 @@ export default function Pricing() {
          });
       }
 
-      return <div key={p._id} className="bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10">
+      return <div key={p._id} className={`bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
       <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
       <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">${p.price}</div>
       <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
@@ -88,13 +88,13 @@ export default function Pricing() {
     }
 
   return (
-    <div id='pricing' className='px-8'>
-      <div className='pricing py-24 bg-dark1 rounded-[35px]'>
+    <div id='pricing' className={`px-8`}>
+      <div className={` ${classes}`}>
          <div className='container m-auto' >
             <h2 className='heading-md text-center ' >Our <span className='text-main' >Pricing</span>  </h2>
             <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
          
-            <div className='mt-12 grid grid-cols-4 gap-5' >
+            <div className={`mt-12 grid ${colclasses}`} >
                {lists && lists.map((p, i)=>{
                   return <PLAN p={p} key={`plan-${i}`} i={i} />
                })}

@@ -2,15 +2,16 @@ import React, { useContext } from 'react'
 import { Link  } from 'react-router-dom';
 import Button from './Button';
 import { UserContext } from '../../context/AuthProvider';
+import CheckLogin from '../auth/CheckLogin';
 
 export default function Header() {
 
-  const user  = useContext(UserContext);
-
+  const {user}  = useContext(UserContext);
   console.log("user",user);
 
   return (
     <>
+    <CheckLogin />
       <header className='sticky top-2 py-3 z-10' >
          <div className='container m-auto'>
             <nav className="px-3 py-3 ">

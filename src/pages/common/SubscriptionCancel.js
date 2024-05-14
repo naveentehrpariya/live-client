@@ -1,21 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import Endpoints from '../../api/Endpoints';
+import toast from 'react-hot-toast';
 
 export default function SubscriptionCancel(){
 
+   const [loading, setLoading] = useState(false);
+   const [data, setData] = useState([]);
    const {id} = useParams();
-   const [count, setCount] = useState(0);
-      useEffect(()=>{
-      const interval = setInterval(() => {
-         setCount(count + 1);
-         if(count == 5){
-            clearInterval(interval);
-            // window.location.href = '/home';
-         }
-      }, 1000);
-      return () => clearInterval(interval);
-   },[]);
 
+   function getDetails() {
+      setLoading(true); 
+      const m = new Endpoints();
+      const resp = m.update_payment_status({
+         id:id
+      });
+      resp.then((res) => {
+         if(res.data.status){
+            toast.success(res.data.message);
+            setTimeout(()=>{
+               window.location.href = '/home';
+            }, 2000);
+         } else { 
+            toast.error(res.data.message);
+         }
+         setLoading(false);
+      }).catch((err) => {
+         setLoading(false);
+      });
+   }
+  
+    useEffect(()=>{
+      getDetails();
+    },[]);
 
    return (
       <div className='w-full h-screen bg-gray-200 flex items-center justify-center' >

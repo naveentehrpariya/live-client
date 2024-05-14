@@ -10,7 +10,7 @@ export default function SubscriptionConfirmation() {
    const {id} = useParams();
 
    function getDetails() {
-      setLoading(true);
+      setLoading(true); 
       const m = new Endpoints();
       const resp = m.update_payment_status({
          id:id
@@ -18,6 +18,9 @@ export default function SubscriptionConfirmation() {
       resp.then((res) => {
          if(res.data.status){
             toast.success(res.data.message);
+            setTimeout(()=>{
+               window.location.href = '/home';
+            }, 2000);
          } else { 
             toast.error(res.data.message);
          }
@@ -31,17 +34,17 @@ export default function SubscriptionConfirmation() {
       getDetails();
     },[]);
 
-   const [count, setCount] = useState(0);
-    useEffect(()=>{
-      const interval = setInterval(() => {
-         setCount(count + 1);
-         if(count == 5){
-            clearInterval(interval);
-            // window.location.href = '/home';
-         }
-      }, 1000);
-      return () => clearInterval(interval);
-   },[]);
+   // const [count, setCount] = useState(0);
+   //  useEffect(()=>{
+   //    const interval = setInterval(() => {
+   //       setCount(count + 1);
+   //       if(count === 5){
+   //          clearInterval(interval);
+   //          window.location.href = '/home';
+   //       }
+   //    }, 1000);
+   //    return () => clearInterval(interval);
+   // },[]);
 
 
   return (

@@ -1,5 +1,6 @@
 import axios from 'axios';
-const APP_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+// const APP_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const APP_URL = process.env.REACT_APP_API_URL || "http://216.225.198.234:8080/";
 
 function getToken(){
   const data = localStorage && localStorage.getItem('token');

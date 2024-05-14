@@ -9,6 +9,7 @@ import UserContextProvider from './context/AuthProvider';
 import Home from './pages/dashboard/Home';
 import CreateStreamForm from './pages/dashboard/stream/CreateStreamForm';
 import SubscriptionConfirmation from './pages/common/SubscriptionConfirmation';
+import UpgradePlan from './pages/dashboard/UpgradePlan';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
 
