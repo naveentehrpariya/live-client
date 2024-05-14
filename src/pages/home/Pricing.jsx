@@ -39,10 +39,10 @@ export default function Pricing() {
       const [subscribing, setSubscribing ] = useState(false);
 
       const subscribePlan = (id) => { 
-         // if(!user){
-         //    navigate('/login');
-         //    return false;
-         // }
+         if(!user){
+            navigate('/login');
+            return false;
+         }
          setSubscribing(true);
          const m = new Endpoints();
          const resp = m.subscribePlan({

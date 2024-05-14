@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import UserContextProvider from './context/AuthProvider';
 import Home from './pages/dashboard/Home';
 import CreateStreamForm from './pages/dashboard/stream/CreateStreamForm';
+import SubscriptionConfirmation from './pages/common/SubscriptionConfirmation';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
+                    <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
 
                     {/* Stream Routes */}
                     <Route path="/create-stream" element={<CreateStreamForm />} />

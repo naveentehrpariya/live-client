@@ -29,6 +29,9 @@ class Endpoints extends Component {
     async pricingPlanLists() {
         return Api.get(`/pricing-plans`);
     }
+    async update_payment_status() {
+        return Api.get(`/update-payment-status`);
+    }
     async subscribePlan(data) {
         return Api.post(`/subscribe`,data);
     }
