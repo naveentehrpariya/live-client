@@ -29,7 +29,6 @@ export default function SubscriptionConfirmation() {
          setLoading(false);
       });
    }
-  
     useEffect(()=>{
       getDetails();
     },[]);
