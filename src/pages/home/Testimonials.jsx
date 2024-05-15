@@ -55,7 +55,6 @@ export default function Testimonials(){
         </article>
       );
    }
-   
    return (
       <>
       <style>{`
