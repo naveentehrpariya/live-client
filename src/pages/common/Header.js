@@ -22,7 +22,7 @@ export default function Header() {
                               <Link to="/home" class="text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">My Account</Link> 
                            :
                            <>
-                           <Link to="/login" class="text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">Login</Link>
+                           <Link to="/login" class="hidden md:block text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">Login</Link>
                            <Button to='/signup' text="Get Started" classes={''} ></Button>
                            </>
                         }

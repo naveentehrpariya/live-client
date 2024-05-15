@@ -21,4 +21,7 @@ select.input{appearance:none;}
   .pricing, .brand { 
     background: transparent;
   }
+  .t-overlay { 
+    display: none;
+  }
 }

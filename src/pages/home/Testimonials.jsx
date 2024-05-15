@@ -66,7 +66,7 @@ export default function Testimonials(){
          <div id="reviews" className='testimonials md:py-12'>
             <div className='container m-auto' >
                <div className='relative w-full' > 
-                  <img loading="lazy" src={heart} alt={'heart-icons'} className="absolute hert-image max-w-[500px]" />;
+                  <img loading="lazy" src={heart} alt={'heart-icons'} className="absolute hert-image max-w-[300px] md:max-w-[500px]" />;
                   <div className='top-tile max-w-[750px] m-auto mb-12' >
                      <h2 className='heading-md text-center ' ><span className='text-main' >Loved</span> by Every Creator </h2>
                      <p className='text-gray-400  text-center text-[18px] mt-2' >Here’s what people are saying about us</p>
@@ -75,14 +75,14 @@ export default function Testimonials(){
                      <div className='left t-overlay' ></div>
                         <Swiper
                            autoplay={{
-                              delay:1000,
+                              delay:4000,
                               disableOnInteraction: false,
                            }}
                            breakpoints={{
                               320: {
                                  slidesPerView: 1,
                               },
-                              576: {
+                              767: {
                                 slidesPerView: 2,
                                 spaceBetween: 20,
                               },
