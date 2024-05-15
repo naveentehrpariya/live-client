@@ -3,10 +3,10 @@ import Endpoints from '../../api/Endpoints';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/AuthProvider';
-export default function CheckLogin({redirect}) {
+export default function CheckLogin({redirect, takeaction}) {
 
-    const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
-   const navigate = useNavigate();
+  const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
+  const navigate = useNavigate();
 
    function check_login(e) {
       const m = new Endpoints();
@@ -28,7 +28,11 @@ export default function CheckLogin({redirect}) {
          }
       }).catch((err) => {
         console.log("errors",err);
-        navigate('/login');
+        if(takeaction){
+          navigate('/login');
+        } else {
+          // navigate('/login');
+        }
       });
     }
 

@@ -63,7 +63,7 @@ export default function Choose(){
                   <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
                </div>
 
-               <div className='mt-12 grid grid-cols-4 gap-5' >
+               <div className='mt-8 md:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-5' >
                   {lists && lists.map((l, i)=>{
                      return (
                      <div className='fea-box p-4 bg-dark1 rounded-[20px]'>

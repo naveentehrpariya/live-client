@@ -17,7 +17,7 @@ export default function Homepage() {
       <Features />
       <Brand />
       <Choose />
-      <Pricing  classes="pricing py-24 bg-dark1 rounded-[35px]" colclasses="grid-cols-4 gap-5"  />
+      <Pricing  classes="pricing py-0 md:py-24 bg-dark1 rounded-[35px]" colclasses="grid-cols-4 gap-5"  />
       <Guide />
       <Testimonials />
       <LetsTake />

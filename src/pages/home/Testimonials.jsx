@@ -56,37 +56,15 @@ export default function Testimonials(){
       );
    }
    
-   
-   
-   
    return (
       <>
       <style>{`
-      .hert-image {
-         top:-30px;
-         left:50%;
-         transform: translateX(-50%);
-      }
-
-      .t-overlay {
-         position: absolute;
-         top: 0;
-         height: 100%;
-         width: 400px;
-         z-index: 2;
-     }
-      .t-overlay.left {
-         background: linear-gradient(90deg, rgb(1 10 14) 1%, rgba(1, 10, 15, 0.22875087535014005) 100%);
-         left: 0;
-     }
-      .t-overlay.right {
-         background: linear-gradient(270deg, rgb(1 10 14) 1%, rgba(1, 10, 15, 0.22875087535014005) 100%);
-         right: 0;
-     }
-
-
+      .hert-image{top:-30px;left:50%;transform:translateX(-50%);}
+      .t-overlay{position:absolute;top:0;height:100%;width:400px;z-index:2;}
+      .t-overlay.left{background:linear-gradient(90deg,rgb(1 10 14) 1%,rgba(1,10,15,0.22875087535014005) 100%);left:0;}
+      .t-overlay.right{background:linear-gradient(270deg,rgb(1 10 14) 1%,rgba(1,10,15,0.22875087535014005) 100%);right:0;}
       `}</style>
-         <div id="reviews" className='testimonials py-12'>
+         <div id="reviews" className='testimonials md:py-12'>
             <div className='container m-auto' >
                <div className='relative w-full' > 
                   <img loading="lazy" src={heart} alt={'heart-icons'} className="absolute hert-image max-w-[500px]" />;
@@ -97,11 +75,23 @@ export default function Testimonials(){
                   <div className='relative' > 
                      <div className='left t-overlay' ></div>
                         <Swiper
-                           spaceBetween={20}
-                           slidesPerView={3} autoplay={{
+                           autoplay={{
                               delay:1000,
                               disableOnInteraction: false,
                            }}
+                           breakpoints={{
+                              320: {
+                                 slidesPerView: 1,
+                              },
+                              576: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                              },
+                              992: {
+                                slidesPerView: 3,
+                                spaceBetween: 20,
+                              },
+                            }}
                            modules={[Autoplay]}  >
 
                            {testimonials && testimonials.map((t, i) => {

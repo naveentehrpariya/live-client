@@ -88,7 +88,7 @@ export default function Pricing({classes, colclasses}) {
     }
 
   return (
-    <div id='pricing' className={`px-8`}>
+    <div id='pricing' className={`md:px-8`}>
       <div className={` ${classes}`}>
          <div className='container m-auto' >
             <h2 className='heading-md text-center ' >Our <span className='text-main' >Pricing</span>  </h2>

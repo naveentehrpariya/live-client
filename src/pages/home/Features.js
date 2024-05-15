@@ -6,7 +6,7 @@ export default function Features() {
       <div className='container m-auto' >
          <h2 className='heading-md text-center ' >Explore Our <span className='text-main' >Feature</span>  </h2>
          <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
-        <div className='features-cols mt-16 grid grid-cols-2 gap-4' >
+        <div className='features-cols mt-10 xl:mt-16 xl:grid grid-cols-2 gap-4' >
           
           <div className='features-faq'>
             <div class="mb-6 transition-all duration-200 bg-dark1 rounded-[20px] cursor-pointer">
@@ -62,7 +62,7 @@ export default function Features() {
 
           </div>
 
-          <div className='features-img' >
+          <div className='features-img xl:ps-[30px]' >
             <img src={feature} alt='features-img' className='w-full' />
           </div>
 

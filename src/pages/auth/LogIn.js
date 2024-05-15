@@ -69,7 +69,7 @@ export default function Login() {
 
     return (
       <Layout>
-        <CheckLogin  redirect={true} />
+        <CheckLogin takeaction={true}  redirect={true} />
         <div className="h-[100vh] flex justify-center items-center" >
           <div className="w-full max-w-[500px] flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
           <header>
