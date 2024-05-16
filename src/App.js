@@ -10,6 +10,10 @@ import Home from './pages/dashboard/Home';
 import CreateStreamForm from './pages/dashboard/stream/CreateStreamForm';
 import SubscriptionConfirmation from './pages/common/SubscriptionConfirmation';
 import UpgradePlan from './pages/dashboard/UpgradePlan';
+import Refund from './static/Refund';
+import Privacy from './static/Privacy';
+import Support from './static/Support';
+import Terms from './static/Terms';
 
 function App() {
   return (
@@ -26,6 +30,11 @@ function App() {
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
+
+                    <Route path="/privacy-policy" element={<Privacy />} />
+                    <Route path="/support" element={<Support />} />
+                    <Route path="/terms-of-service" element={<Terms />} />
+                    <Route path="/cancellation-and-refund-policy" element={<Refund />} />
 
                     {/* Stream Routes */}
                     <Route path="/create-stream" element={<CreateStreamForm />} />

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
@@ -7,11 +8,10 @@ export default function Footer() {
         <footer class="mx-auto max-w-screen-2xl px-4 md:px-8">
           <div class="flex flex-col items-center justify-between gap-4 border-t border-b border-gray-900 py-6 md:flex-row">
             <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2 md:justify-start md:gap-6">
-              <a href="#" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">About</a>
-              <a href="#" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Investor Relations</a>
-              <a href="#" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Jobs</a>
-              <a href="#" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Press</a>
-              <a href="#" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Blog</a>
+              <Link to="/privacy-policy" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Privacy Policy</Link>
+              <Link to={'/support'} class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Support</Link>
+              <Link to="/terms-of-service" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Terms of service</Link>
+              <Link to="/cancellation-and-refund-policy" class="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Cancellation & Refund</Link>
             </nav>
             <div class="flex gap-4">
               <a href="#" target="_blank" class="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600">
@@ -40,7 +40,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div class="py-8 text-center text-sm text-gray-400">© 2021 - Present Flowrift. All rights reserved.</div>
+          <div class="py-8 text-center text-sm text-gray-400">© 2024 - Present RunStream. All rights reserved.</div>
         </footer>
       </div>
     </>
