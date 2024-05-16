@@ -1,13 +1,15 @@
 import React from 'react'
+import HomeLayout from '../layout/HomeLayout'
 
 export default function Support() {
   return (
-    <div>
-     <div class="px-4 md:px-8 text-white ">
-      <h1 class="text-3xl font-bold mb-4">Welcome to RunStream.co Customer Support</h1>
+    <HomeLayout>
+     <div class="container">
+     <div class="py-6 md:py-12 text-white ">
+      <h1 class="text-2xl md:text-3xl font-bold mb-4">Customer Support</h1>
       <div class="my-4">
          <div class="w-full md:w-1/2 mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold mb-2 mt-6">Contact Information</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-2 mt-6">Contact Information</h2>
             <ul class="list-disc pl-5">
             <li>Website: <a href="https://www.runstream.co" class="text-blue-500 hover:text-blue-600">RunStream.co</a></li>
             <li>Email: <a href="mailto:support@runstream.co" class="text-blue-500 hover:text-blue-600">support@runstream.co</a></li>
@@ -15,7 +17,7 @@ export default function Support() {
             <p class="text-gray-300 mt-4">Response Time: We are committed to providing prompt assistance and aim to respond to all inquiries within 24 hours.</p>
          </div>
          <div class="w-full md:w-1/2 mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold mb-2 mt-6">Support Channels</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-2 mt-6">Support Channels</h2>
             <ul class="list-disc pl-5">
             <li>Email: For any inquiries or assistance, please reach out to us at <a href="mailto:support@runstream.co" class="text-blue-500 hover:text-blue-600">support@runstream.co</a>.</li>
             <li>Contact Form: You can also fill out our contact form on our website for direct assistance.</li>
@@ -29,17 +31,17 @@ export default function Support() {
       </div>
       <div class="my-4">
          <div class="w-full md:w-1/2 mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold mb-2 mt-6">Frequently Asked Questions (FAQs)</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-2 mt-6">Frequently Asked Questions (FAQs)</h2>
             <p class="text-gray-300">Explore our comprehensive <a href='https://runstream.co#faq' className='text-blue-500' >FAQ</a> section for quick answers to common queries. </p>
          </div>
          <div class="w-full md:w-1/2 mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold mb-2 mt-6">Additional Resources</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-2 mt-6">Additional Resources</h2>
             <p class="text-gray-300">Access our library of tutorials, guides, and troubleshooting articles for self-help assistance.</p>
          </div>
       </div>
       <div class="my-4">
          <div class="w-full md:w-1/2 mb-4 md:mb-0">
-            <h2 class="text-2xl font-bold mb-2 mt-6">Connect with Us</h2>
+            <h2 class="text-xl md:text-2xl font-bold mb-2 mt-6">Connect with Us</h2>
             <ul class="list-disc pl-5">
             <li>Stay updated and engage with us on social media:</li>
             <li><a href="https://twitter.com/RunStreamCo" class="text-blue-500 hover:text-blue-600">Twitter: @RunStreamCo</a></li>
@@ -52,6 +54,7 @@ export default function Support() {
          </div>
       </div>
       </div>
-    </div>
+      </div>
+    </HomeLayout>
   )
 }
