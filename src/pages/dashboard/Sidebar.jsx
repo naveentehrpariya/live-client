@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../../context/AuthProvider';
 import TimeFormat from '../common/TimeFormat';
 
-export default function Sidebar() {
+export default function Sidebar({toggle}) {
 
   const {user} = useContext(UserContext);
 
@@ -47,7 +47,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <nav className="sidebar-wrapper  border-r border-gray-900  text-base">
+      <nav className={`sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
          <div className='sticky top-0 p-8 bg-dark flex justify-start items-center sidebar-logo' >
            <Link to='/home' > <Logo /></Link>
          </div>
