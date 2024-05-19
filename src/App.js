@@ -14,6 +14,7 @@ import Refund from './static/Refund';
 import Privacy from './static/Privacy';
 import Support from './static/Support';
 import Terms from './static/Terms';
+import Media from './pages/dashboard/media/Media';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
-
+                    <Route path="/media" element={<Media />} />
                     <Route path="/privacy-policy" element={<Privacy />} />
                     <Route path="/support" element={<Support />} />
                     <Route path="/terms-of-service" element={<Terms />} />

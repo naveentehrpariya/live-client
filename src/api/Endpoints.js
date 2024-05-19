@@ -36,6 +36,10 @@ class Endpoints extends Component {
         return Api.post(`/subscribe`,data);
     }
 
+    async mymedia(type) {
+        return Api.get(`/my-media/${type}`);
+    }
+
     render() {
         return <></>
     }

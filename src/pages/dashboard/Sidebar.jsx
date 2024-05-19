@@ -3,29 +3,20 @@ import Logo from '../common/Logo';
 import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../../context/AuthProvider';
 import TimeFormat from '../common/TimeFormat';
+import { DiHtml5Multimedia } from "react-icons/di";
+import { TbHome } from "react-icons/tb";
+import { FaUserCog } from "react-icons/fa";
 
 export default function Sidebar({toggle}) {
 
   const {user} = useContext(UserContext);
-
-   function IconImage({ src, alt }) {
+    function MenuItem({ icon, label, path }) {
       return (
-        <img
-          loading="lazy"
-          src={src}
-          alt={alt}
-          className="shrink-0 w-5 aspect-square"
-        />
-      );
-    }
-    function MenuItem({ icon, label }) {
-      return (
-        <NavLink to="/home" activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
-          <IconImage src={icon} alt="" /> <div className="my-auto">{label}</div>
+        <NavLink to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+          {icon} <div className="my-auto">{label}</div>
         </NavLink>
       );
     }
-
 
     function UpgradePlan() {
       return (
@@ -48,17 +39,22 @@ export default function Sidebar({toggle}) {
   return (
     <>
       <nav className={`sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
-         <div className='sticky top-0 p-8 bg-dark flex justify-start items-center sidebar-logo' >
+         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
            <Link to='/home' > <Logo /></Link>
          </div>
 
-        <div className='menus p-8' >
-            <MenuItem
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/b76f3632fa4a0cbf10773892b2a869fe65c0026f494edf9021b4c11ac2ed80e9?apiKey=2e16c10895744f95b3906b7e14da906a&"
+        <div className='menus p-8 pt-0' >
+            <MenuItem path="/home"
+            icon={<TbHome size={'2rem'} />}
             label="My Streams" />
-            <MenuItem
-            icon="https://cdn.builder.io/api/v1/image/assets/TEMP/0ee633a9a7d3d33d8ec68ab435cce9c978e8d96a626ce901eb24a0c1e9eedc00?apiKey=2e16c10895744f95b3906b7e14da906a&"
-            label="My Profile" />
+
+            <MenuItem path="/home"
+            icon={<FaUserCog size={'2rem'}  />}
+            label="Profile" />
+
+            <MenuItem path="/media"
+            icon={<DiHtml5Multimedia size={'2rem'}  />}
+            label="Collections" />
         </div>
          
         {user && user.plan && user.plan._id ? <>

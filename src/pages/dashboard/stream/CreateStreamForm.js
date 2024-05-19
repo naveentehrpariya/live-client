@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CreateStreamForm() {
 
+  const resolutions = [
+    { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+    { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
+    { title:"1080x720 720x1080" ,label: '1080x720', value: '720x1080' },
+    { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
+  ];
+
   const navigate = useNavigate();
   const {Errors} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -58,9 +65,9 @@ export default function CreateStreamForm() {
             <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
           ))}
           <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-            <option value={'default'}>Default</option>
-            <option value={"1920x1080"} >1920x1080</option>
-            <option value="720x960" >720x960</option>
+            {resolutions && resolutions.map((resolution, index) => (
+              <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+            ))}
           </select>
          </div>
         <div className="m-auto table mt-8">

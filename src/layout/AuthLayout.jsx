@@ -39,7 +39,7 @@ export default function AuthLayout({children, heading}) {
       <Sidebar toggle={toggle} />
       <main className="main-wrap flex flex-col self-start max-lg:max-w-full">
         
-        <header className="sticky top-0 bg-dark border-b border-gray-900 px-7 py-6 flex items-center w-full justify-between">
+        <header className="sticky top-0 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
           {windowWidth < 1200 ? <Logo /> : <h1 className="flex-auto text-xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1>}
           <div className="flex gap-5">
             <div className="infobtn flex justify-center items-center px-3 bg-red-500 h-[43px] rounded-[50px] w-[43px]">
@@ -55,16 +55,15 @@ export default function AuthLayout({children, heading}) {
             </button>
             <button onClick={() => setToggle(!toggle)} className="sidebar-toggle text-base leading-6 whitespace-nowrap text-neutral-400">
               <span className="" ></span>
-              <span className="" ></span>
+              <span className="my-2" ></span>
               <span className="" ></span>
             </button>
           </div>
         </header>
 
          <div className="content p-8" >
-         {windowWidth > 1199 ? <h1 className="flex-auto text-xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1> : "" }
-
-            {children}
+         {windowWidth < 1200 ? <h1 className="flex-auto pb-4 md:pb-8 text-xl sm:text-2xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1> : "" }
+          {children}
          </div>
       </main>
       <CheckLogin takeaction={true} />
