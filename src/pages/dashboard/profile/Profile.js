@@ -10,7 +10,7 @@ export default function Profile() {
   return (
     <>
     <AuthLayout heading={"Profile"} >
-      <div class="bg-dark2 overflow-hidden shadow rounded-lg border border-gray-800">
+      <div class="bg-dark1 overflow-hidden shadow rounded-xl">
          {/* <div class="px-4 py-5 sm:px-6">
             <h3 class="text-lg leading-6 font-medium text-white">
                   User Profile
@@ -19,7 +19,7 @@ export default function Profile() {
                   This is some information about the user.
             </p>
          </div> */}
-         <div class="border-t border-gray-800 px-4 py-5 sm:p-0">
+         <div class="px-4 py-5 sm:p-0">
             <dl class="sm:divide-y sm:divide-gray-800">
                   <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                      <dt class="text-sm font-medium text-gray-500">
@@ -27,6 +27,22 @@ export default function Profile() {
                      </dt>
                      <dd class="mt-1 text-sm text-gray-400 sm:mt-0 sm:col-span-2">
                         {user.name}
+                     </dd>
+                  </div>
+                  <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                     <dt class="text-sm font-medium text-gray-500">
+                        Username
+                     </dt>
+                     <dd class="mt-1 text-sm text-gray-400 sm:mt-0 sm:col-span-2">
+                        {user.username}
+                     </dd>
+                  </div>
+                  <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                     <dt class="text-sm font-medium text-gray-500">
+                        Active Subscription
+                     </dt>
+                     <dd class="mt-1 text-sm text-gray-400 sm:mt-0 sm:col-span-2">
+                     {user.plan.name} (${user.plan.price}/month)
                      </dd>
                   </div>
                   <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
