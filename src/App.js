@@ -15,6 +15,7 @@ import Privacy from './static/Privacy';
 import Support from './static/Support';
 import Terms from './static/Terms';
 import Media from './pages/dashboard/media/Media';
+import Profile from './pages/dashboard/profile/Profile';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/profile" element={<Profile />} />
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />

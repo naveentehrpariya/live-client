@@ -29,8 +29,8 @@ export default function Stream({data, reload}) {
   return (
     <div className='stream box overflow-hidden'>
       <div className='stream-img w-full relative' >
-         <img src={defaultimg} className='img-fluid w-full max-h-[200px] object-cover'  />
-         <div className={`text-[10px] md:text-normal absolute top-3 left-3 z-1 stream-status font-bold bg-green-700 text-white rounded-xl px-3 py-1 ${data.status === '1' ? "bg-green-700" : "bg-red-700"}`} >{data.status === '1' ? "Active" : "Ended"}</div>
+         <img src={defaultimg} className='img-fluid w-full max-h-[200px] object-cover' alt='stream thumbnail'  />
+         <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status font-bold bg-green-700 text-white rounded-xl px-3 py-1 ${data.status === '1' ? "bg-green-700" : "bg-red-700"}`} >{data.status === '1' ? "Active" : "Ended"}</div>
       </div>
       <div className='stream-info p-6'>
          <div className='stream-date text-xs text-main'><TimeFormat date={data.createdAt} /></div>

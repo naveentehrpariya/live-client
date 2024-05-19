@@ -48,7 +48,7 @@ export default function Sidebar({toggle}) {
             icon={<TbHome size={'2rem'} />}
             label="My Streams" />
 
-            <MenuItem path="/home"
+            <MenuItem path="/profile"
             icon={<FaUserCog size={'2rem'}  />}
             label="Profile" />
 
