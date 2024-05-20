@@ -39,6 +39,19 @@ class Endpoints extends Component {
     async mymedia(type) {
         return Api.get(`/my-media/${type}`);
     }
+    async uploadMedia(data, onProgress) {
+        const config = {
+            onUploadProgress: progressEvent => {
+                console.log('Progress event:', progressEvent);
+                if (onProgress) {
+                    const percentComplete = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    console.log('Percent complete:', percentComplete);
+                    onProgress(percentComplete);
+                }
+            }
+        };
+        return Api.post(`/cloud/upload`, data, config);
+    }
 
     render() {
         return <></>

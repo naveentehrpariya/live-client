@@ -57,8 +57,8 @@ export default function Sidebar({toggle}) {
             label="Collections" />
         </div>
          
-        {user && user.plan && user.plan._id ? <>
-        <div className="bg-dark sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center  max-md:mt-10">
+        {user && user.plan && user.plan._id ? <div className='px-8 pb-8'>
+        <div className="bg-dark1  mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
@@ -70,7 +70,7 @@ export default function Sidebar({toggle}) {
           <h2 className='text-white font-bold mt-2' >${user.plan.price}/month</h2>
           <p className='text-gray-400 mt-2' >Benefits Ends on : <TimeFormat date={user.plan.createdAt} /></p>
         </div>
-        </> : <UpgradePlan /> }
+        </div> : <UpgradePlan /> }
       </nav>
       
     </>

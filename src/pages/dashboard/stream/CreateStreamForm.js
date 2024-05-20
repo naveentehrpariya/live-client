@@ -4,6 +4,7 @@ import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import MyFiles from './MyFiles';
 
 export default function CreateStreamForm() {
 
@@ -56,23 +57,48 @@ export default function CreateStreamForm() {
     });
   }
 
+  const [step, setStep] = useState(1);
+  const handleStep = (type) => {
+    if(type === "next"){
+      setStep(step+1);
+    } else {
+      setStep(step-1);
+    }
+  }
+
+  const STEPS = () => { 
+    return <>
+    <div className="flex justify-center items-center mt-8">
+            <button onClick={()=>handleStep("prev")}  className={`btn main-btn m-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
+            <button onClick={()=>handleStep("next")}   className={`btn main-btn m-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
+      </div>
+    </>
+  }
+
   return (
       <AuthLayout>
         <div className='create-stream-form box p-12 max-w-[1000px] m-auto mt-10 '>
           <h2 className='text-white text-[24px] font-bold mb-6 border-b border-gray-800 pb-5' >Create New Stream</h2>
-         <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
-          {inputFields.map((field, index) => (
-            <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
-          ))}
-          <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-            {resolutions && resolutions.map((resolution, index) => (
-              <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+            {inputFields.map((field, index) => (
+              <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
             ))}
-          </select>
-         </div>
-        <div className="m-auto table mt-8">
-          <button disabled={loading} onClick={handleCreateStream}  className={`btn main-btn m-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
-        </div>
+            <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+              {resolutions && resolutions.map((resolution, index) => (
+                <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+              ))}
+            </select>
+          </div>
+
+          <div className='media-files' >
+            <MyFiles type={'video'} />
+          </div>
+
+          <STEPS></STEPS>
+
+          {/* <div className="m-auto table mt-8">
+            <button disabled={loading} onClick={handleCreateStream}  className={`btn main-btn m-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
+          </div> */}
         </div>
       </AuthLayout>
   )
