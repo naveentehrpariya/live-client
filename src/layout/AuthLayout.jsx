@@ -61,8 +61,8 @@ export default function AuthLayout({children, heading}) {
           </div>
         </header>
 
-         <div className="content p-8" >
-         {windowWidth < 1200 ? <h1 className="flex-auto pb-4 md:pb-8 text-xl sm:text-2xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1> : "" }
+         <div className="content p-6 md:p-8" >
+         {windowWidth < 1200 ? <h1 className="flex-auto pb-4 md:pb-8 text-2xl md:text-3xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1> : "" }
           {children}
          </div>
       </main>

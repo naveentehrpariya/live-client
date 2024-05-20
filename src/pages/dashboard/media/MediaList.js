@@ -39,7 +39,7 @@ export default function MediaList() {
                <button className={`${filter === 'image' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>setFilter("image")} >Images</button>
                <button className={`${filter === 'video' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>setFilter("video")} >Videos</button>
             </div>
-            <Addmedia />
+            <Addmedia update={fetchMedias} />
       </div>
       {loading ? <Loading /> : 
          <>
@@ -50,12 +50,12 @@ export default function MediaList() {
                         return <>
                         {filter === 'image'? 
                            <div key={`file-${filter}-${index}`}>
-                              <img class="h-auto w-full object-cover max-w-full max-h-[130px] sm:max-h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+                              <img class="h-auto w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
                            </div>
                         : '' } 
 
                         {filter === 'video'? 
-                           <div className='max-h-[130px] sm:max-h-[200px] bg-dark2 rounded-xl overflow-hidden' key={`file-${filter}-${index}`}>
+                           <div className='max-h-[130px] min-h-[150px] sm:max-h-[200px] bg-dark2 rounded-xl overflow-hidden' key={`file-${filter}-${index}`}>
                               <video playsInline className='w-full h-full' controls >
                                  <source src={item.url} type={item.mime} />
                               </video>

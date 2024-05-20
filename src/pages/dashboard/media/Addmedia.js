@@ -3,7 +3,7 @@ import Popup from '../../common/Popup'
 import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
 
-export default function Addmedia() {
+export default function Addmedia({update}) {
 
    const [open, setOpen] = useState();
    const [uploading, setUploading] = useState(false);
@@ -26,8 +26,8 @@ export default function Addmedia() {
    }
    const [progress, setProgress] = useState(0);
    async function UploadMedia() {
+      
       if (!file) return;
-
       setUploading(true);
       const m = new Endpoints();
       const fdata = new FormData();
@@ -37,6 +37,10 @@ export default function Addmedia() {
           toast.success('File uploaded successfully');
           setFile(null);
           setOpen('close');
+          update && update();
+            setTimeout(()=>{
+               setOpen('');
+            }, 1000);
       } catch (err) {
           toast.error('File upload failed');
       } finally {
@@ -79,7 +83,7 @@ export default function Addmedia() {
                   }
 
                   <div className='flex justify-center'>
-                     <button onClick={UploadMedia} className='btn w-full max-w-xs' >{progress} {uploading ? "Uploading.." : "Upload"}</button>
+                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > {uploading ? "Uploading.." : "Upload"}</button>
                   </div>
                </div>
             </div>

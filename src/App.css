@@ -22,7 +22,7 @@ body{background:var(--dark);}
 .input:focus{border:1px solid var(--dark2);box-shadow:none;outline:none;background:var(--dark2);}
 
 @layer components{
-  .btn{@apply cursor-pointer text-white bg-main font-medium rounded-[30px] text-sm px-6 py-2.5 text-center}
+  .btn{@apply px-6 py-2.5 cursor-pointer text-white bg-main font-medium rounded-[30px] text-sm text-center}
   .md{@apply text-[16px] px-7 py-3 text-center}
   .lg{@apply text-[18px] px-8 py-3.5 text-center}
   .heading{@apply text-white font-bold font-mona}
