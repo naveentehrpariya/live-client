@@ -29,9 +29,11 @@ class Endpoints extends Component {
     async pricingPlanLists() {
         return Api.get(`/pricing-plans`);
     }
+
     async update_payment_status(data) {
         return Api.post(`/update-payment-status`, data);
     }
+
     async subscribePlan(data) {
         return Api.post(`/subscribe`,data);
     }
@@ -39,6 +41,11 @@ class Endpoints extends Component {
     async mymedia(type) {
         return Api.get(`/my-media/${type}`);
     }
+
+    async delete_media(id) {
+        return Api.get(`/delete/media/${id}`);
+    }
+
     async uploadMedia(data, onProgress) {
         const config = {
             onUploadProgress: progressEvent => {
@@ -52,7 +59,7 @@ class Endpoints extends Component {
         };
         return Api.post(`/cloud/upload`, data, config);
     }
-
+    
     render() {
         return <></>
     }

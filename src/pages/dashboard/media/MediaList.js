@@ -4,6 +4,7 @@ import Loading from '../../common/Loading';
 import NoContent from '../../common/NoContent';
 import Popup from '../../common/Popup';
 import Addmedia from './Addmedia';
+import RemoveMedia from './RemoveMedia';
 
 export default function MediaList() {
 
@@ -21,7 +22,6 @@ export default function MediaList() {
       }, 2000)
        setLists(res.data.files);
      }).catch((err) => {
-      //  setLoading(false);
        setTimeout(()=>{
          setLoading(false);
       }, 2000)
@@ -49,16 +49,18 @@ export default function MediaList() {
                      {lists && lists.map((item, index) => {
                         return <>
                         {filter === 'image'? 
-                           <div key={`file-${filter}-${index}`}>
-                              <img class="h-auto w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+                           <div className='relative' key={`file-${filter}-${index}`}>
+                              <img class=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+                              <RemoveMedia update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                            </div>
                         : '' } 
 
                         {filter === 'video'? 
-                           <div className='max-h-[130px] min-h-[150px] sm:max-h-[200px] bg-dark2 rounded-xl overflow-hidden' key={`file-${filter}-${index}`}>
+                           <div  className='relative max-h-[130px] min-h-[150px] sm:max-h-[200px] bg-dark2 rounded-xl overflow-hidden' key={`file-${filter}-${index}`}>
                               <video playsInline className='w-full h-full' controls >
                                  <source src={item.url} type={item.mime} />
                               </video>
+                              <RemoveMedia update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                            </div>
                         : '' } 
 
