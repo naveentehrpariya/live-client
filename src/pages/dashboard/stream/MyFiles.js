@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Endpoints from '../../../api/Endpoints';
+import Loading from '../../common/Loading';
 
 export default function MyFiles({type, sendFile}) {
 
@@ -32,6 +33,8 @@ export default function MyFiles({type, sendFile}) {
 
   return (
     <>
+
+      { loading ? <Loading /> : ''}
       {type === "video" ? 
          <>
             <ul class="flex flex-col">

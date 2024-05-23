@@ -15,6 +15,13 @@ main.main-wrap{height:100vh;}
 select.input{appearance:none;}
 .sidebar-toggle span{display:block;width:100% !important;height:2px !important;background:#ccc;border-radius:15px;min-width:30px !important;}
 button.sidebar-toggle{display:none;max-width:80px;}
+
+
+.sidebar-wrapper::-webkit-scrollbar {
+   width: 0px;
+}
+
+
 @media(max-width:1279px){div#mobile-menu-2{position:fixed !important;background:#121f27;max-width:400px;top:90px;right:0;z-index:999 !important;padding:20px;border-radius:17px;}
 .mobile-menu{display:none !important;}
 .toggle.mobile-menu{display:block !important;}

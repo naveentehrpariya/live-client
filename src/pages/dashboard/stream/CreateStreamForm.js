@@ -46,7 +46,6 @@ export default function CreateStreamForm() {
   const getVideoFile = (video) => {
     setVideo(video);
     setData({ ...data, ["video"]:video});
-    console.log(data);
   }
 
   const handleinput = (e) => {

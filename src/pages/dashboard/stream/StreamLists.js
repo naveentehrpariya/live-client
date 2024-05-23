@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Stream from './Stream';
-import addmore from '../../../img/addmorestreams.png'
+import addmore from '../../../img/addmorestreams.png';
 import { Link } from 'react-router-dom';
 
 export default function StreamLists({lists, reload}) {
@@ -10,7 +10,7 @@ export default function StreamLists({lists, reload}) {
       return (
          <div className='stream box overflow-hidden'>
             <div className='stream-img w-full relative p-3' >
-               <img src={addmore} className='img-fluid w-full max-h-[200px] object-cover'  />
+               <img src={addmore} className='img-fluid w-full max-h-[200px] object-cover' alt='images'  />
             </div>
             <div className='stream-info p-6'>
                <Link to='/create-stream' className='mt-12 btn btn-main sm flex items-center justify-center'> Create Stream</Link>
