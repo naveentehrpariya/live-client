@@ -1,6 +1,11 @@
 import React from 'react';
 import create_stream from '../../../img/create-stream.png';
 export default function CreateStream() {
+
+   
+
+   
+
   return (
     <div className='bg-dark1 rounded-[30px] p-4 pt-0 max-w-[700px]'>
          <img className='img-fluid' src={create_stream} alt='create stream' />

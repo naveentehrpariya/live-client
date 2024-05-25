@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AuthLayout from '../../../layout/AuthLayout'
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import MyFiles from './MyFiles';
+import ConnectYoutube from './ConnectYoutube';
 
 export default function CreateStreamForm() {
 
@@ -14,6 +15,23 @@ export default function CreateStreamForm() {
     { title:"1080x720 720x1080" ,label: '1080x720', value: '720x1080' },
     { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
   ];
+
+   const [status, setStatus] = useState("notactive");
+   const check = () => { 
+      const m = new Endpoints();
+      const resp = m.checkYtStatus();
+      resp.then((res)=>{
+        if(res.data.token){
+           setStatus("active");
+        } else setStatus("notactive");
+      }).catch((err)=> {
+         console.log(err);
+         setStatus("notactive");
+      });
+   }
+   useEffect(() => {
+      check();
+   },[]);
 
   const navigate = useNavigate();
   const {Errors} = useContext(UserContext);
@@ -69,7 +87,9 @@ export default function CreateStreamForm() {
       }
       setLoading(false);
     }).catch(err => {
+      console.log("catch")
       Errors(err);
+      console.log("err",err)
       setLoading(false);
     });
   }
@@ -93,36 +113,41 @@ export default function CreateStreamForm() {
               <h2 className='text-white text-[21px] md:text-[24px] font-bold ' >New Stream</h2>
               <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
             </div>
-            <div  className={step == 1 ? "" : "hidden"}>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
-                {inputFields.map((field, index) => (
-                  <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
-                ))}
-                <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                  {resolutions && resolutions.map((resolution, index) => (
-                    <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                  ))}
-                </select>
-              </div>
-            </div>
 
-            <div  className={step === 2 ? "" : "hidden"}>
-              <div className='media-files' >
-                <h2 className='text-white mb-4'>Choose Video</h2>
-                {step === 2 ?  <MyFiles sendFile={getVideoFile} type={'video'} /> : ''}
-              </div>
-            </div>
+            {status === 'notactive' ? <ConnectYoutube /> : ''}
 
-            <div  className={step === 3 ? "" : "hidden"}>
-              <div className='media-files' >
-                <h2 className='text-white mb-4'>Choose Thumbnail</h2>
-                {step === 3 ? <MyFiles sendFile={getImageFile} type={'image'} /> : ""}
-              </div>
-            </div>
+            <div className={`${status ? "" : "disabled"} pages-steps`} >
+                <div  className={step === 1 ? "" : "hidden"}>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+                    {inputFields.map((field, index) => (
+                      <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
+                    ))}
+                    <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                      {resolutions && resolutions.map((resolution, index) => (
+                        <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
-            <div className="m-auto block sm:table mt-8">
-              {step < 3 ? <button onClick={()=>handleStep("next")}  className={`btn m-auto w-full sm:w-auto lg`} >Next</button>
-              : <button disabled={loading} onClick={handleCreateStream}  className={`btn m-auto w-full sm:w-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>}
+                <div  className={step === 2 ? "" : "hidden"}>
+                  <div className='media-files' >
+                    <h2 className='text-white mb-4'>Choose Video</h2>
+                    {step === 2 ?  <MyFiles sendFile={getVideoFile} type={'video'} /> : ''}
+                  </div>
+                </div>
+
+                <div  className={step === 3 ? "" : "hidden"}>
+                  <div className='media-files' >
+                    <h2 className='text-white mb-4'>Choose Thumbnail</h2>
+                    {step === 3 ? <MyFiles sendFile={getImageFile} type={'image'} /> : ""}
+                  </div>
+                </div>
+
+                <div className="m-auto block sm:table mt-8">
+                  {step < 3 ? <button onClick={()=>handleStep("next")}  className={`btn m-auto w-full sm:w-auto lg`} >Next</button>
+                  : <button disabled={loading} onClick={handleCreateStream}  className={`btn m-auto w-full sm:w-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>}
+                </div>
             </div>
 
         </div>

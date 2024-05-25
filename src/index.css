@@ -22,6 +22,19 @@ button.sidebar-toggle{display:none;max-width:80px;}
 }
 
 
+.pulse {
+   animation: pulse-animation 1.5s infinite;
+ }
+ 
+ @keyframes pulse-animation {
+   0% {
+     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.3);
+   }
+   100% {
+     box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+   }
+ }
+
 @media(max-width:1279px){div#mobile-menu-2{position:fixed !important;background:#121f27;max-width:400px;top:90px;right:0;z-index:999 !important;padding:20px;border-radius:17px;}
 .mobile-menu{display:none !important;}
 .toggle.mobile-menu{display:block !important;}

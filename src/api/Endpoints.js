@@ -59,6 +59,17 @@ class Endpoints extends Component {
         };
         return Api.post(`/cloud/upload`, data, config);
     }
+
+    async getAuthToken() {
+        return Api.get(`/auth`);
+    }
+    async verifyAuthToken(code, scope) {
+        return Api.get(`/oauth2callback?code=${code}&scope=${scope}`);
+    }
+    
+    async checkYtStatus() {
+        return Api.get(`/check-youtube-link-status`);
+    }
     
     render() {
         return <></>

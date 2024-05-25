@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-const CountdownTimer = ({date}) => {
+const TimeCounter = ({date}) => {
 
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   useEffect(() => {
@@ -23,10 +23,9 @@ const CountdownTimer = ({date}) => {
 
   return (
     <>
-      {timeLeft.days} days, {timeLeft.hours} hours
-      {/* , {timeLeft.minutes} minutes, {timeLeft.seconds} seconds */}
+      {timeLeft.days} days {timeLeft.hours} hr
     </>
   );
 };
 
-export default CountdownTimer;
+export default TimeCounter;

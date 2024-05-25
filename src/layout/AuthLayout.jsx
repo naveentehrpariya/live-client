@@ -2,6 +2,8 @@ import * as React from "react";
 import CheckLogin from "../pages/auth/CheckLogin";
 import Sidebar from "../pages/dashboard/Sidebar";
 import Logo from "../pages/common/Logo";
+import { UserContext } from "../context/AuthProvider";
+import TimeCounter from "../pages/common/TimeCounter";
 
 function IconImage({ src, alt }) {
   return (
@@ -15,6 +17,8 @@ function IconImage({ src, alt }) {
 }
 
 export default function AuthLayout({children, heading}) {
+
+  const {user} = React.useContext(UserContext);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -41,12 +45,18 @@ export default function AuthLayout({children, heading}) {
         
         <header className="sticky top-0 z-10 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
           {windowWidth < 1200 ? <Logo /> : <h1 className="flex-auto text-xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1>}
-          <div className="flex gap-5">
-            <div className="infobtn flex justify-center items-center px-3 bg-red-500 h-[43px] rounded-[50px] w-[43px]">
+          <div className="flex gap-5 items-center">
+            {/* <div className="infobtn flex justify-center items-center px-3 bg-red-500 h-[43px] rounded-[50px] w-[43px]">
               <IconImage
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/097738c8857f52477590551c0de93a9f727b14487d36ac8a7e6e32617c86cca2?apiKey=2e16c10895744f95b3906b7e14da906a&"
                 alt="Add icon" />
-            </div>
+            </div> */}
+            {user && user.trialStatus === "active" ? 
+              <div className="text-white flex items-center font-bold text-sm bg-main text-center px-6 py-[13px] rounded-[30px]">
+                <p className="mb-0">Trial Ends In : <TimeCounter date={user.free_trial} /></p>
+              </div>
+             : ''}
+
             <button onClick={logout} className="logoutbtn flex gap-2.5 px-5 py-3 text-base leading-6 whitespace-nowrap border border-solid border-neutral-400 rounded-[50px] text-neutral-400">
               <IconImage
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/35d255e98b0af40283fe6d704d2c65fccd0e06eb2c1c2d1896ddaa78ab00d871?apiKey=2e16c10895744f95b3906b7e14da906a&"

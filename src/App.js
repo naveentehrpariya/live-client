@@ -16,6 +16,7 @@ import Support from './static/Support';
 import Terms from './static/Terms';
 import Media from './pages/dashboard/media/Media';
 import Profile from './pages/dashboard/profile/Profile';
+import YoutubeAuthVerify from './pages/auth/YoutubeAuthVerify';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/support" element={<Support />} />
                     <Route path="/terms-of-service" element={<Terms />} />
                     <Route path="/cancellation-and-refund-policy" element={<Refund />} />
+                    <Route path="/oauth2callback" element={<YoutubeAuthVerify />} />
 
                     {/* Stream Routes */}
                     <Route path="/create-stream" element={<CreateStreamForm />} />
