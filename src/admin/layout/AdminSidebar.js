@@ -48,23 +48,30 @@ export default function AdminSidebar({toggle}) {
         </div>
 
         <div className='menus p-8 pt-0' >
-
-            {/* <MenuItem path="/home"
-            icon={<TbHome size={'2rem'} />}
-            label="My Streams" />
-
             
-            <MenuItem path="/media"
-            icon={<DiHtml5Multimedia size={'2rem'}  />}
-            label="Collections" /> */}
+            <MenuItem path="/admin/dashboard"
+            icon={<TbHome size={'2rem'}  />}
+            label="Dashboard" />
 
             <MenuItem path="/admin/users"
             icon={<FaUserCog size={'2rem'}  />}
             label="Users" />
 
+            <MenuItem path="/admin/streams"
+            icon={<TbHome size={'2rem'} />}
+            label="Live Streams" />
+
             <MenuItem path="/admin/pricing"
             icon={<SlCalender size={'1.3rem'}  />}
             label="Pricing Plans" />
+
+            <MenuItem path="/admin/media"
+            icon={<DiHtml5Multimedia size={'2rem'}  />}
+            label="Subscription" /> 
+
+            <MenuItem path="/admin/media"
+            icon={<DiHtml5Multimedia size={'2rem'}  />}
+            label="All Collections" /> 
             
         </div>
       </nav>

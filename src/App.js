@@ -19,6 +19,9 @@ import Profile from './pages/dashboard/profile/Profile';
 import YoutubeAuthVerify from './pages/auth/YoutubeAuthVerify';
 import Admin from './admin/Admin';
 import Users from './admin/Users';
+import AdminPlans from './admin/AdminPlans';
+import AdminStreams from './admin/Streams';
+import AdminDashboard from './admin/Dashboard';
 
 function App() {
   return (
@@ -48,7 +51,10 @@ function App() {
 
                     {/* Admin Routes */}
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/pricing" element={<AdminPlans />} />
+                    <Route path="/admin/streams" element={<AdminStreams />} />
 
                   </Routes>
                 </div>

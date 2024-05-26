@@ -3,7 +3,7 @@ import Endpoints from '../../api/Endpoints';
 import { UserContext } from '../../context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
-export default function Pricing({classes, colclasses}) {
+export default function Pricing({classes, colclasses, heading}) {
 
    const {user} = useContext(UserContext);
    const [lists, setLists] = useState([]);
@@ -75,30 +75,30 @@ export default function Pricing({classes, colclasses}) {
    </div>
    }
 
-    function FeatureItem({ icon, children }) {
+   function FeatureItem({ icon, children }) {
       return (
         <div className="flex gap-2 mt-5">
-          <div><svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div className='mt-2'><svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M5.7 12.025L0 6.325L1.425 4.9L5.7 9.175L14.875 0L16.3 1.425L5.7 12.025Z" fill="#E13939"/>
                </svg>
             </div>
           <div>{children}</div>
         </div>
       );
-    }
+   }
 
   return (
-    <div id='pricing' className={`md:px-8`}>
+    <div id='pricing'>
       <div className={` ${classes}`}>
-         <div className='container m-auto' >
+         
+         {heading ? <>
             <h2 className='heading-md text-center ' >Our <span className='text-main' >Pricing</span>  </h2>
             <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
-         
-            <div className={`mt-12 grid ${colclasses}`} >
-               {lists && lists.map((p, i)=>{
-                  return <PLAN p={p} key={`plan-${i}`} i={i} />
-               })}
-            </div>
+         </> : ''}
+         <div className={`grid ${colclasses}`} >
+            {lists && lists.map((p, i)=>{
+               return <PLAN p={p} key={`plan-${i}`} i={i} />
+            })}
          </div>
       </div>
    </div>

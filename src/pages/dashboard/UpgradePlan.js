@@ -6,7 +6,7 @@ export default function UpgradePlan() {
 
   return (
       <AuthLayout>
-        <Pricing classes="" colclasses="grid-cols-2 gap-5" />
+        <Pricing classes="" colclasses="sm:grid-cols-2 gap-5" />
       </AuthLayout>
   )
 }

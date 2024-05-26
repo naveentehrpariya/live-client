@@ -17,7 +17,13 @@ export default function Homepage() {
       <Features />
       <Brand />
       <Choose />
-      <Pricing  classes="pricing py-0 md:py-24 bg-dark1 rounded-[35px]" colclasses="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"  />
+      <div className='px-0 md:px-6' >
+        <div className='md:bg-dark1 rounded-[35px]' >
+          <div className='container ' >
+            <Pricing heading={true} classes="pricing py-0 md:py-24" colclasses="mt-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"  />
+          </div>
+        </div>
+      </div>
       <Guide />
       <Testimonials />
       <LetsTake />
