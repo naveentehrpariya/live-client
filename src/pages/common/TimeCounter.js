@@ -23,7 +23,7 @@ const TimeCounter = ({date}) => {
 
   return (
     <>
-      {timeLeft.days} days {timeLeft.hours} hr
+      {timeLeft.days > 0 ? <>{timeLeft.days} days</> : ""} {timeLeft.hours} hr
     </>
   );
 };

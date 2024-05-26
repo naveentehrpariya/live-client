@@ -16,14 +16,15 @@ export default function CreateStreamForm() {
     { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
   ];
 
-   const [status, setStatus] = useState("notactive");
+   const [status, setStatus] = useState();
    const check = () => { 
       const m = new Endpoints();
       const resp = m.checkYtStatus();
       resp.then((res)=>{
         if(res.data.token){
            setStatus("active");
-        } else setStatus("notactive");
+        } else 
+        {setStatus("notactive");}
       }).catch((err)=> {
          console.log(err);
          setStatus("notactive");

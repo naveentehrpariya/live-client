@@ -17,6 +17,8 @@ import Terms from './static/Terms';
 import Media from './pages/dashboard/media/Media';
 import Profile from './pages/dashboard/profile/Profile';
 import YoutubeAuthVerify from './pages/auth/YoutubeAuthVerify';
+import Admin from './admin/Admin';
+import Users from './admin/Users';
 
 function App() {
   return (
@@ -43,6 +45,11 @@ function App() {
 
                     {/* Stream Routes */}
                     <Route path="/create-stream" element={<CreateStreamForm />} />
+
+                    {/* Admin Routes */}
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/users" element={<Users />} />
+
                   </Routes>
                 </div>
               </Router>

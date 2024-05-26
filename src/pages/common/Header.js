@@ -49,9 +49,9 @@ export default function Header() {
                            <li>
                                  <a href="#features" class="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">FAQ</a>
                            </li>
-                           <li>
+                           {/* <li>
                                  <Link to="/help" class="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700">Help</Link>
-                           </li>
+                           </li> */}
                         </ul>
                      </div>
                </div>
