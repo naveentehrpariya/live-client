@@ -70,6 +70,9 @@ class Endpoints extends Component {
     async checkYtStatus() {
         return Api.get(`/check-youtube-link-status`);
     }
+    async unLinkYoutube() {
+        return Api.get(`/unLinkYoutube`);
+    }
     
     render() {
         return <></>

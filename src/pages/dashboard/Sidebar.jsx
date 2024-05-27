@@ -7,13 +7,14 @@ import { DiHtml5Multimedia } from "react-icons/di";
 import { TbHome } from "react-icons/tb";
 import { FaUserCog } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
+import { CgLogOut } from "react-icons/cg";
 
-export default function Sidebar({toggle}) {
+export default function Sidebar({toggle, trial, logout}) {
 
   const {user} = useContext(UserContext);
-  function MenuItem({ icon, label, path }) {
+  function MenuItem({ icon, label, path, onclick = false }) {
     return (
-      <NavLink to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
     );
@@ -22,7 +23,8 @@ export default function Sidebar({toggle}) {
   function UpgradePlan() {
     return (
       <div className="bg-dark sticky bottom-0 flex flex-col p-8 mt-12 text-base text-center max-md:mt-10">
-        <img
+         
+         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
           alt="Upgrade your plan"
@@ -33,6 +35,7 @@ export default function Sidebar({toggle}) {
         <Link to='/upgrade/subscription' className="justify-center px-12 py-3.5 mt-7 text-white capitalize bg-red-500 leading-[90%] rounded-[180px] max-md:px-5">
           Upgrade Plan
         </Link>
+        {trial}
       </div>
     );
   }
@@ -58,11 +61,18 @@ export default function Sidebar({toggle}) {
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Collections" />
 
-            <MenuItem path="/subscriptions"
+            {/* <MenuItem path="/subscriptions"
             icon={<SlCalender size={'1.3rem'}  />}
-            label="My Subscription" />
+            label="My Subscription" /> */}
+
+            <div className='xl:hidden'>
+              <MenuItem onclick={logout}
+              icon={<CgLogOut size={'1.3rem'}  />}
+              label="Logout" />
+            </div>
         </div>
          
+
         {user && user.plan && user.plan._id ? 
           <div className='px-8 pb-8'>
             <div className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
@@ -79,7 +89,10 @@ export default function Sidebar({toggle}) {
             </div>
           </div> 
           : 
+          <>
+         
           <UpgradePlan /> 
+          </>
         }
       </nav>
       

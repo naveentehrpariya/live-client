@@ -3,8 +3,10 @@ import React from 'react';
 import Stream from './Stream';
 import addmore from '../../../img/addmorestreams.png';
 import { Link } from 'react-router-dom';
+import Loading from '../../common/Loading';
+import Nocontent from '../../common/NoContent';
 
-export default function StreamLists({lists, reload}) {
+export default function StreamLists({lists, reload, loading}) {
 
    const AddMoreStream = () => {
       return (
@@ -21,12 +23,15 @@ export default function StreamLists({lists, reload}) {
 
   return (
     <>
+     {loading ? <Loading /> : <>
       <div className='streams-lists grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
+         <AddMoreStream />
          {lists && lists.length ? lists.map((item, index) => {
             return <Stream reload={reload} key={index} data={item} />
-         }) : "NO STREAMS FOUND !!"}
-         <AddMoreStream />
+         }) : <Nocontent /> }
+        
       </div>
+     </>}
     </>
   )
 }

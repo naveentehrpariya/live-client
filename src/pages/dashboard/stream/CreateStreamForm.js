@@ -3,9 +3,10 @@ import AuthLayout from '../../../layout/AuthLayout'
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyFiles from './MyFiles';
 import ConnectYoutube from './ConnectYoutube';
+import { FaYoutube } from "react-icons/fa";
 
 export default function CreateStreamForm() {
 
@@ -16,15 +17,18 @@ export default function CreateStreamForm() {
     { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
   ];
 
+    const [channel, setChannel] = useState();
    const [status, setStatus] = useState();
    const check = () => { 
       const m = new Endpoints();
       const resp = m.checkYtStatus();
       resp.then((res)=>{
-        if(res.data.token){
+        if(res.data && res.data.token && res.data.token.channel){
+          setChannel(JSON.parse(res.data.token.channel));
+        }  
+        if(res.data && res.data.token && res.data.token.token){
            setStatus("active");
-        } else 
-        {setStatus("notactive");}
+        } else {setStatus("notactive");}
       }).catch((err)=> {
          console.log(err);
          setStatus("notactive");
@@ -40,8 +44,8 @@ export default function CreateStreamForm() {
 
   const inputFields = [
     { type:"text", name:"title", label:"Stream Name" },
-    { type:"text", name:"stream_url", label:"Stream URL" },
-    { type:"text", name:"streamkey", label:"Stream Key" },
+    // { type:"text", name:"description", label:"Description" }
+    // { type:"text", name:"stream_url", label:"Stream URL" },
   ];
 
   const [data, setData] = useState({
@@ -52,6 +56,7 @@ export default function CreateStreamForm() {
     resolution: "",
     stream_url: "",
     streamkey: "",
+    description: "",
   });
 
   const [video, setVideo] = useState(null);
@@ -95,8 +100,32 @@ export default function CreateStreamForm() {
     });
   }
 
+  const removeAccount = (e) => {
+    const m = new Endpoints();
+    const resp = m.unLinkYoutube();
+    resp.then(res => {
+      if(res.data.status){
+        toast.success(res.data.message);
+        window.location.reload(false)
+      } else {
+        toast.error(res.data.message);
+      }
+    }).catch(err => {
+      Errors(err);
+    });
+  }
+
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
+
+    if(step === 2 && video === null || video === '') {
+      toast.error("Please select a video");
+      return false;
+    }
+    if(step === 3 && image === null || image === '') {
+      toast.error("Please select a thumbnail for this video.");
+      return false;
+    }
     if(type === 'prev' && step == 1){
       return false
     }
@@ -106,7 +135,7 @@ export default function CreateStreamForm() {
       setStep(step-1);
     }
   }
-
+  console.log("channel",channel)
   return (
       <AuthLayout>
         <div className='create-stream-form box p-6 md:p-12 lg:max-w-[1000px] m-auto mt-4 md:mt-6 lg:mt-10 '>
@@ -114,33 +143,77 @@ export default function CreateStreamForm() {
               <h2 className='text-white text-[21px] md:text-[24px] font-bold ' >New Stream</h2>
               <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
             </div>
-
-            {status === 'notactive' ? <ConnectYoutube /> : ''}
+            {status === 'notactive' ? <ConnectYoutube  /> :
+            <>
+            {channel && channel.snippet ?  <div className="mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
+              <div className='sm:flex items-center'>
+                <img alt="" src={channel && channel.snippet.thumbnails.high.url}
+                  class="mx-auto h-20 w-20  rounded-[50%] object-cover"
+                />
+                <div className='ps-3'>
+                <div className='flex justify-center '><FaYoutube size="3rem" color='red' /></div>
+                  <h2 className='text-center sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
+                </div>
+              </div>
+              <div class="">
+                <div class="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
+                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div class="mt-1.5 sm:mt-0">
+                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
+                      <p class="text-gray-500 text-center">Views Count</p>
+                    </div>
+                  </div>
+                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div class="mt-1.5 sm:mt-0">
+                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
+                      <p class="text-gray-500 text-center">Video Count</p>
+                    </div>
+                  </div>
+                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div class="mt-1.5 sm:mt-0">
+                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
+                      <p class="text-gray-500 text-center">Subscribers</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='flex justify-center '>
+                  <button onClick={removeAccount} className='text-main mt-4 text-center' >Unlink this Account</button>
+                </div>
+              </div>
+            </div> : ""} </> }
+            
 
             <div className={`${status ? "" : "disabled"} pages-steps`} >
                 <div  className={step === 1 ? "" : "hidden"}>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5' >
+                    <div className='' >
                     {inputFields.map((field, index) => (
                       <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
-                    <select className='input' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                    <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
                       {resolutions && resolutions.map((resolution, index) => (
                         <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
                       ))}
                     </select>
+                    <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
                   </div>
                 </div>
 
                 <div  className={step === 2 ? "" : "hidden"}>
                   <div className='media-files' >
-                    <h2 className='text-white mb-4'>Choose Video</h2>
+                    <div  className='flex items-center justify-between mb-6' > 
+                      <h2 className='text-white '>Choose Video</h2>
+                      <Link to={'/media'} className='text-main'>+ Add Media</Link>
+                    </div>
                     {step === 2 ?  <MyFiles sendFile={getVideoFile} type={'video'} /> : ''}
                   </div>
                 </div>
 
                 <div  className={step === 3 ? "" : "hidden"}>
                   <div className='media-files' >
-                    <h2 className='text-white mb-4'>Choose Thumbnail</h2>
+                    <div  className='flex items-center justify-between mb-6' > 
+                      <h2 className='text-white '>Choose Thumbnail</h2>
+                      <Link to={'/media'} className='text-main'>+ Add Media</Link>
+                    </div>
                     {step === 3 ? <MyFiles sendFile={getImageFile} type={'image'} /> : ""}
                   </div>
                 </div>

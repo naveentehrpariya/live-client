@@ -26,8 +26,8 @@ export default function Home() {
 
   return (
     <AuthLayout heading="My Streams" >
-      {loading ? <Loading /> : ""}
-      {lists && lists.length ? <StreamLists reload={listsstreams} lists={lists} /> : 
+     
+      {lists && lists.length ? <StreamLists loading={loading} reload={listsstreams} lists={lists} /> : 
         <>
         {!loading ? <div className="flex h-[80vh] justify-center items-center" >
           <CreateStream />

@@ -16,7 +16,7 @@ export default function Profile() {
                            Full name
                         </dt>
                         <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           {user && user.name}
+                           {user && user?.name || ''}
                         </dd>
                      </div>
                      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -24,7 +24,7 @@ export default function Profile() {
                            Username
                         </dt>
                         <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           {user && user.username}
+                           {user && user?.username || ''}
                         </dd>
                      </div>
                      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -32,7 +32,10 @@ export default function Profile() {
                            Active Subscription
                         </dt>
                         <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                        {user && user.plan.name} (${user && user.plan && user.plan.price}/month)
+                           {user && user.plan ? <>
+                              {user && user.plan && user.plan.name} (${user && user.plan && user.plan.price}/month)
+                           </> : "No Subscription"
+                           }
                         </dd>
                      </div>
                      <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

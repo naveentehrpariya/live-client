@@ -40,7 +40,13 @@ export default function AuthLayout({children, heading}) {
 
   return (
     <div className="auth-wrap flex justify-between  max-lg:flex-wrap">
-      <Sidebar toggle={toggle} />
+      <Sidebar logout={logout} trial={<>
+        {user && user.trialStatus === "active" ? 
+          <div className="text-white justify-center mt-4 flex md:hidden items-center font-bold text-sm ">
+            <p className="mb-0">Trial Ends In : <TimeCounter date={user.free_trial} /></p>
+          </div>
+        : ''}
+      </>} toggle={toggle} />
       <main className="main-wrap flex flex-col self-start max-lg:max-w-full">
         
         <header className="sticky top-0 z-10 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
@@ -52,7 +58,7 @@ export default function AuthLayout({children, heading}) {
                 alt="Add icon" />
             </div> */}
             {user && user.trialStatus === "active" ? 
-              <div className="text-white flex items-center font-bold text-sm bg-main text-center px-6 py-[13px] rounded-[30px]">
+              <div className="text-white hidden md:flex items-center font-bold text-sm bg-main text-center px-6 py-[13px] rounded-[30px]">
                 <p className="mb-0">Trial Ends In : <TimeCounter date={user.free_trial} /></p>
               </div>
              : ''}
