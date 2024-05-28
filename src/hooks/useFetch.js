@@ -5,18 +5,24 @@ export default function useFetch(){
 
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   async function fetch(url) {
-    setIsLoading(true);
-    const resp = Api.get(url)
-    resp.then((res)=>{
-      setData(res.data)
-    }).catch((err)=>{
-      console.log(err);
-      setIsLoading(false);
-    });
+    if(url){
+      setIsLoading(true);
+      const resp = Api.get(url)
+      resp.then((res)=>{
+        setData(res.data.result)
+      }).catch((err)=>{
+        console.log(err);
+        setIsLoading(false);
+      });
+    }
   }
 
-  return { fetch, isLoading, data };
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  return { isLoading, data };
 }
 

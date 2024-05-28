@@ -10,16 +10,16 @@ import { FaYoutube } from "react-icons/fa";
 
 export default function CreateStreamForm() {
 
-  const resolutions = [
-    { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
-    { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
-    { title:"1080x720 720x1080" ,label: '1080x720', value: '720x1080' },
-    { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
-  ];
+    const resolutions = [
+      { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
+      { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+      { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
+      { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
+    ];
 
     const [channel, setChannel] = useState();
-   const [status, setStatus] = useState();
-   const check = () => { 
+    const [status, setStatus] = useState();
+    const check = () => { 
       const m = new Endpoints();
       const resp = m.checkYtStatus();
       resp.then((res)=>{
