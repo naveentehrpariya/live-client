@@ -22,6 +22,7 @@ import Users from './admin/Users';
 import AdminPlans from './admin/AdminPlans';
 import AdminStreams from './admin/Streams';
 import AdminDashboard from './admin/Dashboard';
+import AddPricingPlan from './admin/pricing/AddpricingPlan';
 
 function App() {
   return (
@@ -53,8 +54,9 @@ function App() {
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
-                    <Route path="/admin/pricing" element={<AdminPlans />} />
                     <Route path="/admin/streams" element={<AdminStreams />} />
+                    <Route path="/admin/pricing" element={<AdminPlans />} />
+                    <Route path="/admin/pricing/add" element={<AddPricingPlan /> } />
 
                   </Routes>
                 </div>

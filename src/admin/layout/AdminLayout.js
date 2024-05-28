@@ -3,6 +3,7 @@ import { UserContext } from "../../context/AuthProvider";
 import AdminSidebar from "./AdminSidebar";
 import Logo from "../../pages/common/Logo";
 import CheckLogin from "../../pages/auth/CheckLogin";
+import CheckAdmin from "../CheckAdmin";
 
 function IconImage({ src, alt }) {
   return (
@@ -41,7 +42,7 @@ export default function AdminLayout({children, heading}) {
     <div className="auth-wrap flex justify-between  max-lg:flex-wrap">
       <AdminSidebar toggle={toggle} />
       <main className="main-wrap flex flex-col self-start max-lg:max-w-full">
-        <header className="sticky top-0 z-10 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
+        <header className="hidden sticky top-0 z-10 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
           {windowWidth < 1200 ? <Logo /> : <h1 className="flex-auto text-xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1>}
           <div className="flex gap-5 items-center">
             <button onClick={logout} className="logoutbtn flex gap-2.5 px-5 py-3 text-base leading-6 whitespace-nowrap border border-solid border-neutral-400 rounded-[50px] text-neutral-400">
@@ -62,7 +63,7 @@ export default function AdminLayout({children, heading}) {
           {children}
          </div>
       </main>
-      <CheckLogin takeaction={true} />
+      <CheckAdmin />
     </div>
   );
 }

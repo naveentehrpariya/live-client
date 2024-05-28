@@ -41,7 +41,6 @@ export default function CreateStreamForm() {
   const navigate = useNavigate();
   const {Errors} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-
   const inputFields = [
     { type:"text", name:"title", label:"Stream Name" },
     // { type:"text", name:"description", label:"Description" }
