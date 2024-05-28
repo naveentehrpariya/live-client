@@ -18,8 +18,8 @@ class Endpoints extends Component {
         return Api.post(`/create-stream`,data);
     }
 
-    async stop_stream(data) {
-        return Api.post(`/kill-stream`,data);
+    async stop_stream(id) {
+        return Api.get(`/kill-stream/${id}`,);
     }
 
     async lists_streams() {

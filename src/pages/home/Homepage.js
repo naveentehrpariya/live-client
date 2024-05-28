@@ -13,7 +13,7 @@ export default function Homepage() {
   return (
     <>
     <HomeLayout>
-      {/* <Hero />
+      <Hero />
       <Features />
       <Brand />
       <Choose />
@@ -26,7 +26,7 @@ export default function Homepage() {
       </div>
       <Guide />
       <Testimonials />
-      <LetsTake /> */}
+      <LetsTake />
     </HomeLayout>
     </>
   )

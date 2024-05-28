@@ -76,10 +76,10 @@ export default function Login() {
         <CheckLogin takeaction={true}  redirect={true} />
         <div className="h-[100vh] flex justify-center items-center" >
           <div className="w-full max-w-[500px] flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
-          {/* <header>
+          <header>
               <Link to="/" className="self-center table  m-auto text-3xl font-mono font-bold text-center text-red-500 lowercase">Runstream</Link>
               <h2 className="text-center font-mono text-[20px] mt-6 font-bold text-white">Login into runstream</h2>
-          </header> */}
+          </header>
           <main className="mt-8" >
               <LoginForm />
           </main> 

@@ -12,7 +12,7 @@ const useHumanReadableDate = (isoDateString) => {
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric',
-      timeZoneName: 'short'
+      // timeZoneName: 'short'
     };
     const formattedDate = date.toLocaleString('en-US', options);
     setHumanReadableDate(formattedDate);

@@ -1,13 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* body{
+body{
   --main:#E13939;
   --main-fade:rgba(255,91,91,1);
-  --dark:#010A0F;--dark1:#06131C;
+  --dark:#010A0F;
+  --dark1:#06131C;
   --dark2:rgba(255,255,255,0.05);
   --dark3:#213848;
-} */
+}
 body{background:var(--dark);}
 .bg-main-fade{background:var(--main-fade);}
 .bg-main{background:var(--main);}
