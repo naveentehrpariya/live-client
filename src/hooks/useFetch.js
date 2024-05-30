@@ -1,28 +1,31 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Api from '../api/Api';
-export default function useFetch(){
+import { FaBullseye } from 'react-icons/fa';
+export default function useFetch({url}){
 
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   
-  async function fetch(url) {
-    if(url){
-      setIsLoading(true);
-      const resp = Api.get(url)
+  async function fetch(signal) {
+    if(url && !loading){
+      setLoading(true);
+      const resp = Api.get(url, {signal});
       resp.then((res)=>{
-        setData(res.data.result)
+        setData(res.data.result || []);
+        setLoading(false);
       }).catch((err)=>{
         console.log(err);
-        setIsLoading(false);
+        setLoading(false);
       });
     }
   }
 
   useEffect(() => {
-    fetch();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    fetch(signal);
   }, []);
 
-  return { isLoading, data };
+  return { loading, data };
 }
 

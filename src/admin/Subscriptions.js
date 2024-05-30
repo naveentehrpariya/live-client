@@ -1,11 +1,11 @@
 import React from 'react'
 import AdminLayout from './layout/AdminLayout'
 
-export default function Admin() {
+export default function Subscriptions() {
   return (
     <div>
       <AdminLayout>
-         adsaasfgsgs
+      Subscriptions
       </AdminLayout>
     </div>
   )

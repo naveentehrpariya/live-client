@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/AuthProvider';
 import AdminEndpoints from '../../api/AdminEndpoints';
 import toast from 'react-hot-toast';
+import AdminTitle from '../layout/AdminTitle';
 
 export default function AddPricingPlan() {
 
@@ -89,17 +90,24 @@ export default function AddPricingPlan() {
 
   return (
       <AdminLayout heading={"Add Pricing Plan"} >
+        <AdminTitle heading={"Add New Plan"}></AdminTitle>
+
+        <div className='grid grid-cols-2 gap-6' >
          {inputFields.map((field, index) => (
             <input key={`plan-field-${index}`} name={field.name} onChange={handleinput} type={field.type} placeholder={field.label} className="input" />
           ))}
-          <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-          <div className='flex flex-wrap justify-center' >
-            {rs && rs.map((r, i)=>{
-              const isChecked = resolutions.includes(r.value);
-              return <button onClick={()=>handleResClick(r.value)} className={`${isChecked ? 'bg-gray-900 text-white' : " bg-gray-300"} text-black rounded-xl px-4 py-1 mb-2 me-2`} >{r.label} {r.title}</button>
-            })}
-          </div>
-          <button disabled={loading} onClick={addplan}  className={`btn m-auto w-full sm:w-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
+        </div>
+        <textarea  className='input mt-8' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
+        <p className='text-gray-300 mt-6 mb-3'>Choose Resolution</p>
+        <div className='flex flex-wrap justify-start' >
+          {rs && rs.map((r, i)=>{
+            const isChecked = resolutions.includes(r.value);
+            return <button onClick={()=>handleResClick(r.value)} className={`${isChecked ? 'bg-main text-white' : " bg-gray-600 text-gray-200"}  rounded-xl px-5 py-2 mb-2 me-2 text-lg capitalize`} >{r.label} {r.title}</button>
+          })}
+        </div>
+        <div className='flex justify-center pt-4'>
+        <button disabled={loading} onClick={addplan}  className={`btn w-full mx-auto sm:w-auto lg`} >{loading ? "Processing" : "Create Stream"}</button>
+        </div>
       </AdminLayout>
   )
 }

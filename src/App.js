@@ -17,12 +17,13 @@ import Terms from './static/Terms';
 import Media from './pages/dashboard/media/Media';
 import Profile from './pages/dashboard/profile/Profile';
 import YoutubeAuthVerify from './pages/auth/YoutubeAuthVerify';
-import Admin from './admin/Admin';
+import Admin from './admin/Subscriptions';
 import Users from './admin/Users';
 import AdminPlans from './admin/AdminPlans';
 import AdminStreams from './admin/Streams';
 import AdminDashboard from './admin/Dashboard';
 import AddPricingPlan from './admin/pricing/AddpricingPlan';
+import Subscriptions from './admin/Subscriptions';
 
 function App() {
   return (
@@ -51,12 +52,14 @@ function App() {
                     <Route path="/create-stream" element={<CreateStreamForm />} />
 
                     {/* Admin Routes */}
-                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/users/:type" element={<Users />} />
                     <Route path="/admin/streams" element={<AdminStreams />} />
                     <Route path="/admin/pricing" element={<AdminPlans />} />
                     <Route path="/admin/pricing/add" element={<AddPricingPlan /> } />
+                    <Route path="/admin/subscriptions" element={<Subscriptions /> } />
 
                   </Routes>
                 </div>

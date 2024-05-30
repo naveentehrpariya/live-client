@@ -42,14 +42,13 @@ export default function AdminSidebar({toggle}) {
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
-            <h2 className='text-white font-bold text-xl'>ADMIN</h2>
             <Link to='/home' > <Logo /></Link>
          </div>
         </div>
 
         <div className='menus p-8 pt-0' >
             
-            <MenuItem path="/admin/dashboard"
+            <MenuItem path="/admin"
             icon={<TbHome size={'2rem'}  />}
             label="Dashboard" />
 
