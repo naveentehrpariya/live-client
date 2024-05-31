@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AdminLayout from './layout/AdminLayout'
 import useFetch from '../hooks/useFetch';
 import Loading from '../pages/common/Loading';
 import AdminTitle from './layout/AdminTitle';
 import { useNavigate, useParams } from 'react-router-dom';
 import Api from '../api/Api';
+import toast from 'react-hot-toast';
+import { UserContext } from '../context/AuthProvider';
 
 export default function Users() {
+  const {Errors} = useContext(UserContext);
   const { type } = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -36,13 +39,48 @@ export default function Users() {
     navigate(`/admin/users/${e}`);
   }
 
+
+  const ITEM = ({item}) => { 
+    const [status, setStatus] = useState(item.status)
+    const changeStatus = () => { 
+      const resp = Api.get(`/admin/user/enable-disable-user/${item._id}`);
+      resp.then((res)=> {
+        if(res.data.status){
+          setStatus(status === "active" ? "inactive" : "active");
+          toast.success(res.data.message);
+        } else { 
+          toast.error(res.data.message);
+        }
+      }).catch((err)=>{
+        console.log(err);
+        Errors(err);
+      });
+    }
+
+    return <tr class="border-b border-gray-900">
+    <td class="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
+      {item.name}
+    </td>
+    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td>
+    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
+    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan?.name || "N/A"}</td>
+    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+      <button onClick={changeStatus} className={`text-white rounded-xl py-1 px-3 ${status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>
+        {status}
+      </button>
+    </td>
+  </tr>
+  }
+
+  
+
   return (
     <>
       <AdminLayout>
         <AdminTitle heading="Users">
             <div>
-              <button className={`${type == 'active' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("active")}>Active</button>
-              <button className={`${type == 'inactive' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("inactive")}>Inactive</button>
+              <button className={`${type === 'active' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("active")}>Active</button>
+              <button className={`${type === 'inactive' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("inactive")}>Inactive</button>
             </div>
         </AdminTitle>
         {loading ? <Loading /> : 
@@ -55,27 +93,14 @@ export default function Users() {
                   </td>
                   <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Username</td>
                   <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Active Plan</td>
-                  {/* <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td> */}
+                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                 </tr>
               </thead>
               <tbody class="bg-dark1 lg:border-gray-100">
                 {data && data.map((item, index) => {
-                  return  <tr class="border-b border-gray-900">
-                      <td class="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
-                        {item.name}
-                      </td>
-                      <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td>
-                      <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
-                      <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize"><span className={`text-white rounded-xl py-1 px-3 ${item.status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>{item.status}</span></td>
-                      <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan?.name || "N/A"}</td>
-                      {/* <td class="py-4 text-sm font-normal text-gray-200 sm:px-3 lg:table-cell">
-                        <span class="ml-2 mr-3 rounded-full bg-purple-100 px-2 py-0.5 text-purple-800">Action Required</span>
-                      </td> */}
-                    </tr>
+                  return <ITEM key={`user-${index}`} item={item} />
                 })}
-              
               </tbody>
             </table>
           </div>

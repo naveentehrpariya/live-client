@@ -38,7 +38,7 @@ export default function AdminSidebar({toggle}) {
 
   return (
     <>
-      <nav className={`sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
+      <nav className={`hidden sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
@@ -56,7 +56,7 @@ export default function AdminSidebar({toggle}) {
             icon={<FaUserCog size={'2rem'}  />}
             label="Users" />
 
-            <MenuItem path="/admin/streams"
+            <MenuItem path="/admin/streams/all"
             icon={<TbHome size={'2rem'} />}
             label="Live Streams" />
 
@@ -64,7 +64,7 @@ export default function AdminSidebar({toggle}) {
             icon={<SlCalender size={'1.3rem'}  />}
             label="Pricing Plans" />
 
-            <MenuItem path="/admin/media"
+            <MenuItem path="/admin/subscription"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Subscription" /> 
 
