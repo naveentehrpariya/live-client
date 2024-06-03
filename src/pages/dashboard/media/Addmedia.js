@@ -35,12 +35,15 @@ export default function Addmedia({update}) {
       try {
           await m.uploadMedia(fdata, setProgress);
           toast.success('File uploaded successfully');
-          setFile(null);
-          setOpen('close');
-          update && update();
+          setProgress(100);
+          setTimeout(()=>{
+            setFile(null);
+            setOpen('close');
+            update && update();
             setTimeout(()=>{
                setOpen('');
             }, 1000);
+          }, 1000);
       } catch (err) {
           toast.error('File upload failed');
       } finally {
@@ -82,7 +85,7 @@ export default function Addmedia({update}) {
                   }
 
                   <div className='flex justify-center'>
-                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > {uploading ? "Uploading.." : "Upload"}</button>
+                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > {uploading ? `${progress ? `${progress}%` : "" } Uploading..` : "Upload"}</button>
                   </div>
                </div>
             </div>

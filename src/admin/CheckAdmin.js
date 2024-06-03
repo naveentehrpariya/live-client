@@ -12,16 +12,17 @@ export default function CheckAdmin() {
       const m = new Endpoints();
       const resp = m.user_profile();
       resp.then((res) => {
-          if(res.data.status){
+          if(res.data.status && res.data.user.role === '1'){
             setIsAuthenticated(true);
             setUser(res.data.user);
-          }
-          if(res.data.status && res.data.user && res.data.user.role !== '1'){
+          } else {
             navigate('/home');
             toast.error("Unauthorized Access");
           }
       }).catch((err) => {
-        console.log("errors",err);
+        console.log("errors",err); 
+        navigate('/home');
+        toast.error("Unauthorized Access");
       });
     }
 

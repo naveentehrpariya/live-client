@@ -89,7 +89,7 @@ export default function Sidebar({toggle, trial, logout}) {
                 {user.plan.name} 
               </div>
               <h2 className='text-white font-bold mt-2' >${user.plan.price}/month</h2>
-              <p className='text-gray-400 mt-2' >Benefits Ends on : {time(user.plan.createdAt)}</p>
+              {/* <p className='text-gray-400 mt-2' >Benefits Ends on : {time(user.plan.createdAt)}</p> */}
             </Link>
           </div> 
           : 
