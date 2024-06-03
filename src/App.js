@@ -24,6 +24,8 @@ import AdminStreams from './admin/Streams';
 import AdminDashboard from './admin/Dashboard';
 import AddPricingPlan from './admin/pricing/AddpricingPlan';
 import Subscriptions from './admin/Subscriptions';
+import AdminMedia from './admin/AdminMedia';
+import Mysubscription from './pages/dashboard/Mysubscription';
 
 function App() {
   return (
@@ -39,6 +41,7 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
+                    <Route path="/my-subscription" element={<Mysubscription />} />
                     <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/media" element={<Media />} />
@@ -56,10 +59,12 @@ function App() {
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
                     <Route path="/admin/users/:type" element={<Users />} />
-                    <Route path="/admin/streams" element={<AdminStreams />} />
+                    <Route path="/admin/streams/:type" element={<AdminStreams />} />
                     <Route path="/admin/pricing" element={<AdminPlans />} />
                     <Route path="/admin/pricing/add" element={<AddPricingPlan /> } />
-                    <Route path="/admin/subscriptions" element={<Subscriptions /> } />
+                    <Route path="/admin/edit-plan/:id" element={<AddPricingPlan /> } />
+                    <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
+                    <Route path="/admin/media/:type" element={<AdminMedia /> } />
 
                   </Routes>
                 </div>

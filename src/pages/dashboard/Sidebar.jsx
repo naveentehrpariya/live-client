@@ -8,17 +8,21 @@ import { TbHome } from "react-icons/tb";
 import { FaUserCog } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { CgLogOut } from "react-icons/cg";
+import Time from '../common/Time';
 
 export default function Sidebar({toggle, trial, logout}) {
 
   const {user} = useContext(UserContext);
   function MenuItem({ icon, label, path, onclick = false }) {
     return (
-      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex items-center gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
     );
   }
+
+  const time = Time();
+
 
   function UpgradePlan() {
     return (
@@ -55,7 +59,7 @@ export default function Sidebar({toggle, trial, logout}) {
 
             <MenuItem path="/profile"
             icon={<FaUserCog size={'2rem'}  />}
-            label="Profile" />
+            label={user ? `${user.name} Profile` : `Profile`} />
 
             <MenuItem path="/media"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
@@ -75,7 +79,7 @@ export default function Sidebar({toggle, trial, logout}) {
 
         {user && user.plan && user.plan._id ? 
           <div className='px-8 pb-8'>
-            <div className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
+            <Link to="/my-subscription" className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
@@ -85,8 +89,8 @@ export default function Sidebar({toggle, trial, logout}) {
                 {user.plan.name} 
               </div>
               <h2 className='text-white font-bold mt-2' >${user.plan.price}/month</h2>
-              <p className='text-gray-400 mt-2' >Benefits Ends on : <TimeFormat date={user.plan.createdAt} /></p>
-            </div>
+              <p className='text-gray-400 mt-2' >Benefits Ends on : {time(user.plan.createdAt)}</p>
+            </Link>
           </div> 
           : 
           <>

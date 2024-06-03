@@ -9,6 +9,8 @@ import ConnectYoutube from './ConnectYoutube';
 import { FaYoutube } from "react-icons/fa";
 
 export default function CreateStreamForm() {
+    const {Errors, user} = useContext(UserContext);
+
 
     const resolutions = [
       { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
@@ -16,6 +18,13 @@ export default function CreateStreamForm() {
       { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
       { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
     ];
+    const freeresolutions = [
+      { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+    ];
+
+    const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
+    const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
+    console.log(filteredResolutions);
 
     const [channel, setChannel] = useState();
     const [status, setStatus] = useState();
@@ -39,7 +48,6 @@ export default function CreateStreamForm() {
    },[]);
 
   const navigate = useNavigate();
-  const {Errors} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const inputFields = [
     { type:"text", name:"title", label:"Stream Name" },
@@ -116,12 +124,11 @@ export default function CreateStreamForm() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-
-    if(step === 2 && video === null || video === '') {
+    if(type === "next" &&  step === 2 && video === null || video === '') {
       toast.error("Please select a video");
       return false;
     }
-    if(step === 3 && image === null || image === '') {
+    if(type === "next"  && step === 3 && image === null || image === '') {
       toast.error("Please select a thumbnail for this video.");
       return false;
     }
@@ -188,11 +195,21 @@ export default function CreateStreamForm() {
                     {inputFields.map((field, index) => (
                       <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
-                    <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                      {resolutions && resolutions.map((resolution, index) => (
-                        <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                      ))}
-                    </select>
+
+
+                    { user && user.plan && user && user.trialStatus == 'active' ?
+                      <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {freeresolutions && freeresolutions.map((resolution, index) => (
+                          <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                      :
+                      <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                          <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                    }
                     <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
                   </div>
                 </div>

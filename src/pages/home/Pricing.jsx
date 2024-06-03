@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Endpoints from '../../api/Endpoints';
 import { UserContext } from '../../context/AuthProvider';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import CurrencyFormat from '../common/CurrencyFormat';
+import toast from 'react-hot-toast';
 
 export default function Pricing({classes, colclasses, heading}) {
 
@@ -26,12 +28,13 @@ export default function Pricing({classes, colclasses, heading}) {
 
    const PLAN = ({p, i}) => { 
 
+      const rsarrya = JSON.parse(p && p.resolutions);
       const features =  [
          { text: `Number of streams: ${p.allowed_streams}`},
          { text: "Stream duration: 24/7" },
          { text: `Storage: ${p.storage}GB` },
          { text: "Stream builder" },
-         { text: "Video quality: 1080p@30fps" },
+         { text: `Video quality: ${rsarrya.join(", ")}` },
          { text: "Audio quality: 320kbps" },
          { text: "Instant server availability" },
       ]
@@ -50,29 +53,37 @@ export default function Pricing({classes, colclasses, heading}) {
          });
          resp.then((res) => {
             setSubscribing(false);
-            if(res.data.url){
+            if(res.data.status && res.data.url){
                window.location.href = res.data.url;
+            }else {
+               toast.error(res.data.message);
             }
          }).catch((err) => {
             setSubscribing(false);
          });
       }
 
+      const currency = CurrencyFormat(); 
+
+
       return <div key={p._id} className={`bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
-      <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
-      <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">${p.price}</div>
-      <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
-      <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
-      {features && features.map((f, index) => (
-         <FeatureItem key={index} >
-            {f.text}
-         </FeatureItem>
-      ))}
-      <button onClick={()=>subscribePlan(p.productId)} className="btn md mt-8">
-         {subscribing ? "Loading" : "Start your free trial"}
-      </button>
+         <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
+         <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">{currency(p.price)}</div>
+         <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
+         <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
+         {features && features.map((f, index) => (
+            <FeatureItem key={index} >
+               {f.text}
+            </FeatureItem>
+         ))}
+         {user && user.role == 1 ? 
+         <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8"> Edit Plan</Link>
+         : <button onClick={()=>subscribePlan(p.productId)} className="btn md mt-8">
+            {subscribing ? "Loading" : "Buy Now"}
+         </button> 
+         }
+         </div>
       </div>
-   </div>
    }
 
    function FeatureItem({ icon, children }) {
@@ -90,9 +101,8 @@ export default function Pricing({classes, colclasses, heading}) {
   return (
     <div id='pricing'>
       <div className={` ${classes}`}>
-         
          {heading ? <>
-            <h2 className='heading-md text-center ' >Our <span className='text-main' >Pricing</span>  </h2>
+            <h2 className='heading-md text-center' >Our <span className='text-main' >Pricing</span>  </h2>
             <p className='text-gray-400  text-center text-[18px] mt-2' >We have many feature for you to use in live stream </p>
          </> : ''}
          <div className={`grid ${colclasses}`} >

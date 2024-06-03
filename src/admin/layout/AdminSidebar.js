@@ -38,7 +38,7 @@ export default function AdminSidebar({toggle}) {
 
   return (
     <>
-      <nav className={`hidden sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
+      <nav className={`sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
@@ -64,13 +64,13 @@ export default function AdminSidebar({toggle}) {
             icon={<SlCalender size={'1.3rem'}  />}
             label="Pricing Plans" />
 
-            <MenuItem path="/admin/subscription"
+            <MenuItem path="/admin/subscriptions/all"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Subscription" /> 
 
-            <MenuItem path="/admin/media"
+            <MenuItem path="/admin/media/image"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
-            label="All Collections" /> 
+            label="Media Collections" /> 
             
         </div>
       </nav>

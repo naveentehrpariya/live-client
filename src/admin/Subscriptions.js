@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Api from '../api/Api';
 import toast from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
+import Nocontent from '../pages/common/NoContent';
+import Time from '../pages/common/Time';
 
 export default function Subscriptions() {
 
@@ -34,6 +36,8 @@ export default function Subscriptions() {
     fetch(signal);
   }, [type]);
 
+  const time = Time();
+
   const navigate = useNavigate();
   const handleState = (e) => {
     navigate(`/admin/subscriptions/${e}`);
@@ -45,10 +49,10 @@ export default function Subscriptions() {
     return <tr class="border-b border-gray-900">
     <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
     <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan?.name || "N/A"} ({item?.plan?.price || "N/A"}/month)</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.upcomingPayment || "--"}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt || "--"}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endedAt || "--"}</td>
+    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({item?.plan?.price || "N/A"}/month) </> : "--"}</td>
+    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{status === "paid" ? time(item?.upcomingPayment) : "N/A"}</td>
+    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
+    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endedAt ? time(item?.createdAt) : "N/A"}</td>
     <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === "paid" ? <span className={`text-white rounded-xl py-1 px-3 bg-green-600`}>
         Paid
@@ -69,34 +73,42 @@ export default function Subscriptions() {
   return (
     <>
       <AdminLayout>
+
         <AdminTitle heading="Youtube Streams">
             <div>
               <button className={`${type === 'all' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("all")}>All</button>
               <button className={`${type === "paid" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("paid")}>Paid</button>
-              <button className={`${type === "pending" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("pending")}>Pending</button>
+              {/* <button className={`${type === "pending" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("pending")}>Pending</button> */}
               <button className={`${type === "expired" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("expired")}>Expired</button>
             </div>
         </AdminTitle>
-        {loading ? <Loading /> : 
+        {loading ? <Loading /> :
+        
+        <>
+        {data && data.length ? 
           <div class="overflow- rounded-xl bg-dark1 px-6 shadow lg:px-4">
-            <table class="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
-              <thead class=" border-b border-gray-800 lg:table-header-group">
-                <tr class="">
-                  <td class="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Title</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Video</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Stream Key</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">End Date</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
-                </tr>
-              </thead>
-              <tbody class="bg-dark1 lg:border-gray-100">
-                {data && data.map((item, index) => {
-                  return <ITEM key={`subscription-${index}`} item={item} />
-                })}
-              </tbody>
-            </table>
+          <table class="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
+            <thead class=" border-b border-gray-800 lg:table-header-group">
+              <tr class="">
+                <td class="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">User</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Plan</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Upcoming Payment</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended Date</td>
+                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
+              </tr>
+            </thead>
+            <tbody class="bg-dark1 lg:border-gray-100">
+              {data && data.map((item, index) => {
+                return <ITEM key={`subscription-${index}`} item={item} />
+              })}
+            </tbody>
+          </table>
           </div>
+         : <Nocontent />
+        }
+        </>
         }
       </AdminLayout>
     </>

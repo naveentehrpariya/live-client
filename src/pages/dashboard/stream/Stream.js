@@ -25,7 +25,7 @@ export default function Stream({data, reload}) {
       });
    }
 
-   const [isLive, setisLive] = useState(data.status == 1? true : false);
+   const [isLive, setisLive] = useState(data.status === 1 ? true : false);
 
   return (
     <div className='stream box overflow-hidden'>
@@ -45,7 +45,7 @@ export default function Stream({data, reload}) {
          </svg> &nbsp; {isLive ? "Watch Live" : "Watch Video"}</a>
          {data.endedAt ? "" :
             <>
-            <button onClick={()=>endStream(data.streamKey)} className={`${isLive ? "" :  "disabled"} mt-3 btn w-full btn-main sm flex items-center justify-center`}>
+            <button onClick={()=>endStream(data.streamId)} className={`${isLive ? "" :  "disabled"} mt-3 btn w-full btn-main sm flex items-center justify-center`}>
                {loading ? "Ending..." : "End Stream"}
             </button>
             </>
