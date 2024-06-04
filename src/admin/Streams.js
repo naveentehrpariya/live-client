@@ -61,17 +61,17 @@ export default function Streams() {
       });
     }
 
-    return <tr class="border-b border-gray-900">
-      <td class="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">{item.title}</td>
-      <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.createdAt)}</td>
-      <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.endedAt)}</td>
-      <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+    return <tr className="border-b border-gray-900">
+      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">{item.title}</td>
+      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.createdAt)}</td>
+      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.endedAt)}</td>
+      <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === 1 ?  <button onClick={stopStream} className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Running</button>
         :
         <span className={`text-white rounded-xl py-1 px-3 ${status == 1 ? "bg-green-600 " : "bg-red-800" }`}>ENDED</span>
       }
     </td>
-      <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+      <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
        <a target="_blank"  rel="noreferrer" href={`https://www.youtube.com/watch?v=${item.streamId}`} className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Watch</a>
     </td>
   </tr>
@@ -90,18 +90,18 @@ export default function Streams() {
         {loading ? <Loading /> : 
         <>
         {data && data.length ? 
-          <div class="overflow- rounded-xl bg-dark1 px-6 shadow lg:px-4">
-            <table class="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
-              <thead class=" border-b border-gray-800 lg:table-header-group">
-                <tr class="">
-                  <td class="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">End Date</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
-                  <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td>
+          <div className="overflow- rounded-xl bg-dark1 px-6 shadow lg:px-4">
+            <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
+              <thead className=" border-b border-gray-800 lg:table-header-group">
+                <tr className="">
+                  <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">End Date</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td>
                 </tr>
               </thead>
-              <tbody class="bg-dark1 lg:border-gray-100">
+              <tbody className="bg-dark1 lg:border-gray-100">
                 {data && data.map((item, index) => {
                   return <ITEM key={`stream-${index}`} item={item} />
                 })}

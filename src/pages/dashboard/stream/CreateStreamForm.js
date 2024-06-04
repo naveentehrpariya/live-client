@@ -154,31 +154,31 @@ export default function CreateStreamForm() {
             {channel && channel.snippet ?  <div className="mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
               <div className='sm:flex items-center'>
                 <img alt="" src={channel && channel.snippet.thumbnails.high.url}
-                  class="mx-auto h-20 w-20  rounded-[50%] object-cover"
+                  className="mx-auto h-20 w-20  rounded-[50%] object-cover"
                 />
                 <div className='ps-3'>
                 <div className='flex justify-center '><FaYoutube size="3rem" color='red' /></div>
                   <h2 className='text-center sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
                 </div>
               </div>
-              <div class="">
-                <div class="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
-                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                    <div class="mt-1.5 sm:mt-0">
-                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
-                      <p class="text-gray-500 text-center">Views Count</p>
+              <div className="">
+                <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div className="mt-1.5 sm:mt-0">
+                      <p className="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
+                      <p className="text-gray-500 text-center">Views Count</p>
                     </div>
                   </div>
-                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                    <div class="mt-1.5 sm:mt-0">
-                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
-                      <p class="text-gray-500 text-center">Video Count</p>
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div className="mt-1.5 sm:mt-0">
+                      <p className="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
+                      <p className="text-gray-500 text-center">Video Count</p>
                     </div>
                   </div>
-                  <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                    <div class="mt-1.5 sm:mt-0">
-                      <p class="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
-                      <p class="text-gray-500 text-center">Subscribers</p>
+                  <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
+                    <div className="mt-1.5 sm:mt-0">
+                      <p className="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
+                      <p className="text-gray-500 text-center">Subscribers</p>
                     </div>
                   </div>
                 </div>

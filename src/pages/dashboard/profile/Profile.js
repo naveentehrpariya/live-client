@@ -7,58 +7,58 @@ export default function Profile() {
    return (
       <>
       <AuthLayout heading={"Profile"} >
-         <div class="bg-dark1 overflow-hidden shadow rounded-xl">
+         <div className="bg-dark1 overflow-hidden shadow rounded-xl">
 
-            <div class="px-4 py-4 sm:p-0">
-               <dl class="divide-y divide-gray-800">
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+            <div className="px-4 py-4 sm:p-0">
+               <dl className="divide-y divide-gray-800">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Full name
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            {user && user?.name || ''}
                         </dd>
                      </div>
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Username
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            {user && user?.username || ''}
                         </dd>
                      </div>
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Active Subscription
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            {user && user.plan ? <>
                               {user && user.plan && user.plan.name} (${user && user.plan && user.plan.price}/month)
                            </> : "No Subscription"
                            }
                         </dd>
                      </div>
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Email address
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                         {user && user.email}
                         </dd>
                      </div>
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Phone number
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            --
                         </dd>
                      </div>
-                     <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-md font-medium text-gray-500">
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
                            Address
                         </dt>
-                        <dd class="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            ---
                         </dd>
                      </div>

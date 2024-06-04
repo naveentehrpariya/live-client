@@ -44,13 +44,13 @@ export default function MediaList() {
       {loading ? <Loading /> : 
          <>
             { lists && lists.length ? 
-               <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                   <>
                      {lists && lists.map((item, index) => {
                         return <>
                         {filter === 'image'? 
                            <div className='relative' key={`file-${filter}-${index}`}>
-                              <img class=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+                              <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
                               <RemoveMedia update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                            </div>
                         : '' } 

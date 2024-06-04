@@ -51,10 +51,10 @@ export default function Loading() {
          }
        }
        `}</style>
-      <div class="loader">
-      <li class="ball"></li>
-      <li class="ball"></li>
-      <li class="ball"></li>
+      <div className="loader">
+      <li className="ball"></li>
+      <li className="ball"></li>
+      <li className="ball"></li>
       </div>
     </div>
   )
