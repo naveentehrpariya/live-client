@@ -39,7 +39,7 @@ export default function Mysubscription () {
       <>
       <AuthLayout heading={"My Subscription"} >
          {data ? 
-            <div class="mx-auto rounded-xl max-w-[400px] pt-6 items-center justify-center text-center">
+            <div className="mx-auto rounded-xl max-w-[400px] pt-6 items-center justify-center text-center">
                 <h2 className='text-white font-bold text-2xl ' >{data && data.plan && data.plan.name}</h2>
                 <h3 className='text-white font-bold text-2xl ' >{currency(data && data.plan && data.plan.price)} /month</h3>
                 <p className='text-gray-400 font-bold text-md mt-2' >{data && data.plan && data.plan.description}</p>

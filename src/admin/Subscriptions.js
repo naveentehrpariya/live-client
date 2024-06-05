@@ -46,14 +46,14 @@ export default function Subscriptions() {
   const ITEM = ({item}) => { 
     const [status, setStatus] = useState(item.status);
 
-    return <tr class="border-b border-gray-900">
-    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
-    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({item?.plan?.price || "N/A"}/month) </> : "--"}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{status === "paid" ? time(item?.upcomingPayment) : "N/A"}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
-    <td class="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endedAt ? time(item?.createdAt) : "N/A"}</td>
-    <td class="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+    return <tr className="border-b border-gray-900">
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({item?.plan?.price || "N/A"}/month) </> : "--"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{status === "paid" ? time(item?.upcomingPayment) : "N/A"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endedAt ? time(item?.createdAt) : "N/A"}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === "paid" ? <span className={`text-white rounded-xl py-1 px-3 bg-green-600`}>
         Paid
       </span> : ""}
@@ -86,20 +86,20 @@ export default function Subscriptions() {
         
         <>
         {data && data.length ? 
-          <div class="overflow- rounded-xl bg-dark1 px-6 shadow lg:px-4">
-          <table class="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
-            <thead class=" border-b border-gray-800 lg:table-header-group">
-              <tr class="">
-                <td class="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">User</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Plan</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Upcoming Payment</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended Date</td>
-                <td class="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
+          <div className="overflow- rounded-xl bg-dark1 px-6 shadow lg:px-4">
+          <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
+            <thead className=" border-b border-gray-800 lg:table-header-group">
+              <tr className="">
+                <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">User</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Plan</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Upcoming Payment</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended Date</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
               </tr>
             </thead>
-            <tbody class="bg-dark1 lg:border-gray-100">
+            <tbody className="bg-dark1 lg:border-gray-100">
               {data && data.map((item, index) => {
                 return <ITEM key={`subscription-${index}`} item={item} />
               })}
