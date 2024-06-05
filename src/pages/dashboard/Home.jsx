@@ -26,14 +26,16 @@ export default function Home() {
 
   return (
     <AuthLayout heading="My Streams" >
-     
-      {lists && lists.length ? <StreamLists loading={loading} reload={listsstreams} lists={lists} /> : 
-        <>
-        {!loading ? <div className="flex h-[80vh] justify-center items-center" >
-          <CreateStream />
-        </div> : ""}
-        </> 
-      }
+      {loading ? <Loading /> : 
+      <>
+        {lists && lists.length ? <StreamLists loading={loading} reload={listsstreams} lists={lists} /> : 
+          <>
+          {!loading ? <div className="flex h-[80vh] justify-center items-center" >
+            <CreateStream />
+          </div> : ""}
+          </> 
+        }
+      </> }
     </AuthLayout>
   );
 }

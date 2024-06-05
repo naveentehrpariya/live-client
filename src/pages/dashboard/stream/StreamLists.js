@@ -23,7 +23,7 @@ export default function StreamLists({lists, reload, loading}) {
 
   return (
     <>
-     {loading ? <Loading /> : <>
+      
       <div className='streams-lists grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
          <AddMoreStream />
          {lists && lists.length ? lists.map((item, index) => {
@@ -31,7 +31,7 @@ export default function StreamLists({lists, reload, loading}) {
          }) : <Nocontent /> }
         
       </div>
-     </>}
+     
     </>
   )
 }

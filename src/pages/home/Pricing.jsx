@@ -4,6 +4,7 @@ import { UserContext } from '../../context/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import CurrencyFormat from '../common/CurrencyFormat';
 import toast from 'react-hot-toast';
+import Loading from '../common/Loading';
 
 export default function Pricing({classes, colclasses, heading}) {
 
@@ -100,6 +101,8 @@ export default function Pricing({classes, colclasses, heading}) {
 
   return (
     <div id='pricing'>
+
+      { loading ? <Loading /> : 
       <div className={` ${classes}`}>
          {heading ? <>
             <h2 className='heading-md text-center' >Our <span className='text-main' >Pricing</span>  </h2>
@@ -111,6 +114,7 @@ export default function Pricing({classes, colclasses, heading}) {
             })}
          </div>
       </div>
+      }
    </div>
   )
 }
