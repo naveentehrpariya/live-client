@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../common/Button';
-import hero from '../../img/hero.png';
+import hero from '../../img/hero.gif';
 
 export default function Hero() {
   return <div className='hero-section'>

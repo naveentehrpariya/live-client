@@ -14,15 +14,9 @@ export default function Header() {
       <header className='sticky top-2 py-3 z-10' >
          <div className='container m-auto'>
             <nav className="px-3 py-1 md:py-3 ">
-<<<<<<< HEAD
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                      <Link to="/" class="ms-3 sm:ms-8 flex items-center">
                         <h2 className='heading drunk lg px-0' >RunStream</h2>
-=======
-               <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-                     <Link to="/" className="ms-3 sm:ms-8 flex items-center">
-                        <h2 className='heading lg px-0' >RunStream</h2>
->>>>>>> 3317efe5e32bcc213bb568047794f055a99a0165
                      </Link>
                      <div className="flex items-center xl:order-2">
                         {user && user.name ? 
