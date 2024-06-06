@@ -12,10 +12,12 @@ import Time from '../common/Time';
 
 export default function Sidebar({toggle, trial, logout}) {
 
+  const {pathname} = window.location;
   const {user} = useContext(UserContext);
   function MenuItem({ icon, label, path, onclick = false }) {
     return (
-      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex items-center gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1"
+      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "}  flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
     );

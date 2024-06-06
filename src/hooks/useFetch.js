@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import Api from '../api/Api';
-import { FaBullseye } from 'react-icons/fa';
+import AdminApi from '../api/AdminApi';
 export default function useFetch({url}){
 
   const [data, setData] = useState(null);
@@ -9,7 +8,7 @@ export default function useFetch({url}){
   async function fetch(signal) {
     if(url && !loading){
       setLoading(true);
-      const resp = Api.get(url, {signal});
+      const resp = AdminApi.get(url, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);

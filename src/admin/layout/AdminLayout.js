@@ -18,11 +18,11 @@ function IconImage({ src, alt }) {
 
 export default function AdminLayout({children, heading}) {
 
-  const {user} = React.useContext(UserContext);
+  const {admin} = React.useContext(UserContext);
 
   const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    localStorage.removeItem("admintoken");
+    window.location.href = "/admin/login";
   };
 
   const [windowWidth, setWindowWidth] = React.useState(window && window.innerWidth);

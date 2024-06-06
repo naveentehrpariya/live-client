@@ -1,10 +1,9 @@
 import { Component } from 'react'
-import Api from './Api';
+import AdminApi from './AdminApi';
 class AdminEndpoints extends Component {
     async create_plan(data) {
-        return Api.post(`/create-pricing-plan`,data);
+        return AdminApi.post(`/create-pricing-plan`,data);
     }
-    
     render() {
         return <></>
     }

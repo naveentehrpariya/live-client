@@ -3,11 +3,11 @@ import axios from 'axios';
 const APP_URL = "http://localhost:8080";
 
 function getToken(){
-  const data = localStorage && localStorage.getItem('token');
+  const data = localStorage && localStorage.getItem('admintoken');
   return data; 
 }
 
-let Api = axios.create({
+let AdminApi = axios.create({
   baseURL: APP_URL,
   headers: {
     'Accept': 'application/json',
@@ -16,7 +16,7 @@ let Api = axios.create({
   }
 });
 
-Api.interceptors.request.use(
+AdminApi.interceptors.request.use(
   async (config) => {
       const token = getToken();
       if (token !== null) {
@@ -29,4 +29,4 @@ Api.interceptors.request.use(
   }
 );
 
-export default Api;
+export default AdminApi;

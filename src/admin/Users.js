@@ -15,11 +15,12 @@ export default function Users() {
   const { type } = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  
+  const [page, setPage] = useState(1);
+
   async function fetch(signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/users/${type || "all"}`, {signal});
+      const resp = Api.get(`/admin/users/${type || "all"}?page=1&limit=60`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);

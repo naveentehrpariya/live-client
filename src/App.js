@@ -26,6 +26,8 @@ import AddPricingPlan from './admin/pricing/AddpricingPlan';
 import Subscriptions from './admin/Subscriptions';
 import AdminMedia from './admin/AdminMedia';
 import Mysubscription from './pages/dashboard/Mysubscription';
+import ReadLogs from './admin/ReadLogs';
+import AdminLogin from './admin/AdminLogin';
 
 function App() {
   return (
@@ -50,12 +52,11 @@ function App() {
                     <Route path="/terms-of-service" element={<Terms />} />
                     <Route path="/cancellation-and-refund-policy" element={<Refund />} />
                     <Route path="/oauth2callback" element={<YoutubeAuthVerify />} />
-
-                    {/* Stream Routes */}
                     <Route path="/create-stream" element={<CreateStreamForm />} />
 
-                    {/* Admin Routes */}
+                    {/* Stream Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
                     <Route path="/admin/users/:type" element={<Users />} />
@@ -65,6 +66,7 @@ function App() {
                     <Route path="/admin/edit-plan/:id" element={<AddPricingPlan /> } />
                     <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
                     <Route path="/admin/media/:type" element={<AdminMedia /> } />
+                    <Route path="/admin/logs" element={<ReadLogs /> } />
 
                   </Routes>
                 </div>

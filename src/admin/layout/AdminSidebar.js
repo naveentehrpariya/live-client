@@ -8,31 +8,13 @@ import { SlCalender } from "react-icons/sl";
 import Logo from '../../pages/common/Logo';
 
 export default function AdminSidebar({toggle}) {
-
-  const {user} = useContext(UserContext);
+  const {pathname} = window.location;
   function MenuItem({ icon, label, path }) {
     return (
-      <NavLink to={path || "/home"} activeclassname="bg-dark1" className="bg-dark1 flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%] text-neutral-400 max-md:pr-5">
+      <NavLink to={path || "/home"} 
+      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "}  flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
-    );
-  }
-
-  function UpgradePlan() {
-    return (
-      <div className="bg-dark sticky bottom-0 flex flex-col p-8 mt-12 text-base text-center max-md:mt-10">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
-          alt="Upgrade your plan"
-          className="z-10 self-center mt-0 aspect-[1.2] w-[150px]" />
-        <div className="mt-2.5 leading-5 text-neutral-200">
-          Upgrade your plan to create 24/7 streams
-        </div>
-        <Link to='/upgrade/subscription' className="justify-center px-12 py-3.5 mt-7 text-white capitalize bg-red-500 leading-[90%] rounded-[180px] max-md:px-5">
-          Upgrade Plan
-        </Link>
-      </div>
     );
   }
 
@@ -42,7 +24,7 @@ export default function AdminSidebar({toggle}) {
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
-            <Link to='/home' > <Logo /></Link>
+            <Link to='/admin' > <Logo /></Link>
          </div>
         </div>
 
@@ -52,7 +34,7 @@ export default function AdminSidebar({toggle}) {
             icon={<TbHome size={'2rem'}  />}
             label="Dashboard" />
 
-            <MenuItem path="/admin/users"
+            <MenuItem path="/admin/users/active"
             icon={<FaUserCog size={'2rem'}  />}
             label="Users" />
 

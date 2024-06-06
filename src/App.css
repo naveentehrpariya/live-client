@@ -38,3 +38,8 @@ body{background:var(--dark);}
 .disabled{opacity:0.5;pointer-events:none;cursor:none;}
 .drunk{font-family:'drunk';}
 
+.menuitem.active {
+  background:var(--main) !important;
+  color: #ffffff !important;
+}
+

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
-import Button from "../common/Button";
 import { Link, useNavigate } from "react-router-dom";
-import Layout from "../../layout/Layout";
-import Endpoints from "../../api/Endpoints";
-import { UserContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
-import CheckLogin from "./CheckLogin";
+import { UserContext } from "../context/AuthProvider";
+import Endpoints from "../api/Endpoints";
+import Button from "../pages/common/Button";
+import Layout from "../layout/Layout";
+import CheckLogin from "../pages/auth/CheckLogin";
+import CheckAdmin from "./CheckAdmin";
 
-export default function Login() {
+export default function AdminLogin() {
   
 
     const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
@@ -21,6 +22,7 @@ export default function Login() {
     const [data, setData] = useState({
       email: "",
       password: "",
+      admin: true,
     });
 
     const handleinput = (e) => {
@@ -40,16 +42,12 @@ export default function Login() {
       const resp = m.login(data);
       resp.then((res) => {
         setLoading(false);
-        if(res.data.status){
-          if(res.data.user.role !== '1'){
+        if(res.data.status && res.data.user.role === '1'){
+            navigate("/admin");
             toast.success(res.data.message);
-            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("admintoken", res.data.token);
             setUser(res.data.user);
             setIsAuthenticated(true);
-            navigate("/home");
-          } else {
-            toast.error("Invalid credentials. Please try again.");
-          }
         } else { 
           toast.error(res.data.message);
         }
@@ -73,21 +71,16 @@ export default function Login() {
 
     return (
       <Layout>
-        <CheckLogin takeaction={true}  redirect={true} />
+         <CheckAdmin />
         <div className="h-[100vh] flex justify-center items-center" >
           <div className="w-full max-w-[500px] flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
           <header>
               <Link to="/" className="self-center table  m-auto text-3xl font-mono font-bold text-center text-red-500 drunk lowercase">runstream</Link>
-              <h2 className="text-center font-mono text-[20px] mt-6 font-bold text-white">Login into runstream</h2>
+              <h2 className="text-center font-mono text-[20px] mt-6 font-bold text-white">Admin</h2>
           </header>
           <main className="mt-8" >
               <LoginForm />
           </main> 
-          <footer>
-              <Link to="/signup" className="text-center mt-4 text-sm table m-auto font-bold text-white">
-                Create an account?
-              </Link>
-          </footer>
           </div>
         </div>
       </Layout>

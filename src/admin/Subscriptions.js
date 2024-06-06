@@ -74,7 +74,7 @@ export default function Subscriptions() {
     <>
       <AdminLayout>
 
-        <AdminTitle heading="Youtube Streams">
+        <AdminTitle heading="Subscriptions">
             <div>
               <button className={`${type === 'all' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("all")}>All</button>
               <button className={`${type === "paid" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("paid")}>Paid</button>
