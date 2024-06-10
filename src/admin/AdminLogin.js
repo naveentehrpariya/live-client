@@ -60,7 +60,7 @@ export default function AdminLogin() {
     return (
       <>
         {inputFields.map((field, index) => (
-          <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
+          <input required key={index} name={field.name} onChange={handleinput} type={field.type} placeholder={field.label} className="input" />
         ))}
         <div className="m-auto table mt-8">
           <Button loading={loading} onclick={handleLogin} type={"button"} text='Login Now' classes={`m-auto `}  />
@@ -75,8 +75,8 @@ export default function AdminLogin() {
         <div className="h-[100vh] flex justify-center items-center" >
           <div className="w-full max-w-[500px] flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
           <header>
-              <Link to="/" className="self-center table  m-auto text-3xl font-mono font-bold text-center text-red-500 drunk lowercase">runstream</Link>
-              <h2 className="text-center font-mono text-[20px] mt-6 font-bold text-white">Admin</h2>
+              <h2 className="text-center drunk text-[30px] mt-6 mb-2 font-bold text-white">Admin</h2>
+              <Link to="/" className="self-center table m-auto text-3xl font-mono font-bold text-center text-red-500 drunk lowercase">runstream</Link>
           </header>
           <main className="mt-8" >
               <LoginForm />

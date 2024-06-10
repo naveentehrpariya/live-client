@@ -9,6 +9,7 @@ import { UserContext } from '../context/AuthProvider';
 import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
 import RemoveMedia from '../pages/dashboard/media/RemoveMedia';
+import Pagination from '../pages/common/Pagination';
 
 export default function AdminMedia() {
 
@@ -16,14 +17,20 @@ export default function AdminMedia() {
   const { type } = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  
-  async function fetch(signal) {
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  async function fetch(pg,signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/media/${type || "all"}`, {signal});
+      const resp = Api.get(`/admin/media/${type || "all"}?page=${pg}&limit=9`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);
+        if(res.data.status){
+          setPage(res.data.current_page);
+          setTotalPages(res.data.total_pages);
+        }
       }).catch((err)=>{
         console.log(err);
         setLoading(false);
@@ -34,7 +41,7 @@ export default function AdminMedia() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(signal);
+    fetch(page,signal);
   }, [type]);
 
   const navigate = useNavigate();
@@ -97,7 +104,7 @@ export default function AdminMedia() {
                            {type === 'image'? 
                               <div className='relative' key={`file-${type}-${index}`}>
                                  <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
-                                 {/* <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  /> */}
+                                 <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                               </div>
                            : '' } 
 
@@ -106,7 +113,7 @@ export default function AdminMedia() {
                                  <video playsInline className='w-full h-full' controls >
                                     <source src={item.url} type={item.mime} />
                                  </video>
-                                 {/* <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  /> */}
+                                 <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                               </div>
                            : '' } 
 
@@ -115,6 +122,8 @@ export default function AdminMedia() {
                      </>
                </div>
             : <Nocontent />  }
+          <Pagination fetch={fetch} setPage={setPage} total={totalPages} currentPage={page} />
+
         </>
         }
       </AdminLayout>

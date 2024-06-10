@@ -9,6 +9,8 @@ import Api from '../api/Api';
 import toast from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import CurrencyFormat from '../pages/common/CurrencyFormat';
+import Pagination from '../pages/common/Pagination';
+import Time from '../pages/common/Time';
 
 export default function Users() {
   const {Errors} = useContext(UserContext);
@@ -16,13 +18,20 @@ export default function Users() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const time = Time();
 
-  async function fetch(signal) {
+  const limit = 1
+  async function fetch(pg,signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/users/${type || "all"}?page=1&limit=60`, {signal});
+      const resp = Api.get(`/admin/users/${type || "all"}?page=${pg}&limit=${limit}`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
+        if(res.data.status){
+          setPage(res.data.current_page);
+          setTotalPages(res.data.total_pages);
+        }
         setLoading(false);
       }).catch((err)=>{
         console.log(err);
@@ -34,7 +43,7 @@ export default function Users() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(signal);
+    fetch(page, signal);
   }, [type]);
 
   const navigate = useNavigate();
@@ -42,7 +51,7 @@ export default function Users() {
     navigate(`/admin/users/${e}`);
   }
 
-  const ITEM = ({item}) => { 
+  const ITEM = ({item, index}) => { 
     const [status, setStatus] = useState(item.status)
     const changeStatus = () => { 
       const resp = Api.get(`/admin/user/enable-disable-user/${item._id}`);
@@ -62,11 +71,15 @@ export default function Users() {
 
 
     return <tr className="border-b border-gray-900">
+    {/* <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
+      {index+(limit*page-1)}
+    </td> */}
     <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
       {item.name}
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
       <p>{item?.plan?.name || "N/A"}</p>
       {item?.plan?.price ? <p>{currency(item?.plan?.price)}/month</p> :""}
@@ -96,24 +109,31 @@ export default function Users() {
               <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
                 <thead className=" border-b border-gray-800 lg:table-header-group">
                   <tr className="">
+                    {/* <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
+                      Sr.
+                    </td> */}
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
                       Name
                     </td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Username</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
+                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
+                      Joined Date
+                    </td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Active Plan</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   </tr>
                 </thead>
                 <tbody className="bg-dark1 lg:border-gray-100">
                   {data && data.map((item, index) => {
-                    return <ITEM key={`user-${index}`} item={item} />
+                    return <ITEM key={`user-${index}`} index={index+1} item={item} />
                   })}
                 </tbody>
               </table>
             </div> 
             : <Nocontent />
           }
+          <Pagination fetch={fetch} setPage={setPage} total={totalPages} currentPage={page} />
           </>
         }
       </AdminLayout>

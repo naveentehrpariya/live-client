@@ -62,7 +62,7 @@ export default function Login() {
     return (
       <>
         {inputFields.map((field, index) => (
-          <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
+          <input required key={index} name={field.name} onChange={handleinput} type={field.type} placeholder={field.label} className="input" />
         ))}
         <div className="m-auto table mt-8">
           <Button loading={loading} onclick={handleLogin} type={"button"} text='Login Now' classes={`m-auto `}  />

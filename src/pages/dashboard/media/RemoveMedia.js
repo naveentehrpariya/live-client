@@ -24,6 +24,6 @@ export default function RemoveMedia({id, classes, update}) {
    }
 
    return (
-      <button className={classes} onClick={UploadMedia}><MdDelete /></button>
+      <button className={`${classes} flex items-center text-danger`} onClick={UploadMedia}><MdDelete color="red" /> </button>
    )
 }

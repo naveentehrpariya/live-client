@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
+import Pagination from '../pages/common/Pagination';
+import { GrFormView } from "react-icons/gr";
 
 export default function Streams() {
 
@@ -15,14 +17,20 @@ export default function Streams() {
   const { type } = useParams();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   
-  async function fetch(signal) {
+  async function fetch(pg, signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/streams/${type || "all"}`, {signal});
+      const resp = Api.get(`/admin/streams/${type || "all"}?page=${pg}&limit=10`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);
+        if(res.data.status){
+          setPage(res.data.current_page);
+          setTotalPages(res.data.total_pages);
+        }
       }).catch((err)=>{
         console.log(err);
         setLoading(false);
@@ -33,7 +41,7 @@ export default function Streams() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-    fetch(signal);
+    fetch(page, signal);
   }, [type]);
 
   const navigate = useNavigate();
@@ -62,13 +70,20 @@ export default function Streams() {
     }
 
     return <tr className="border-b border-gray-900">
-      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">{item.title}</td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.createdAt)}</td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.endedAt)}</td>
+      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left"><p>{item.title}</p> <p>{item.user.email}</p></td>
+      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left"><p>Started : {time(item?.createdAt)}</p><p className='text-red-500'>Ended : {time(item?.endedAt)}</p></td>
+      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
+        <p>
+        {item.thumbnail ? <a target='_blank'  rel='noreferrer' className='flex items-center text-gray-300' href={item.thumbnail}><GrFormView size={'1.2rem'} /> Thumbnail</a> : ""}
+        </p>
+        <p>
+        {item.video ? <a target='_blank' rel='noreferrer' className='flex items-center text-gray-300' href={item.video}><GrFormView size={'1.2rem'} /> Video</a> : ""}
+        </p>
+      </td>
       <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === 1 ?  <button onClick={stopStream} className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Running</button>
         :
-        <span className={`text-white rounded-xl py-1 px-3 ${status == 1 ? "bg-green-600 " : "bg-red-800" }`}>ENDED</span>
+        <span className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-800" }`}>ENDED</span>
       }
     </td>
       <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
@@ -83,8 +98,8 @@ export default function Streams() {
         <AdminTitle heading={`${type === 'all' ? "Streams" : type == 1 ? "Live Stream" : "Ended Streams"  }`}>
             <div>
                 <button className={`${type === 'all' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("all")}>All</button>
-                <button className={`${type == 1 ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState(1)}>Active</button>
-                <button className={`${type == 0 ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState(0)}>Ended</button>
+                <button className={`${type === 1 ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState(1)}>Active</button>
+                <button className={`${type === 0 ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState(0)}>Ended</button>
             </div>
         </AdminTitle>
         {loading ? <Loading /> : 
@@ -94,9 +109,9 @@ export default function Streams() {
             <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
               <thead className=" border-b border-gray-800 lg:table-header-group">
                 <tr className="">
-                  <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">End Date</td>
+                  <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Title</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Started/Ended</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Content</td>
                   <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td>
                 </tr>
@@ -109,6 +124,7 @@ export default function Streams() {
             </table>
           </div> : <Nocontent />
         }
+        <Pagination fetch={fetch} setPage={setPage} total={totalPages} currentPage={page} />
         </>
         }
       </AdminLayout>
