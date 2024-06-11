@@ -37,11 +37,14 @@ export default function Header() {
 
                      <div class={`${toggle ? "toggle" : ""} mobile-menu  justify-between items-center w-full xl:flex xl:w-auto xl:order-1`} id="mobile-menu-2">
                         <ul className="flex flex-col  font-medium xl:flex-row xl:space-x-5 ">
-                           <li>
+                           {/* <li>
                                  <a href="#features" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Feature</a>
-                           </li>
+                           </li> */}
                            <li>
                                  <a href="#pricing" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</a>
+                           </li>
+                           <li>
+                                 <Link to="/contact" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Contact</Link>
                            </li>
                            <li>
                                  <a href="#reviews" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Reviews</a>

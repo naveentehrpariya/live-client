@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import AuthLayout from '../../../layout/AuthLayout'
 import { UserContext } from '../../../context/AuthProvider';
+import DeleteAccount from './DeleteAccount';
 
 export default function Profile() {
    const { user } = useContext(UserContext);
@@ -48,23 +49,16 @@ export default function Profile() {
                      </div>
                      <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-md font-medium text-gray-500">
-                           Phone number
+                           Remove Account
                         </dt>
                         <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           --
-                        </dd>
-                     </div>
-                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-md font-medium text-gray-500">
-                           Address
-                        </dt>
-                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           ---
+                        <DeleteAccount />
                         </dd>
                      </div>
                </dl>
             </div>
          </div>
+            
       </AuthLayout>
       </>
    )

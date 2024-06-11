@@ -28,6 +28,8 @@ import AdminMedia from './admin/AdminMedia';
 import Mysubscription from './pages/dashboard/Mysubscription';
 import ReadLogs from './admin/ReadLogs';
 import AdminLogin from './admin/AdminLogin';
+import Error404 from './404';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -41,6 +43,7 @@ function App() {
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/contact" element={<Contact /> } />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/my-subscription" element={<Mysubscription />} />
@@ -67,6 +70,7 @@ function App() {
                     <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
                     <Route path="/admin/media/:type" element={<AdminMedia /> } />
                     <Route path="/admin/logs" element={<ReadLogs /> } />
+                    <Route path="*" element={<Error404 />} />
 
                   </Routes>
                 </div>
