@@ -188,6 +188,14 @@ export default function CreateStreamForm() {
               </div>
             </div> : ""} </> }
             
+            <div className='grid grid-cols-2 gap-5'>
+              <div className='bg-dark1'>
+                24/7 Image/GIF background
+              </div>
+              <div className='bg-dark1'>
+              24/7 Video background
+              </div>
+            </div>
 
             <div className={`${status ? "" : "disabled"} pages-steps`} >
                 <div  className={step === 1 ? "" : "hidden"}>
@@ -195,8 +203,6 @@ export default function CreateStreamForm() {
                     {inputFields.map((field, index) => (
                       <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
-
-
                     { user && user.plan && user && user.trialStatus == 'active' ?
                       <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
                         {freeresolutions && freeresolutions.map((resolution, index) => (
@@ -224,7 +230,7 @@ export default function CreateStreamForm() {
                   </div>
                 </div>
 
-                <div  className={step === 3 ? "" : "hidden"}>
+                <div className={step === 3 ? "" : "hidden"}>
                   <div className='media-files' >
                     <div  className='flex items-center justify-between mb-6' > 
                       <h2 className='text-white '>Choose Thumbnail</h2>
