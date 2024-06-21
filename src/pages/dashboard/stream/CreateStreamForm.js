@@ -143,7 +143,7 @@ export default function CreateStreamForm() {
   }
   console.log("channel",channel)
   return (
-      <AuthLayout>
+      <>
         <div className='create-stream-form box p-6 md:p-12 lg:max-w-[1000px] m-auto mt-4 md:mt-6 lg:mt-10 '>
             <div className='flex justify-between items-center mb-6  border-b border-gray-800 pb-5' >
               <h2 className='text-white text-[21px] md:text-[24px] font-bold ' >New Stream</h2>
@@ -241,6 +241,6 @@ export default function CreateStreamForm() {
             </div>
 
         </div>
-      </AuthLayout>
+      </>
   )
 }

@@ -18,6 +18,41 @@ export default function Signup() {
       { type:"password", name :"password", label: "Password" },
       { type:"password", name :"confirmPassword", label: "Password confirmation" },
     ];
+
+
+    function validatePassword(password) {
+      const minLength = 8;
+      const uppercaseRegex = /[A-Z]/;
+      const lowercaseRegex = /[a-z]/;
+      const digitRegex = /[0-9]/;
+      const specialCharRegex = /[!@#$%^&*]/;
+      if (password.length < minLength) {
+          toast.error("Password must be at least 8 characters long.");
+          return false;
+      }
+      if (!uppercaseRegex.test(password)) {
+           toast.error("Password must contain at least one uppercase letter.");
+          return false;
+      }
+      if (!lowercaseRegex.test(password)) {
+          toast.error("Password must contain at least one lowercase letter.");
+          return false;
+      }
+      if (!digitRegex.test(password)) {
+           toast.error("Password must contain at least one digit.");
+          return false;
+      }
+      if (!specialCharRegex.test(password)) {
+          toast.error("Password must contain at least one special character.")
+          return false;
+      }
+    }
+  
+  // Example usage
+  const password = "P@ssw0rd";
+  const validationMessage = validatePassword(password);
+  console.log(validationMessage);  // Output: "Password is valid."
+  
       
     const [data, setData] = useState({
       name: "",
@@ -44,6 +79,7 @@ export default function Signup() {
         toast.error("Please fill all the fields");
         return false
       }
+      validatePassword(data.password);
       if (data.password!== data.confirmPassword) {
         toast.error("Password and confirm password are not same");
         return false

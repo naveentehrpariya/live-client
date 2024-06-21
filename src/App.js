@@ -56,6 +56,7 @@ function App() {
                     <Route path="/cancellation-and-refund-policy" element={<Refund />} />
                     <Route path="/oauth2callback" element={<YoutubeAuthVerify />} />
                     <Route path="/create-stream" element={<CreateStreamForm />} />
+                    <Route path="/stream" element={<CreateStreamForm />} />
 
                     {/* Stream Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />
