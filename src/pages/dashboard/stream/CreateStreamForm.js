@@ -7,11 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import MyFiles from './MyFiles';
 import ConnectYoutube from './ConnectYoutube';
 import { FaYoutube } from "react-icons/fa";
+import { FiVideo } from "react-icons/fi";
+import { LuImage } from "react-icons/lu";
+import { MdDragIndicator } from "react-icons/md";
 
 export default function CreateStreamForm() {
     const {Errors, user} = useContext(UserContext);
-
-
+    const [streamType, setStreamType] = useState("video");
     const resolutions = [
       { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
       { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -144,7 +146,7 @@ export default function CreateStreamForm() {
   console.log("channel",channel)
   return (
       <AuthLayout>
-        <div className='create-stream-form box p-6 md:p-12 lg:max-w-[1000px] m-auto mt-4 md:mt-6 lg:mt-10 '>
+        <div className='create-stream-form m-auto max-w-[1000px] md:mt-6 lg:mt-10 '>
             <div className='flex justify-between items-center mb-6  border-b border-gray-800 pb-5' >
               <h2 className='text-white text-[21px] md:text-[24px] font-bold ' >New Stream</h2>
               <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
@@ -188,14 +190,89 @@ export default function CreateStreamForm() {
               </div>
             </div> : ""} </> }
             
-            <div className='grid grid-cols-2 gap-5'>
-              <div className='bg-dark1'>
-                24/7 Image/GIF background
+            <div className='grid grid-cols-2 gap-5 my-4'>
+              <div onClick={()=>setStreamType("image")} className={`${streamType === 'image' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  p-8 rounded-3xl`}>
+                <LuImage size={'3rem'} color='#ccc' />
+                <h2 className='mt-4 text-white text-xl font-bold mb-2'>24/7 Image/GIF background</h2>
+                <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
               </div>
-              <div className='bg-dark1'>
-              24/7 Video background
+              <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  p-8 rounded-3xl`}>
+                <FiVideo size={'3rem'} color='#ccc' />
+                <h2 className='mt-4 text-white text-xl font-bold mb-2'>24/7 Video background</h2>
+                <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
               </div>
             </div>
+
+
+            <ul className="flex flex-col">
+               <li class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+                    <div className="select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4  transition duration-500 ease-in-out transform ">
+                      <div className="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
+                      <div className="flex flex-col rounded-md justify-center items-center mr-4">
+                        <MdDragIndicator size='2rem' color="#cccccc" />
+                      </div>
+                      <div className="flex-1 pl-1 mr-16">
+                        <div className="font-medium text-white">file.name</div>
+                        <div className="text-gray-600 text-sm">200ml</div>
+                      </div>
+                      <div className="text-gray-600 text-xs">file.mime</div>
+                    </div>
+                </li>
+               <li class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+                    <div className="select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4  transition duration-500 ease-in-out transform ">
+                      <div className="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
+                      <div className="flex flex-col rounded-md justify-center items-center mr-4">
+                        <MdDragIndicator size='2rem' color="#cccccc" />
+                      </div>
+                      <div className="flex-1 pl-1 mr-16">
+                        <div className="font-medium text-white">file.name</div>
+                        <div className="text-gray-600 text-sm">200ml</div>
+                      </div>
+                      <div className="text-gray-600 text-xs">file.mime</div>
+                    </div>
+                </li>
+               <li class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+                    <div className="select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4  transition duration-500 ease-in-out transform ">
+                      <div className="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
+                      <div className="flex flex-col rounded-md justify-center items-center mr-4">
+                        <MdDragIndicator size='2rem' color="#cccccc" />
+                      </div>
+                      <div className="flex-1 pl-1 mr-16">
+                        <div className="font-medium text-white">file.name</div>
+                        <div className="text-gray-600 text-sm">200ml</div>
+                      </div>
+                      <div className="text-gray-600 text-xs">file.mime</div>
+                    </div>
+                </li>
+               <li class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+                    <div className="select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4  transition duration-500 ease-in-out transform ">
+                      <div className="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
+                      <div className="flex flex-col rounded-md justify-center items-center mr-4">
+                        <MdDragIndicator size='2rem' color="#cccccc" />
+                      </div>
+                      <div className="flex-1 pl-1 mr-16">
+                        <div className="font-medium text-white">file.name</div>
+                        <div className="text-gray-600 text-sm">200ml</div>
+                      </div>
+                      <div className="text-gray-600 text-xs">file.mime</div>
+                    </div>
+                </li>
+               <li class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+                    <div className="select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4  transition duration-500 ease-in-out transform ">
+                      <div className="flex flex-col rounded-md w-10 h-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
+                      <div className="flex flex-col rounded-md justify-center items-center mr-4">
+                        <MdDragIndicator size='2rem' color="#cccccc" />
+                      </div>
+                      <div className="flex-1 pl-1 mr-16">
+                        <div className="font-medium text-white">file.name</div>
+                        <div className="text-gray-600 text-sm">200ml</div>
+                      </div>
+                      <div className="text-gray-600 text-xs">file.mime</div>
+                    </div>
+                </li>
+            </ul>
+
+
 
             <div className={`${status ? "" : "disabled"} pages-steps`} >
                 <div  className={step === 1 ? "" : "hidden"}>
