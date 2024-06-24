@@ -24,6 +24,7 @@ export default function Addmedia({update}) {
          setFileMime(null);
       }
    }
+   
    const [progress, setProgress] = useState(0);
    async function UploadMedia() {
       if (!file) return;

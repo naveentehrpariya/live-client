@@ -46,7 +46,7 @@ class Endpoints extends Component {
         return Api.get(`/delete/media/${id}`);
     }
 
-    async uploadMedia(data, onProgress) {
+    async uploadMedia(data, onProgress,signal) {
         const config = {
             onUploadProgress: progressEvent => {
                 console.log('Progress event:', progressEvent);
@@ -57,7 +57,7 @@ class Endpoints extends Component {
                 }
             }
         };
-        return Api.post(`/cloud/upload`, data, config);
+        return Api.post(`/cloud/upload`, data, config, {signal});
     }
 
     async getAuthToken() {
