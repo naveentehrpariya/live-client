@@ -39,7 +39,7 @@ export default function AuthLayout({children, heading}) {
   const [toggle, setToggle] = React.useState(false);
 
   return (
-    <div className="auth-wrap flex justify-between  max-lg:flex-wrap">
+    <div className="auth-wrap flex justify-between max-lg:flex-wrap">
       <Sidebar logout={logout} trial={<>
         {user && user.trialStatus === "active" ? 
           <div className="text-white justify-center mt-4 flex md:hidden items-center font-bold text-sm ">
@@ -48,7 +48,6 @@ export default function AuthLayout({children, heading}) {
         : ''}
       </>} toggle={toggle} />
       <main className="main-wrap flex flex-col self-start max-lg:max-w-full">
-        
         <header className=" sticky top-0 z-10 bg-dark border-b border-gray-900 px-6 md:px-7 py-4 xl:py-6 flex items-center w-full justify-between">
           {windowWidth < 1200 ? <Logo /> : <h1 className="flex-auto text-xl font-bold leading-8 text-white"> {heading ? heading : "Dashboard"}</h1>}
           <div className="flex gap-5 items-center">

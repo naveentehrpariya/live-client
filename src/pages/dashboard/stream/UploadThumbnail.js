@@ -47,7 +47,7 @@ export default function UploadThumbnail({update}) {
             {file ? <>
                <div className='selectedMedia border border-gray-700 mb-6 thumbnailsize max-h-[768px] rounded-2xl overflow-hidden relative' >
                   <button onClick={removeFile} className='bg-red-800 rounded-xl px-3 py-2 text-sm text-white absolute top-2 right-2 z-[2]'>Remove</button>
-                  <img className="h-full w-full object-cover max-w-full" src={URL.createObjectURL(file)} alt="Cloud" />
+                  <img className="h-full w-full thumbnailsize object-cover max-w-full" src={URL.createObjectURL(file)} alt="Cloud" />
                </div>
             </> :
                <div class="flex items-center justify-center w-full">
@@ -73,11 +73,12 @@ export default function UploadThumbnail({update}) {
             : ""}
          </div>
       </div>
-      <h3 className='my-4 text-gray-300 text-center'>Or</h3>
+      
+      {/* <h3 className='my-4 text-gray-300 text-center'>Or</h3>
       <div className='media-files' >
          <p className='text-gray-300 mb-2 text-lg'>Choose thumbnail</p>
          <MyFiles sendFile={getImageFile} type={'image'} />
-      </div>
+      </div> */}
    </>
   )
 }
