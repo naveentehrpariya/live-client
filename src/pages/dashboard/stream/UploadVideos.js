@@ -13,7 +13,7 @@ export default function UploadVideos({update}) {
   
   return (
     <div>
-      <h2 className='mb-3 text-gray-400 text-normal '>Choose videos</h2>
+      <h2 className='mb-3 pt-8 text-gray-400 text-normal '>Choose videos</h2>
       <div className="relative w-full mb-4 bg-dark1 rounded-2xl border border-dashed border-gray-600 m-auto">
          <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
          <label htmlFor="file-upload-video" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-6">
@@ -23,7 +23,7 @@ export default function UploadVideos({update}) {
       </div>
 
       {selected && selected.length > 0 ? 
-        <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-3 mb-4'>
           {selected.map((file, i) => (
             <div key={i} className='wrap'>
               <AddVideoBox update={update} file={file} />

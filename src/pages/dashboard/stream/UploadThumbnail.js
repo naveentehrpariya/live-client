@@ -8,7 +8,7 @@ export default function UploadThumbnail({update}) {
    const [file, setFile] = useState(null);
 
    const getImageFile = (image) => {
-      update &&  update(image);
+      update && update(image);
    }
     
    const removeFile = async (e) => {
@@ -42,7 +42,7 @@ export default function UploadThumbnail({update}) {
 
   return (
    <>
-      <div className="flex justify-center w-full mx-auto">
+      <div className="flex justify-center w-full mx-auto mb-4">
          <div className=" w-full sm:rounded-lg">
             {file ? <>
                <div className='selectedMedia border border-gray-700 mb-6 thumbnailsize max-h-[768px] rounded-2xl overflow-hidden relative' >

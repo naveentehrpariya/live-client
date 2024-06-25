@@ -46,11 +46,11 @@ export default function ManageFiles({ data, update }) {
                       <MdDragIndicator size='2rem' color="#cccccc" />
                     </div>
                     <div className="flex-1 pl-1 mr-16">
-                      <div className="font-medium text-white">{value.name}</div>
-                      <div className="text-gray-600 text-sm">{value.mime}</div>
+                      <div className="font-medium text-white line-clamp-2">{value.name}</div>
+                      <div className="text-gray-500 text-sm">{value.mime} | {size.toFixed(2)} MB</div>
                     </div>
                     <div className="text-gray-600 text-xs">
-                        {size.toFixed(2)} MB
+                        
                         {/* <Dropdown /> */}
                     </div>
                   </div>

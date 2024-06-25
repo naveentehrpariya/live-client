@@ -33,8 +33,8 @@ export default function AddVideoBox({ file, update }) {
 
   return (
    <div className="flex justify-center w-full mx-auto">
-   <div className='selectedMedia w-full relative border border-gray-500 rounded-xl' >
-     <video playsInline className='w-full h-full max-h-[150px] rounded-xl min-h-[150px]'>
+   <div className='selectedMedia w-full relative bg-gray-900 rounded-xl' >
+     <video playsInline className='w-full object-cover h-full max-h-[150px] rounded-xl min-h-[150px]'>
        <source src={URL.createObjectURL(file)} type={file.type} />
      </video>
      {progress === 100 && <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>}
