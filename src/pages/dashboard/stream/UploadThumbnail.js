@@ -73,7 +73,7 @@ export default function UploadThumbnail({update}) {
             : ""}
          </div>
       </div>
-      
+
       {/* <h3 className='my-4 text-gray-300 text-center'>Or</h3>
       <div className='media-files' >
          <p className='text-gray-300 mb-2 text-lg'>Choose thumbnail</p>

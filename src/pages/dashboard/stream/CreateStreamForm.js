@@ -16,22 +16,20 @@ import UploadAudios from './UploadAudios';
 import ManageFiles from './ManageFiles';
 import Api from '../../../api/Api';
 import { RiListOrdered2 } from "react-icons/ri";
+const resolutions = [
+  { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
+  { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+  { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
+  { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
+];
+const freeresolutions = [
+  { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+];
 
 export default function CreateStreamForm() {
     const {Errors, user} = useContext(UserContext);
     const [streamType, setStreamType] = useState("video");
     const [loop, setLoop] = useState(true);
-
-    const resolutions = [
-      { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
-      { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
-      { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
-      { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
-    ];
-
-    const freeresolutions = [
-      { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
-    ];
 
     const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
     const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
@@ -68,13 +66,14 @@ export default function CreateStreamForm() {
   const [videos, setVideos] = useState([]);
   const [audios, setaudios] = useState([]);
   const [image, setImage] = useState(null);
+  const [radio, setRadio] = useState(null);
 
   const [data, setData] = useState({
     title: "",
     videos: videos,
     audios: audios,
     thumbnail: "",
-    resolution: "",
+    resolution: "1080p",
     stream_url: "",
     streamkey: "",
     description: "",
@@ -110,36 +109,54 @@ export default function CreateStreamForm() {
   const [playlistsCreating, setPlaylistsCreating] = useState(false);
   const [playlist, setPlaylist] = useState();
 
-  const createPlaylist = (e) => {
+  const [streamStarted, setStreamStarted] = useState(false);
+  const createPlaylist = async (e) => {
+    setStreamStarted(true);
     setPlaylistsCreating(true);
     let mp4 = [];
     videos.forEach(video => {
       mp4.push(video.url);
     });
+
     let mp3 = [];
     audios.forEach(audio => {
       mp3.push(audio.url);
     });
-    console.log("mp4", mp4);
-    console.log("mp3", mp3);
 
+    if(!loop && audios.length > 0){
+      const shuffleArray = (array) => {
+        let shuffledArray = array.slice();
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+        return shuffledArray;
+      };
+      const array1 = shuffleArray(mp3);
+      const array2 = shuffleArray(array1);
+      mp3 = [...array1, ...array2];
+    }
+    
     const resp = Api.post(`/create-playlist`,{
-        "type": streamType,
+        "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
         "audios": mp3,
         "thumbnail": image,
-        // "radio":"http://mediaserv30.live-streams.nl:8086/live"
+        "radio":radio
     });
     resp.then(res => {
-      if(res.data.status){
+      if(res.data.playlistId){
         setPlaylist(res.data);
         handleCreateStream({
           title: data.title,
-          videos: videos,
-          audios: audios,
+          video: res.data.video,
+          audio: res.data.audio,
+          playlistId: res.data.playlistId,
           thumbnail: image,
           resolution: data.resolution,
           description: data.description,
+          ordered : loop,
+          radio:radio
         })
       } else {
         toast.error(res.data.message);
@@ -148,6 +165,7 @@ export default function CreateStreamForm() {
     }).catch(err => {
       Errors(err);
       setPlaylistsCreating(false);
+      setStreamStarted(false);
     });
   }
 
@@ -159,12 +177,14 @@ export default function CreateStreamForm() {
       if(res.data.status){
         toast.success(res.data.message);
         navigate('/home');
+        setStreamStarted(false);
       } else {
         toast.error(res.data.message);
       }
       setLoading(false);
     }).catch(err => {
       Errors(err);
+      setStreamStarted(false);
       setLoading(false);
     });
   }
@@ -186,19 +206,27 @@ export default function CreateStreamForm() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-    // if(type === "next" && step === 2 && !image  ){
-    //     toast.error("Please select a thumbnail for video stream.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
-    //     toast.error("Please select atleast one video for this stream.");
-    //     return false;
-    // }
+    if(type === "next" && step === 1 && data.title === ''  ){
+        toast.error("Stream title is required.");
+        return false;
+    }
+    if(type === "next" && step === 1 && data.description === ''  ){
+        toast.error("Stream description is required.");
+        return false;
+    }
+    if(type === "next" && step === 2 && !image  ){
+        toast.error("Please select a thumbnail for video stream.");
+        return false;
+    }
+    if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
+        toast.error("Please select atleast one video for this stream.");
+        return false;
+    }
 
-    // if(type === "next" && step === 2 && streamType === 'image' && audios.length < 1  ){
-    //     toast.error("Please choose songs or any sound effect for this stream.");
-    //     return false;
-    // }
+    if(type === "next" && step === 2 && streamType === 'image' && audios.length < 1  ){
+        toast.error("Please choose songs or any sound effect for this stream.");
+        return false;
+    }
 
     if(type === 'prev' && step == 1){
       return false
@@ -212,10 +240,9 @@ export default function CreateStreamForm() {
 
   return (
       <>
-      {/* <AuthLayout heading='New Stream'> */}
+      <AuthLayout heading='New Stream'>
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
             <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
-                
                 <div className={step === 1 ? "" : "hidden"}>
                     {status === 'notactive' ? <ConnectYoutube  /> :
                       <>
@@ -299,19 +326,18 @@ export default function CreateStreamForm() {
                   {streamType === 'video' ? 
                     <UploadVideos update={getVideos}/> 
                   : ''} 
-                  
-                  <UploadAudios streamType={streamType} update={getAudios} />
+                  <UploadAudios setRadio={setRadio} streamType={streamType} update={getAudios} />
                 </div>
 
                 <div className={step === 3 ? "" : "hidden"}>
 
-                  {videos && videos.length > 0 ?
-                    <>
+                  {/* {videos && videos.length > 0 ?
+                    <> */}
                       <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
                       <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
                       <ManageFiles update={suffleVideos} data={videos} />
-                    </>
-                  : <></>}  
+                    {/* </>
+                  : <></>}   */}
 
                   {audios && audios.length > 0 ?
                     <>
@@ -334,7 +360,7 @@ export default function CreateStreamForm() {
                   </div>
                 </div>
           
-                <div className="m-auto flex mt-8 w-full rounded-xl justify-between">
+                {<div className="m-auto flex mt-8 w-full rounded-xl justify-between">
                   <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
                   {step < 3 ? 
                     <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
@@ -343,13 +369,13 @@ export default function CreateStreamForm() {
                       {playlistsCreating ? "Processing" : "Create Stream"}
                     </button>
                   }
-                </div>
+                </div>}
+
                 {playlistsCreating ? <p className='text-green-500 text-center my-3'>Stream creation make take several minutes. Please wait for sometime.</p> : ''}
                 {loading ? <p className='text-green-500 text-center my-3'>Almost done !! Stream initilized successfully.</p> : ''}
             </div>
-
         </div>
-      {/* </AuthLayout> */}
+      </AuthLayout>
       </>
   )
 }
