@@ -9,6 +9,7 @@ import { UserContext } from '../context/AuthProvider';
 import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
 import Pagination from '../pages/common/Pagination';
+import AdminApi from '../api/AdminApi';
 
 export default function Subscriptions() {
 
@@ -22,7 +23,7 @@ export default function Subscriptions() {
   async function fetch(pg, signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/subscriptions/${type || "all"}?page=${pg}&limit=10`, {signal});
+      const resp = AdminApi.get(`/admin/subscriptions/${type || "all"}?page=${pg}&limit=10`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);

@@ -10,6 +10,7 @@ import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
 import RemoveMedia from '../pages/dashboard/media/RemoveMedia';
 import Pagination from '../pages/common/Pagination';
+import AdminApi from '../api/AdminApi';
 
 export default function AdminMedia() {
 
@@ -23,7 +24,7 @@ export default function AdminMedia() {
   async function fetch(pg,signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/media/${type || "all"}?page=${pg}&limit=9`, {signal});
+      const resp = AdminApi.get(`/admin/media/${type || "all"}?page=${pg}&limit=9`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);

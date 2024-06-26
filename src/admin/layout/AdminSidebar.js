@@ -6,6 +6,7 @@ import { TbHome } from "react-icons/tb";
 import { FaUserCog } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import Logo from '../../pages/common/Logo';
+import { CgLogOut } from 'react-icons/cg';
 
 export default function AdminSidebar({toggle}) {
   const {pathname} = window.location;
@@ -17,6 +18,11 @@ export default function AdminSidebar({toggle}) {
       </NavLink>
     );
   }
+
+  const logout = () => {
+    localStorage.removeItem("admintoken");
+    window.location.href = "admin/login";
+  };
 
   return (
     <>
@@ -52,7 +58,13 @@ export default function AdminSidebar({toggle}) {
 
             <MenuItem path="/admin/media/image"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
-            label="Media Collections" /> 
+            label="Media Collections" />
+
+            <div className='xl:hidden'>
+              <MenuItem onclick={logout}
+              icon={<CgLogOut size={'1.3rem'}  />}
+              label="Logout" />
+            </div>
             
         </div>
       </nav>

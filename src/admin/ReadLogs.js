@@ -2,12 +2,13 @@ import React from 'react'
 import useFetch from '../hooks/useFetch';
 import AdminLayout from './layout/AdminLayout';
 import Api from '../api/Api';
+import AdminApi from '../api/AdminApi';
 
 export default function ReadLogs() {
    
    const { loading, data  } = useFetch({url:'/admin/readlogs'});
    const clearLogs = () => {
-      const resp = Api.get(`/admin/clearlog`);
+      const resp = AdminApi.get(`/admin/clearlog`);
       resp.then((res)=>{
          if(res.data.status){
            window.location.reload();

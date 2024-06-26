@@ -122,27 +122,14 @@ export default function CreateStreamForm() {
     audios.forEach(audio => {
       mp3.push(audio.url);
     });
-
-    if(!loop && audios.length > 0){
-      const shuffleArray = (array) => {
-        let shuffledArray = array.slice();
-        for (let i = shuffledArray.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-        }
-        return shuffledArray;
-      };
-      const array1 = shuffleArray(mp3);
-      const array2 = shuffleArray(array1);
-      mp3 = [...array1, ...array2];
-    }
     
     const resp = Api.post(`/create-playlist`,{
         "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
         "audios": mp3,
         "thumbnail": image,
-        "radio":radio
+        "radio":radio,
+        "loop":loop
     });
     resp.then(res => {
       if(res.data.playlistId){
@@ -222,10 +209,10 @@ export default function CreateStreamForm() {
         toast.error("Please select atleast one video for this stream.");
         return false;
     }
-
-    if(type === "next" && step === 2 && streamType === 'image' && audios.length < 1  ){
-        toast.error("Please choose songs or any sound effect for this stream.");
-        return false;
+   
+    if (type === "next" && step === 2 && streamType === 'image' && (!audios || audios.length === 0) && (!radio || radio.length === 0)) {
+      toast.error("Please choose songs or any sound effect for this stream.");
+      return false;
     }
 
     if(type === 'prev' && step == 1){
@@ -236,6 +223,27 @@ export default function CreateStreamForm() {
     } else {
       setStep(step-1);
     }
+  }
+
+  const LOADING = () => {
+    return <div className="filter-blur z-10 bg-[#0009] h-screen w-screen fixed top-0 left-0 flex justify-center items-center">
+      <div className="wraps p-8" >
+        <div class="grid w-full h-full place-items-center overflow-x-scroll rounded-lg lg:overflow-visible">
+        <svg class="w-16 h-16 animate-spin text-gray-400" viewBox="0 0 64 64" fill="none"
+        xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+        <path
+        d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
+        stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path
+        d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
+        stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-900">
+        </path>
+        </svg>
+        </div>
+        {playlistsCreating ? <p className='text-green-500 text-lg text-center my-3'>Creating Live Stream..</p> : ''}
+        {loading ? <p className='text-green-500 text-lg text-center my-3'>Almost done !!. Waiting for connection. </p> : ''}
+      </div>
+    </div>
   }
 
   return (
@@ -349,11 +357,11 @@ export default function CreateStreamForm() {
 
                   <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
                   <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disabled' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
                       <RiListOrdered2 size={'2rem'} color='#ccc' />
                       <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Ordered Loop</h2>
                     </div>
-                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disabled' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
                       <RiListUnordered size={'2rem'} color='#ccc' />
                       <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
                     </div>
@@ -371,8 +379,8 @@ export default function CreateStreamForm() {
                   }
                 </div>}
 
-                {playlistsCreating ? <p className='text-green-500 text-center my-3'>Stream creation make take several minutes. Please wait for sometime.</p> : ''}
-                {loading ? <p className='text-green-500 text-center my-3'>Almost done !! Stream initilized successfully.</p> : ''}
+                {streamStarted ? <LOADING /> : ''}
+               
             </div>
         </div>
       </AuthLayout>

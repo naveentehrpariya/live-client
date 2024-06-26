@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/AuthProvider';
 import AdminApi from '../api/AdminApi';

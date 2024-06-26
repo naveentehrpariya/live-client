@@ -52,3 +52,6 @@ body{background:var(--dark);}
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.filter-blur {
+  backdrop-filter: blur(4px);
+}

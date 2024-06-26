@@ -3,13 +3,13 @@ import AdminLayout from './layout/AdminLayout'
 import Loading from '../pages/common/Loading';
 import AdminTitle from './layout/AdminTitle';
 import { useNavigate, useParams } from 'react-router-dom';
-import Api from '../api/Api';
 import toast from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
 import Pagination from '../pages/common/Pagination';
 import { GrFormView } from "react-icons/gr";
+import AdminApi from '../api/AdminApi';
 
 export default function Streams() {
 
@@ -23,7 +23,7 @@ export default function Streams() {
   async function fetch(pg, signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/streams/${type || "all"}?page=${pg}&limit=10`, {signal});
+      const resp = AdminApi.get(`/admin/streams/${type || "all"}?page=${pg}&limit=10`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         setLoading(false);
@@ -50,12 +50,10 @@ export default function Streams() {
   }
 
   const time = Time();
-
-
   const ITEM = ({item}) => { 
     const [status, setStatus] = useState(item.status)
     const stopStream = () => { 
-      const resp = Api.get(`/admin/stop-stream/${item.streamId}`);
+      const resp = AdminApi.get(`/admin/stop-stream/${item.streamId}`);
       resp.then((res)=> {
         if(res.data.status){
           setStatus(status === 1 ? 0 : 1);

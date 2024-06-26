@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AdminLayout from './layout/AdminLayout'
-import useFetch from '../hooks/useFetch';
 import Loading from '../pages/common/Loading';
 import Nocontent from '../pages/common/NoContent';
 import AdminTitle from './layout/AdminTitle';
 import { useNavigate, useParams } from 'react-router-dom';
-import Api from '../api/Api';
 import toast from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import CurrencyFormat from '../pages/common/CurrencyFormat';
 import Pagination from '../pages/common/Pagination';
 import Time from '../pages/common/Time';
+import AdminApi from '../api/AdminApi';
 
 export default function Users() {
   const {Errors} = useContext(UserContext);
@@ -21,11 +20,11 @@ export default function Users() {
   const [totalPages, setTotalPages] = useState(0);
   const time = Time();
 
-  const limit = 1
+  const limit = 30
   async function fetch(pg,signal) {
     if(!loading){
       setLoading(true);
-      const resp = Api.get(`/admin/users/${type || "all"}?page=${pg}&limit=${limit}`, {signal});
+      const resp = AdminApi.get(`/admin/users/${type || "all"}?page=${pg}&limit=${limit}`, {signal});
       resp.then((res)=>{
         setData(res.data.result || []);
         if(res.data.status){
@@ -54,7 +53,7 @@ export default function Users() {
   const ITEM = ({item, index}) => { 
     const [status, setStatus] = useState(item.status)
     const changeStatus = () => { 
-      const resp = Api.get(`/admin/user/enable-disable-user/${item._id}`);
+      const resp = AdminApi.get(`/admin/user/enable-disable-user/${item._id}`);
       resp.then((res)=> {
         if(res.data.status){
           setStatus(status === "active" ? "inactive" : "active");
