@@ -19,7 +19,6 @@ export default function Streams() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  
   async function fetch(pg, signal) {
     if(!loading){
       setLoading(true);
@@ -37,13 +36,11 @@ export default function Streams() {
       });
     }
   }
-
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
     fetch(page, signal);
   }, [type]);
-
   const navigate = useNavigate();
   const handleState = (e) => {
     navigate(`/admin/streams/${e}`);
@@ -67,16 +64,60 @@ export default function Streams() {
       });
     }
 
+    const [open, setOpen] = useState(false);
+    const StreamDetails = () =>{ 
+      return <>
+      <button onClick={() => setOpen(true)} className="text-[#28caa7] text-md hover:text-white uppercase d-table m-auto mt-4">View</button>
+      {open ?
+        <div className='fixed top-0 left-0 z-[9999] h-screen w-screen w-full flex justify-center items-center'>
+            <div class="relative z-10 w-full" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+              <div onClick={() => setOpen(false)} class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                  <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div class="relative transform w-full max-w-[500px] overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all  ">
+                        <div class="bg-gray-900 p-4">
+                          <h2 className='text-white text-bold text-center text-xl mb-4'>Stream Details</h2>
+                            <img src={item.thumbnail} className='mb-3 img-fluid w-full max-h-[200px] object-cover'alt='thumbnail' />
+                            <div className='border-b pb-3 mb-3 border-gray-700' >
+                              <p className='text-[16px] text-gray-300 mb-1'>Stream Title</p>
+                              <p className='text-[16px] text-white'>{item.title}</p>
+                            </div>
+                            <div className='border-b pb-3 mb-3 border-gray-700' >
+                              <p className='text-[16px] text-gray-300 mb-1'>Description</p>
+                              <p className='text-[16px] text-white'>{item.description}</p>
+                            </div>
+                            <div className='border-b pb-3 mb-3 border-gray-700' >
+                              <p className='text-[16px] text-gray-300 mb-1'>Radio Stream</p>
+                              <p className='text-[16px] text-white'>{item.radio || 'null'}</p>
+                            </div>
+                              <div className='border-b pb-3 mb-3 border-gray-700' >
+                                <p className='text-[16px] text-gray-300 mb-1'>Stream ID</p>
+                                <p className='text-[16px] text-white'>{item.streamId}</p>
+                              </div>
+
+                            <div className='grid grid-cols-2 gap-3' >
+                              <div className='border-b pb-3 mb-3 border-gray-700' >
+                                <p className='text-[16px] text-gray-300 mb-1'>Resolution</p>
+                                <p className='text-[16px] text-white'>{item.resolution}</p>
+                              </div>
+                              <div className='border-b pb-3 mb-3 border-gray-700' >
+                                <p className='text-[16px] text-gray-300 mb-1'>Order</p>
+                                <p className='text-[16px] text-white'>{item.ordered ? "Loop" : "Suffled"}</p>
+                              </div>
+                            </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        : "" }
+      </>
+    }
+
     return <tr className="border-b border-gray-900">
       <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left"><p>{item.title}</p> <p>{item.user.email}</p></td>
       <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left"><p>Started : {time(item?.createdAt)}</p><p className='text-red-500'>Ended : {time(item?.endedAt)}</p></td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
-        <p>
-        {item.thumbnail ? <a target='_blank'  rel='noreferrer' className='flex items-center text-gray-300' href={item.thumbnail}><GrFormView size={'1.2rem'} /> Thumbnail</a> : ""}
-        </p>
-        <p>
-        {item.video ? <a target='_blank' rel='noreferrer' className='flex items-center text-gray-300' href={item.video}><GrFormView size={'1.2rem'} /> Video</a> : ""}
-        </p>
+      <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+          <StreamDetails />
       </td>
       <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === 1 ?  <button onClick={stopStream} className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Running</button>
@@ -109,7 +150,7 @@ export default function Streams() {
                 <tr className="">
                   <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Title</td>
                   <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Started/Ended</td>
-                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Content</td>
+                  <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Details</td>
                   <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td>
                 </tr>

@@ -8,7 +8,6 @@ export default function UploadAudios({update, streamType, setRadio}) {
   const handleFile = (e) => {
     const files = Array.from(e.target.files);
     setSelected(files);
-    console.log("files",files)
   };
 
   const [audioType, setAudioType] = useState('music');
