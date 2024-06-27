@@ -14,7 +14,7 @@ async function UploadMedia(file, setProgress, setUploading, update, setUrl) {
    try {
      const res = await m.uploadMedia(fdata, setProgress);
      if (res.data.file_data.url) {
-       setProgress(100);
+       setProgress("Completed");
        if (update) update(res.data.file_data);
        setUrl(res.data.file_data.url);
      }
@@ -42,7 +42,7 @@ export default function AddAudioBox({ file, update }) {
      <div className='p-2 sm:p-3'>
       <p className='text-gray-400 text-sm line-clamp-1 w-full'>{file.name}</p>
       <p className='text-gray-400 text-[10px] line-clamp-1 w-full'>Size : {size.toFixed(2)} MB</p>
-      {progress === 100 ? 
+      {progress === "Completed" ? 
           <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>
         : 
         <>

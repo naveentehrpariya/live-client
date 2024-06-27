@@ -126,27 +126,33 @@ export default function CreateStreamForm() {
     const resp = Api.post(`/create-playlist`,{
         "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
-        "audios": mp3,
+        "audios": mp3.length ? mp3 : false,
         "thumbnail": image,
         "radio":radio,
         "loop":loop
     });
     resp.then(res => {
-      if(res.data.playlistId){
-        setPlaylist(res.data);
-        handleCreateStream({
-          title: data.title,
-          video: res.data.video,
-          audio: res.data.audio,
-          playlistId: res.data.playlistId,
-          thumbnail: image,
-          resolution: data.resolution,
-          description: data.description,
-          ordered : loop,
-          radio:radio
-        })
+      if(res.data.status){
+        if(res.data.playlistId){
+          setPlaylist(res.data);
+          handleCreateStream({
+            title: data.title,
+            video: res.data.video,
+            audio: res.data.audio,
+            playlistId: res.data.playlistId,
+            thumbnail: image,
+            resolution: data.resolution,
+            description: data.description,
+            ordered : loop,
+            radio:radio,
+            audios: mp3,
+            videos: mp4,
+          })
+        } else {
+          toast.error(res.data.message);
+        }
       } else {
-        toast.error(res.data.message);
+        setStreamStarted(false);
       }
       setPlaylistsCreating(false);
     }).catch(err => {
@@ -357,11 +363,11 @@ export default function CreateStreamForm() {
 
                   <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
                   <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disabled' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
                       <RiListOrdered2 size={'2rem'} color='#ccc' />
                       <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Ordered Loop</h2>
                     </div>
-                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disabled' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
                       <RiListUnordered size={'2rem'} color='#ccc' />
                       <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
                     </div>

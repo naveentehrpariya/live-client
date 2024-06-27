@@ -12,7 +12,7 @@ async function UploadMedia(file, setProgress, setUploading, update, setUrl) {
    try {
      const res = await m.uploadMedia(fdata, setProgress);
      if (res.data.file_data.url) {
-       setProgress(100);
+       setProgress("Completed");
        if (update) update(res.data.file_data);
        setUrl(res.data.file_data.url);
      }
@@ -39,7 +39,7 @@ export default function AddVideoBox({ file, update }) {
      </video>
      
      
-     {progress === 100 ? 
+     {progress === "Completed" ? 
           <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>
         : 
         <>

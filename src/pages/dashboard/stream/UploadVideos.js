@@ -7,7 +7,8 @@ export default function UploadVideos({update}) {
 
    const handleFile = (e) => {
     const files = Array.from(e.target.files);
-    setSelected(files);
+    const old = selected
+    setSelected([...old, ...files]);
    };
    
   

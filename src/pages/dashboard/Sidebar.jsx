@@ -91,8 +91,10 @@ export default function Sidebar({toggle, trial, logout}) {
                 {user.plan.name} 
               </div>
               <h2 className='text-white font-bold mt-2' >${user.plan.price}/month</h2>
-              {/* <p className='text-gray-400 mt-2' >Benefits Ends on : {time(user.plan.createdAt)}</p> */}
-            </Link>
+          </Link>
+              <Link to='/upgrade/subscription' className="justify-center px-10 py-3 mt-6 text-white capitalize text-sm bg-red-500 leading-[90%] rounded-[180px] block text-center max-md:px-5">
+                  Upgrade Plan
+              </Link>            
           </div> 
           : 
           <>
