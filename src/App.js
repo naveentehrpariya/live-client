@@ -30,6 +30,8 @@ import ReadLogs from './admin/ReadLogs';
 import AdminLogin from './admin/AdminLogin';
 import Error404 from './404';
 import Contact from './pages/Contact';
+import VerifyEmail from './pages/auth/VerifyEmail';
+import Verifying from './pages/auth/Verifying';
 
 function App() {
   return (
@@ -57,6 +59,8 @@ function App() {
                     <Route path="/oauth2callback" element={<YoutubeAuthVerify />} />
                     <Route path="/create-stream" element={<CreateStreamForm />} />
                     <Route path="/stream" element={<CreateStreamForm />} />
+                    <Route path="/send-verification-email" element={<VerifyEmail />} />
+                    <Route path="/verify-email/:token" element={<Verifying />} />
 
                     {/* Stream Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />
