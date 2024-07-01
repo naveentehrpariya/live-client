@@ -68,11 +68,23 @@ export default function CreateStreamForm() {
   const suffleAudios = (array) =>{ 
     setaudios(array);
   }
+  const removeUploadedAudio = (l) => {
+    const temp = audios;
+    const removed = temp.filter(f => f.name !== l.name);
+    setaudios(removed);
+    console.log("updated uploaded audio files removed", removed);
+}
 
   const [cloudVideos, setCloudVideos] = useState([]);
   const getCloudFiles = (array) => {
     setCloudVideos(array);
   }
+
+  const [cloudAudios, setCloudAudios] = useState([]);
+  const getCloudAudio = (array) => {
+    setCloudAudios(array);
+  }
+
   const removeUploadedVideo = (l) => {
       const temp = videos;
       const removed = temp.filter(f => f.name !== l.name);
@@ -233,9 +245,9 @@ export default function CreateStreamForm() {
       <>
       <AuthLayout heading='New Stream'>
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
-           <CheckYoutube set={setStatus} />
             <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
                 <div className={step === 1 ? "" : "hidden"}>
+                    <CheckYoutube set={setStatus} />
                     <div className='grid sm:grid-cols-2 gap-5 my-4'>
                       <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
                         <FiVideo size={'3rem'} color='#ccc' />
@@ -274,7 +286,7 @@ export default function CreateStreamForm() {
                   {streamType === 'video' ? 
                     <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
                   : ''} 
-                  <UploadAudios setRadio={setRadio} streamType={streamType} update={getAudios} />
+                  <UploadAudios getCloudFiles={getCloudAudio} removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
                 </div>
 
                 <div className={step === 3 ? "" : "hidden"}>

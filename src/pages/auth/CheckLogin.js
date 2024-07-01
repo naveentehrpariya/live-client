@@ -8,17 +8,20 @@ export default function CheckLogin({redirect, takeaction}) {
   const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
   const navigate = useNavigate();
 
-   function check_login(e) {
+  function check_login(e) {
       const m = new Endpoints();
       const resp = m.user_profile();
       resp.then((res) => {
+          if(res.data.status && res.data.user && res.data.user.mailVerifiedAt === null){
+            navigate('/send-verification-email');
+          }  
          if(res.data.status){
-          setIsAuthenticated(true);
-          setUser(res.data.user);
-        }
+            setIsAuthenticated(true);
+            setUser(res.data.user);
+          }
          if(res.data.status){
           if(redirect){
-            navigate('/home');
+              navigate('/home');
           }
          } else {
             toast.error("You must login first.");
@@ -34,11 +37,11 @@ export default function CheckLogin({redirect, takeaction}) {
           // navigate('/login');
         }
       });
-    }
+  }
 
-    useEffect(()=>{
-      check_login();
-    },[]);
+  useEffect(()=>{
+    check_login();
+  },[]);
 
   return (
     <>

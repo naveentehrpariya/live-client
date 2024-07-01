@@ -41,7 +41,9 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       const removed = temp.filter(f => f !== file);
       setLibraryFiles(removed);
     }
-    return <div className="flex justify-center w-full mx-auto">
+    return<>
+  
+    <div className="flex justify-center w-full mx-auto">
     <div className='selectedMedia w-full relative bg-gray-900 rounded-xl' >
       <button className='z-10 absolute top-2 right-2 bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white' onClick={removeFile} >Remove</button>
       <video playsInline className='w-full object-cover h-full max-h-[150px] rounded-xl min-h-[150px]'>
@@ -50,12 +52,14 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>
     </div>
   </div>
+    <h2 className='text-gray-200 text-[14px] mt-2 line-clamp-1'>{file.name}</h2>
+    </> 
   }
    
   return (
-    <div className='border-t border-gray-600 mt-6 pt-6'>
-      <div className='flex items-center justify-between mb-3'>
-        <h2 className='mb-0 text-gray-300 text-lg '>Choose videos</h2>
+    <div className='border-t border-gray-800 mt-8 pt-8'>
+      <div className='flex items-center justify-between pb-4'>
+        <h2 className='mb-0 text-gray-200 text-xl '>Choose videos</h2>
         <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"From Collection"} 
         btnclasses={'bg-main text-white rounded-[30px] px-3 py-[4px] text-[12px] font-bold uppercase  '} >
           <h2 className='text-white text-bold text-lg mb-3'>My Video Library</h2>
@@ -66,7 +70,7 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       </div>
 
 
-      <div className="relative w-full mb-4 bg-dark1 rounded-2xl border border-dashed border-gray-600 m-auto">
+      <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
          <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
          <label htmlFor="file-upload-video" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-4">
          <p className="text-md font-light text-center text-gray-400 pt-2">Drag & Drop your files here</p>
@@ -86,7 +90,6 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
             </div>
           ))}
         </div> 
-
     </div>
   );
 }

@@ -82,6 +82,35 @@ export default function MyFiles({type, sendFile}) {
                }
                </> 
             : ""}
+
+            {type === "audio" ? 
+               <>
+               {files && files.length ?
+               <>
+                  <ul className="flex flex-col">
+                     {files.map((file, index) =>{
+                        return (
+                           <li key={index} 
+                              onClick={()=>selectFile(file)} 
+                              className={`${selected && selected.includes(file) ? "border-green-500" : "border-gray-700"} border  flex rounded-xl flex-row mb-2`} >
+                              <div className="select-none cursor-pointer bg-dark2 rounded-md flex flex-1 items-center p-4 transition duration-500 ease-in-out transform">
+                                 <div className="flex flex-col rounded-md w-10 h-10 bg-gray-500 justify-center items-center mr-4">{selected && selected.includes(file) ? "✅" : "🎧ྀི"}</div>
+                                 <div className="flex-1 pl-1">
+                                    <div className="font-medium text-white break-all line-clamp-2">{file.name}</div>
+                                    <div className="text-gray-400 text-xs block w-full">{file.mime} | {getSize(file.size)}</div>
+                                 </div>
+                                 
+                              </div>
+                           </li>
+                        )
+                     })}
+                  </ul>
+               </> 
+               : <Nocontent />
+               }
+               </> 
+            : ""}
+            
             {type === "image" ? 
                <>
                   {files && files.length ?

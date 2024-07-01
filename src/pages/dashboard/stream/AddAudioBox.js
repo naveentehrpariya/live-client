@@ -26,7 +26,7 @@ async function UploadMedia(file, setProgress, setUploading, update, setUrl) {
    }
 }
  
-export default function AddAudioBox({ file, update }) {
+export default function AddAudioBox({ file, update, removeFile }) {
   const [uploading, setUploading] = useState(false);
   const [url, setUrl] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -35,6 +35,8 @@ export default function AddAudioBox({ file, update }) {
   return (
    <div className="flex justify-center w-full mx-auto">
    <div className='selectedMedia w-full relative border border-gray-500 rounded-xl' >
+   <button className='z-10 absolute top-2 right-2 bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white' 
+          onClick={()=>removeFile(file)} >Remove</button>
     <div className='p-4 flex justify-center items-center w-full min-h-[150px]' >
       <BsFiletypeMp3 size='3rem' color="#fff" />
     </div>
