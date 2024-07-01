@@ -3,12 +3,13 @@ import AuthLayout from '../../../layout/AuthLayout';
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ConnectYoutube from './ConnectYoutube';
 import { FaYoutube } from "react-icons/fa";
 import { FiVideo } from "react-icons/fi";
 import { LuImage } from "react-icons/lu";
 import { RiListUnordered } from "react-icons/ri";
+
 import UploadThumbnail from './UploadThumbnail';
 import UploadVideos from './UploadVideos';
 import UploadAudios from './UploadAudios';
@@ -25,7 +26,29 @@ const freeresolutions = [
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
 ];
 
-export default function CreateStreamForm() {
+export default function EditStream() {
+
+    const {streamId} = useParams();
+    console.log("streamId",streamId)
+    const [stream, setStream] = useState([]);
+    const [checking, setchecking] = useState(false);
+    function fetchStream() {
+      setchecking(true);
+      const resp = Api.get(`/stream/${streamId}`);
+      resp.then((res) => {
+        setchecking(false);
+        setStream(res.data.stream);
+      }).catch((err) => {
+        setchecking(false);
+      });
+    }
+  
+    useEffect(()=>{
+      if(streamId){
+        fetchStream();
+      }
+    },[streamId]);
+
     const {Errors, user} = useContext(UserContext);
     const [streamType, setStreamType] = useState("video");
     const [loop, setLoop] = useState(true);
@@ -93,14 +116,7 @@ export default function CreateStreamForm() {
     const tmp = videos;
     tmp.push(array);
     setVideos(tmp);
-    console.log("final video array tmp",tmp)
   }
-  const removeUploadedVideo = (l) => {
-    const temp = videos;
-    const removed = temp.filter(f => f !== l);
-    setVideos(removed);
-  }
-
 
   const getAudios = (array) => {
     const tmp = audios;
@@ -123,10 +139,12 @@ export default function CreateStreamForm() {
     videos.forEach(video => {
       mp4.push(video.url);
     });
+
     let mp3 = [];
     audios.forEach(audio => {
       mp3.push(audio.url);
     });
+    
     const resp = Api.post(`/create-playlist`,{
         "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
@@ -144,7 +162,6 @@ export default function CreateStreamForm() {
             video: res.data.video,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
-            type:streamType,
             thumbnail: image,
             resolution: data.resolution,
             description: data.description,
@@ -204,27 +221,27 @@ export default function CreateStreamForm() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-    // if(type === "next" && step === 1 && data.title === ''  ){
-    //     toast.error("Stream title is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 1 && data.description === ''  ){
-    //     toast.error("Stream description is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && !image  ){
-    //     toast.error("Please select a thumbnail for video stream.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
-    //     toast.error("Please select atleast one video for this stream.");
-    //     return false;
-    // }
+    if(type === "next" && step === 1 && data.title === ''  ){
+        toast.error("Stream title is required.");
+        return false;
+    }
+    if(type === "next" && step === 1 && data.description === ''  ){
+        toast.error("Stream description is required.");
+        return false;
+    }
+    if(type === "next" && step === 2 && !image  ){
+        toast.error("Please select a thumbnail for video stream.");
+        return false;
+    }
+    if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
+        toast.error("Please select atleast one video for this stream.");
+        return false;
+    }
    
-    // if (type === "next" && step === 2 && streamType === 'image' && (!audios || audios.length === 0) && (!radio || radio.length === 0)) {
-    //   toast.error("Please choose songs or any sound effect for this stream.");
-    //   return false;
-    // }
+    if (type === "next" && step === 2 && streamType === 'image' && (!audios || audios.length === 0) && (!radio || radio.length === 0)) {
+      toast.error("Please choose songs or any sound effect for this stream.");
+      return false;
+    }
 
     if(type === 'prev' && step == 1){
       return false
@@ -263,48 +280,6 @@ export default function CreateStreamForm() {
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
             <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
                 <div className={step === 1 ? "" : "hidden"}>
-                    {status === 'notactive' ? <ConnectYoutube  /> :
-                      <>
-                        {channel && channel.snippet ?  
-                        <div className=" mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
-                          <div className='sm:flex items-center'>
-                            <img alt="" src={channel && channel.snippet.thumbnails.high.url}
-                              className="mx-auto h-20 w-20  rounded-[50%] object-cover"
-                            />
-                            <div className='ps-3'>
-                            <div className='flex justify-center '><FaYoutube size="3rem" color='red' /></div>
-                              <h2 className='text-center sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
-                            </div>
-                          </div>
-                          <div className="">
-                            <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Views Count</p>
-                                </div>
-                              </div>
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Video Count</p>
-                                </div>
-                              </div>
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Subscribers</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className='flex justify-center '>
-                              <button onClick={removeAccount} className='text-main mt-4 text-center' >Unlink this Account</button>
-                            </div>
-                          </div>
-                        </div>
-                        : ""} 
-                      </> 
-                    }
                     <div className='grid sm:grid-cols-2 gap-5 my-4'>
                       <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
                         <FiVideo size={'3rem'} color='#ccc' />
@@ -343,12 +318,13 @@ export default function CreateStreamForm() {
                 <div className={step === 2 ? "" : "hidden"}>
                   <UploadThumbnail update={getImageFile}  />
                   {streamType === 'video' ? 
-                    <UploadVideos removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
+                    <UploadVideos update={getVideos}/> 
                   : ''} 
                   <UploadAudios setRadio={setRadio} streamType={streamType} update={getAudios} />
                 </div>
 
                 <div className={step === 3 ? "" : "hidden"}>
+
                   {/* {videos && videos.length > 0 ?
                     <> */}
                       <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>

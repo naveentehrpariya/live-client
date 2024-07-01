@@ -1,0 +1,20 @@
+const {streamId} = useParams();
+    console.log("streamId",streamId)
+    const [stream, setStream] = useState([]);
+    const [checking, setchecking] = useState(false);
+    function fetchStream() {
+      setchecking(true);
+      const resp = Api.get(`/stream/${streamId}`);
+      resp.then((res) => {
+        setchecking(false);
+        setStream(res.data.stream);
+      }).catch((err) => {
+        setchecking(false);
+      });
+    }
+  
+    useEffect(()=>{
+      if(streamId){
+        fetchStream();
+      }
+    },[streamId]);
