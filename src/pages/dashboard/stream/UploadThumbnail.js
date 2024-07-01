@@ -61,7 +61,7 @@ export default function UploadThumbnail({update}) {
                         <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or drag and drop</p>
                         <p class="text-xs text-gray-500 ">PNG, JPG or GIF (MAX. 1200x767px)</p>
                      </div>
-                     <input onChange={handleFile} id="dropzone-file" type="file" class="hidden" />
+                     <input onChange={handleFile} accept="image/*" id="dropzone-file" type="file" class="hidden" />
                   </label>
                </div>
             }

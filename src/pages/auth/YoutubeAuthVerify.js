@@ -24,7 +24,7 @@ export default function YoutubeAuthVerify(){
          } else {
             toast.error("Link Youtube Account Failed !!");
          }
-         navigate("/home");
+         navigate("/create-stream");
          setLoading(false);
       }).catch((err)=> {
          navigate("/home");

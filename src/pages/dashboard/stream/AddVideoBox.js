@@ -61,7 +61,7 @@ export default function AddVideoBox({ file, update }) {
                   <h1 className='text-gray-400 text-sm text-center'>{progress || 0}% Uploaded</h1>
                 </div>
                 : 
-                <button className='bg-main w-[100px] text-white text-center p-3 py-2 text-[14px] rounded-xl w-full' 
+                <button className='bg-main max-w-[100px] text-white text-center p-3 py-2 text-[14px] rounded-xl w-full' 
                 onClick={()=>UploadMedia(file, setProgress, setUploading, update, setUrl)}>
                     {uploading ? `${progress}%` : "Upload" }
                 </button>
