@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext,useState } from 'react'
 import AuthLayout from '../../../layout/AuthLayout';
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import ConnectYoutube from './ConnectYoutube';
-import { FaYoutube } from "react-icons/fa";
 import { FiVideo } from "react-icons/fi";
 import { LuImage } from "react-icons/lu";
 import { RiListUnordered } from "react-icons/ri";
@@ -15,6 +13,7 @@ import UploadAudios from './UploadAudios';
 import ManageFiles from './ManageFiles';
 import Api from '../../../api/Api';
 import { RiListOrdered2 } from "react-icons/ri";
+import CheckYoutube from './CheckYoutube';
 const resolutions = [
   { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -26,6 +25,7 @@ const freeresolutions = [
 ];
 
 export default function CreateStreamForm() {
+    const [status, setStatus] = useState();
     const {Errors, user} = useContext(UserContext);
     const [streamType, setStreamType] = useState("video");
     const [loop, setLoop] = useState(true);
@@ -34,27 +34,6 @@ export default function CreateStreamForm() {
     const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
     console.log(filteredResolutions);
 
-    const [channel, setChannel] = useState();
-    const [status, setStatus] = useState();
-    const check = () => { 
-      const m = new Endpoints();
-      const resp = m.checkYtStatus();
-      resp.then((res)=>{
-        if(res.data && res.data.token && res.data.token.channel){
-          setChannel(JSON.parse(res.data.token.channel));
-        }  
-        if(res.data && res.data.token && res.data.token.token){
-          setStatus("active");
-        } else {setStatus("notactive");}
-      }).catch((err)=> {
-        console.log(err);
-        setStatus("notactive");
-      });
-    }
-
-   useEffect(() => {
-      check();
-   },[]);
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -89,19 +68,25 @@ export default function CreateStreamForm() {
   const suffleAudios = (array) =>{ 
     setaudios(array);
   }
+
+  const [cloudVideos, setCloudVideos] = useState([]);
+  const getCloudFiles = (array) => {
+    setCloudVideos(array);
+  }
+  const removeUploadedVideo = (l) => {
+      const temp = videos;
+      const removed = temp.filter(f => f.name !== l.name);
+      setVideos(removed);
+      console.log("updated upload files removed", removed);
+  }
   const getVideos = (array) => {
     const tmp = videos;
     tmp.push(array);
     setVideos(tmp);
     console.log("final video array tmp",tmp)
   }
-  const removeUploadedVideo = (l) => {
-    const temp = videos;
-    const removed = temp.filter(f => f !== l);
-    setVideos(removed);
-  }
 
-
+  
   const getAudios = (array) => {
     const tmp = audios;
     tmp.push(array);
@@ -187,20 +172,7 @@ export default function CreateStreamForm() {
     });
   }
 
-  const removeAccount = (e) => {
-    const m = new Endpoints();
-    const resp = m.unLinkYoutube();
-    resp.then(res => {
-      if(res.data.status){
-        toast.success(res.data.message);
-        window.location.reload(false)
-      } else {
-        toast.error(res.data.message);
-      }
-    }).catch(err => {
-      Errors(err);
-    });
-  }
+ 
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
@@ -226,7 +198,7 @@ export default function CreateStreamForm() {
     //   return false;
     // }
 
-    if(type === 'prev' && step == 1){
+    if(type === 'prev' && step === 1){
       return false
     }
     if(type === "next"){
@@ -261,50 +233,9 @@ export default function CreateStreamForm() {
       <>
       <AuthLayout heading='New Stream'>
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
+           <CheckYoutube set={setStatus} />
             <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
                 <div className={step === 1 ? "" : "hidden"}>
-                    {status === 'notactive' ? <ConnectYoutube  /> :
-                      <>
-                        {channel && channel.snippet ?  
-                        <div className=" mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
-                          <div className='sm:flex items-center'>
-                            <img alt="" src={channel && channel.snippet.thumbnails.high.url}
-                              className="mx-auto h-20 w-20  rounded-[50%] object-cover"
-                            />
-                            <div className='ps-3'>
-                            <div className='flex justify-center '><FaYoutube size="3rem" color='red' /></div>
-                              <h2 className='text-center sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
-                            </div>
-                          </div>
-                          <div className="">
-                            <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Views Count</p>
-                                </div>
-                              </div>
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Video Count</p>
-                                </div>
-                              </div>
-                              <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                                <div className="mt-1.5 sm:mt-0">
-                                  <p className="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
-                                  <p className="text-gray-500 text-center">Subscribers</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className='flex justify-center '>
-                              <button onClick={removeAccount} className='text-main mt-4 text-center' >Unlink this Account</button>
-                            </div>
-                          </div>
-                        </div>
-                        : ""} 
-                      </> 
-                    }
                     <div className='grid sm:grid-cols-2 gap-5 my-4'>
                       <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
                         <FiVideo size={'3rem'} color='#ccc' />
@@ -317,7 +248,6 @@ export default function CreateStreamForm() {
                         <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
                       </div>
                     </div>
-
                     <div className='stream-input-fields' >
                       {inputFields.map((field, index) => (
                         <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
@@ -337,13 +267,12 @@ export default function CreateStreamForm() {
                       }
                       <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
                     </div>
-
                 </div>
 
                 <div className={step === 2 ? "" : "hidden"}>
                   <UploadThumbnail update={getImageFile}  />
                   {streamType === 'video' ? 
-                    <UploadVideos removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
+                    <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
                   : ''} 
                   <UploadAudios setRadio={setRadio} streamType={streamType} update={getAudios} />
                 </div>

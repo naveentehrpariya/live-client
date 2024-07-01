@@ -14,7 +14,7 @@ export default function UploadAudios({update, streamType, setRadio}) {
   const [audioType, setAudioType] = useState('music');
   const changeMusicType = (e) => {
     setAudioType(e);
-    setRadio('')
+    setRadio('');
   }
 
   return (

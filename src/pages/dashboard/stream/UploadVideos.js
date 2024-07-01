@@ -5,7 +5,7 @@ import MyFiles from './MyFiles';
 import Popup from '../../common/Popup';
 import { FaCircleCheck } from 'react-icons/fa6';
 
-export default function UploadVideos({update, removeUploadedVideo}) {
+export default function UploadVideos({update, removeUploadedVideo, getCloudFiles}) {
 
   const [open, setOpen] = useState();
   const [selected, setSelected] = useState([]);
@@ -17,10 +17,7 @@ export default function UploadVideos({update, removeUploadedVideo}) {
   };
 
   const removeLocalfile = (l) =>{
-    console.log("local file", l)
-    // if(){
-    //   removeUploadedVideo
-    // }
+    removeUploadedVideo(l);
     const temp = selected;
     const removed = temp.filter(f => f !== l);
     console.log("removed", removed);
@@ -29,19 +26,19 @@ export default function UploadVideos({update, removeUploadedVideo}) {
 
   const [libraryFiles, setLibraryFiles] = useState([])
   const getSelectedVideos = (videos) => {
-    console.log("videos",videos);
+    console.log("seelcted videos",videos);
     setLibraryFiles([...libraryFiles, ...videos])
+    getCloudFiles([...libraryFiles, ...videos])
     setOpen("close");
     setTimeout(() => {
       setOpen(false);
-    },1000)
+    },1000);
   }
 
   const CloudFile = ({file}) =>{
     const removeFile = () =>{
       const temp = libraryFiles;
       const removed = temp.filter(f => f !== file);
-      console.log("removed", removed);
       setLibraryFiles(removed);
     }
     return <div className="flex justify-center w-full mx-auto">
