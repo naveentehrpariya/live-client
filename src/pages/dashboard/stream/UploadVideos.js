@@ -40,6 +40,7 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       const temp = libraryFiles;
       const removed = temp.filter(f => f !== file);
       setLibraryFiles(removed);
+      getCloudFiles(removed)
     }
     return<>
   
@@ -58,29 +59,13 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
    
   return (
     <div className='border-t border-gray-800 mt-8 pt-8'>
-      <div className='flex items-center justify-between pb-4'>
+      <div className='flex items-center justify-start'>
         <h2 className='mb-0 text-gray-200 text-xl '>Choose videos</h2>
-        <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"From Collection"} 
-        btnclasses={'bg-main text-white rounded-[30px] px-3 py-[4px] text-[12px] font-bold uppercase  '} >
-          <h2 className='text-white text-bold text-lg mb-3'>My Video Library</h2>
-          <div className='max-h-[70vh] overflow-auto' > 
-            <MyFiles sendFile={getSelectedVideos} type={'video'} />
-          </div>
-        </Popup>
       </div>
 
-
-      <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
-         <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
-         <label htmlFor="file-upload-video" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-4">
-         <p className="text-md font-light text-center text-gray-400 pt-2">Drag & Drop your files here</p>
-         <BsCameraVideo color="#616161" size={'2rem'} />
-         </label>
-      </div>
-
-        <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4'>
+      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
           {selected && selected.map((file, i) => (
-            <div key={`local-file-${i}`} className='wrap'>
+            <div key={`local-file-${i}${file.name}`} className='wrap'>
               <AddVideoBox key={`local-file-${i}`} removeFile={removeLocalfile} update={update} file={file} />
             </div>
           ))}
@@ -89,7 +74,23 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
               <CloudFile file={file} />
             </div>
           ))}
-        </div> 
+      </div> 
+      <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
+         <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
+         <label htmlFor="file-upload-video" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-4">
+         <p className="text-md font-light text-center text-gray-400 pt-2">Drag & Drop your files here</p>
+         <BsCameraVideo color="#616161" size={'2rem'} />
+         </label>
+      </div>
+      <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"Or select from your library"} 
+      btnclasses={'bg-dark1 border border-gray-800 text-white rounded-[30px] w-full p-4 text-[15px]  '} >
+        <h2 className='text-white text-bold text-lg mb-3'>My Video Library</h2>
+        <div className='max-h-[70vh] overflow-auto' > 
+          <MyFiles sendFile={getSelectedVideos} type={'video'} />
+        </div>
+      </Popup>
+
+        
     </div>
   );
 }

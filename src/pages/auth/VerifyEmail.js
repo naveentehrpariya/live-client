@@ -8,6 +8,7 @@ export default function VerifyEmail(){
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [sent, setSent] = useState(false)
   const [count, setCount] = useState(1);
     const verify = () => { 
       if(count > 30){
@@ -16,11 +17,12 @@ export default function VerifyEmail(){
       setLoading(true);
       const resp = Api.get(`/user/sendVerifyEmail`);
       resp.then((res)=>{
-        setCount(count + 1);
-        if(res.data.status){
-            toast.success(res.data.message);
-        } else {
-            toast.error("Email Verification Failed !!");
+          setCount(count + 1);
+          if(res.data.status){
+              toast.success(res.data.message);
+              setSent(true)
+          } else {
+              toast.error("Email Verification Failed !!");
           }
           setLoading(false);
         }).catch((err)=> {
@@ -55,7 +57,7 @@ export default function VerifyEmail(){
             <h2 class="mb-2 text-[30px] md:text-[42px] font-bold text-white">Email Verification</h2>
             <p class="mb-2 text-lg text-zinc-500">We are glad, that you’re with us ? 
               We’ll sent you a verification link to the email address to verify your account.</p>
-            <button onClick={verify} class="mt-3 inline-block w-full max-w-[300px] rounded-xl bg-main px-5 py-3 font-medium text-white shadow-md  hover:opacity-[0.6]">{loading ? "Sending..." : "Send Link →"}</button>
+            <button onClick={verify} class="mt-3 inline-block w-full max-w-[300px] rounded-xl bg-main px-5 py-3 font-medium text-white shadow-md  hover:opacity-[0.6]">{loading ? "Sending..." : sent ? "Link Sent" : "Send Link →"}</button>
          </div>
       </div>
     </div>

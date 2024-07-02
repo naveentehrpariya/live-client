@@ -1,6 +1,6 @@
 
 import { MdDragIndicator } from "react-icons/md";
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import Nocontent from "../../common/NoContent";
 
@@ -26,12 +26,17 @@ export default function ManageFiles({ data, update }) {
     </>
   }
 
+   
   const [items, setItems] = useState(data);
   const onSortEnd = useCallback(({ oldIndex, newIndex }) => {
     const final = arrayMove(items, oldIndex, newIndex);
     setItems(final);
     update && update(final);
   }, [items, update]);
+
+  useEffect(()=>{
+    setItems(data);
+  }, [data]);
 
   const SortableList = SortableContainer(({ items }) => (
     <ul className="flex flex-col">

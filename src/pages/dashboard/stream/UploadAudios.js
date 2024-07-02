@@ -44,6 +44,7 @@ import { FaCircleCheck } from 'react-icons/fa6';
       const temp = libraryFiles;
       const removed = temp.filter(f => f !== file);
       setLibraryFiles(removed);
+      getCloudFiles(removed)
     }
     const size = file.size / 1024 / 1024;
     return<>
@@ -67,15 +68,8 @@ import { FaCircleCheck } from 'react-icons/fa6';
 
   return (
     <div className='pt-8 mt-8 border-t border-gray-800'>
-      <div className='flex items-center justify-between mb-3'>
+      <div className='flex items-center justify-start mb-2'>
         <h2 className=' text-gray-200 text-xl '>Choose Sound Effects</h2>
-        <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"From Collection"} 
-        btnclasses={'bg-main text-white rounded-[30px] px-3 py-[4px] text-[12px] font-bold uppercase  '} >
-          <h2 className='text-white text-bold text-lg mb-3'>My Music Library</h2>
-          <div className='max-h-[70vh] overflow-auto' > 
-            <MyFiles sendFile={getSelectedVideos} type={'audio'} />
-          </div>
-        </Popup>
       </div>
       {streamType === 'video' ? <p className='mb-4 text-gray-400 text-normal'>
         Audio files are not mandatory but if you want to play custom music over your stream you can upload it here.
@@ -88,6 +82,7 @@ import { FaCircleCheck } from 'react-icons/fa6';
       </div>
       
       {audioType === 'music' ?
+      <>
         <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
           <input onChange={handleFile} type="file" id="file-upload-audio"  accept="audio/mp3" className="hidden" multiple />
           <label htmlFor="file-upload-audio" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-4">
@@ -95,9 +90,14 @@ import { FaCircleCheck } from 'react-icons/fa6';
           <BsFiletypeMp3 color="#616161" size={'2rem'} />
           </label>
         </div> 
-        : 
-        <input onChange={(e)=>setRadio(e.target.value)} name='radiostream' type={'text'} placeholder={"Radio stream url"} className="input" />
-      }
+
+        <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"Or select from your library"} 
+      btnclasses={'bg-dark1 border border-gray-800 text-white rounded-[30px] w-full p-4 text-[15px] mb-4  '} >
+          <h2 className='text-white text-bold text-lg mb-3'>My Music Library</h2>
+          <div className='max-h-[70vh] overflow-auto' > 
+            <MyFiles sendFile={getSelectedVideos} type={'audio'} />
+          </div>
+        </Popup>
 
         <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4'>
           {selected && selected.map((file, i) => (
@@ -111,6 +111,16 @@ import { FaCircleCheck } from 'react-icons/fa6';
             </div>
           ))}
         </div> 
+
+        
+
+        </>
+        : 
+        <input onChange={(e)=>setRadio(e.target.value)} name='radiostream' type={'text'} placeholder={"Radio stream url"} className="input" />
+      }
+
+        
+
     </div>
   );
 }

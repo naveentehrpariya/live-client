@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react'
+import React, { useContext,useEffect,useState } from 'react'
 import AuthLayout from '../../../layout/AuthLayout';
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
@@ -15,10 +15,10 @@ import Api from '../../../api/Api';
 import { RiListOrdered2 } from "react-icons/ri";
 import CheckYoutube from './CheckYoutube';
 const resolutions = [
-  { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
+  { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
-  { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
+  { title:"Shorts 720x1080" ,label: '720x1080', value: '720x1080' },
 ];
 const freeresolutions = [
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -40,11 +40,24 @@ export default function CreateStreamForm() {
   const inputFields = [
     { type:"text", name:"title", label:"Stream Name" },
   ];
-
+  const [cloudVideos, setCloudVideos] = useState([]);
+  const [cloudAudios, setCloudAudios] = useState([]);
   const [videos, setVideos] = useState([]);
   const [audios, setaudios] = useState([]);
   const [image, setImage] = useState(null);
   const [radio, setRadio] = useState(null);
+  const [combineVideos, setCombineVideos] = useState([]);
+  const [combineAudios, setCombineAudios] = useState([]);
+
+  useEffect(() => {
+    setCombineAudios([...audios, ...cloudAudios]);
+    console.log("COMBINED AUDIOS",[...audios, ...cloudAudios])
+  }, [audios, cloudAudios]);
+
+  useEffect(() => {
+    setCombineVideos([...videos, ...cloudVideos]);
+    console.log("COMBINED VIDEOS",[...videos, ...cloudVideos])
+  }, [videos, cloudVideos]);
 
   const [data, setData] = useState({
     title: "",
@@ -63,24 +76,23 @@ export default function CreateStreamForm() {
   }
  
   const suffleVideos = (array) =>{ 
-    setVideos(array)
+    setCombineVideos(array);
   }
   const suffleAudios = (array) =>{ 
-    setaudios(array);
+    setCombineAudios(array);
   }
   const removeUploadedAudio = (l) => {
     const temp = audios;
     const removed = temp.filter(f => f.name !== l.name);
     setaudios(removed);
     console.log("updated uploaded audio files removed", removed);
-}
-
-  const [cloudVideos, setCloudVideos] = useState([]);
-  const getCloudFiles = (array) => {
-    setCloudVideos(array);
   }
 
-  const [cloudAudios, setCloudAudios] = useState([]);
+  const getCloudFiles = (array) => {
+    setCloudVideos(array);
+    console.log("cloud videos updated",array)
+  }
+
   const getCloudAudio = (array) => {
     setCloudAudios(array);
   }
@@ -91,13 +103,13 @@ export default function CreateStreamForm() {
       setVideos(removed);
       console.log("updated upload files removed", removed);
   }
+
   const getVideos = (array) => {
     const tmp = videos;
     tmp.push(array);
     setVideos(tmp);
     console.log("final video array tmp",tmp)
   }
-
   
   const getAudios = (array) => {
     const tmp = audios;
@@ -116,14 +128,17 @@ export default function CreateStreamForm() {
   const createPlaylist = async (e) => {
     setStreamStarted(true);
     setPlaylistsCreating(true);
+
     let mp4 = [];
-    videos.forEach(video => {
+    combineVideos.forEach(video => {
       mp4.push(video.url);
     });
+
     let mp3 = [];
-    audios.forEach(audio => {
+    combineAudios.forEach(audio => {
       mp3.push(audio.url);
     });
+
     const resp = Api.post(`/create-playlist`,{
         "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
@@ -147,8 +162,8 @@ export default function CreateStreamForm() {
             description: data.description,
             ordered : loop,
             radio:radio,
-            audios: mp3,
-            videos: mp4,
+            audios: combineAudios,
+            videos: combineVideos,
           })
         } else {
           toast.error(res.data.message);
@@ -183,8 +198,6 @@ export default function CreateStreamForm() {
       setLoading(false);
     });
   }
-
- 
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
@@ -242,99 +255,106 @@ export default function CreateStreamForm() {
   }
 
   return (
-      <>
-      <AuthLayout heading='New Stream'>
-        <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
-            <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
-                <div className={step === 1 ? "" : "hidden"}>
-                    <CheckYoutube set={setStatus} />
-                    <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                      <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
-                        <FiVideo size={'3rem'} color='#ccc' />
-                        <h2 className={`${streamType === 'video' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Video background</h2>
-                        <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
-                      </div>
-                      <div onClick={()=>setStreamType("image")} className={`${streamType === 'image' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
-                        <LuImage size={'3rem'} color='#ccc' />
-                        <h2 className={`${streamType === 'image' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Image/GIF background</h2>
-                        <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
-                      </div>
-                    </div>
-                    <div className='stream-input-fields' >
-                      {inputFields.map((field, index) => (
-                        <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
-                      ))}
-                      { user && user.plan && user && user.trialStatus == 'active' ?
-                        <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                          {freeresolutions && freeresolutions.map((resolution, index) => (
-                            <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                          ))}
-                        </select>
-                        :
-                        <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                          {filteredResolutions && filteredResolutions.map((resolution, index) => (
-                            <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                          ))}
-                        </select>
-                      }
-                      <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-                    </div>
-                </div>
-
-                <div className={step === 2 ? "" : "hidden"}>
-                  <UploadThumbnail update={getImageFile}  />
-                  {streamType === 'video' ? 
-                    <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
-                  : ''} 
-                  <UploadAudios getCloudFiles={getCloudAudio} removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
-                </div>
-
-                <div className={step === 3 ? "" : "hidden"}>
-                  {/* {videos && videos.length > 0 ?
-                    <> */}
-                      <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
-                      <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
-                      <ManageFiles update={suffleVideos} data={videos} />
-                    {/* </>
-                  : <></>}   */}
-
-                  {audios && audios.length > 0 ?
-                    <>
-                      <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>
-                      <p className='text-gray-400 mb-4'>Arrange the order of the audios in the stream.</p>
-                      <ManageFiles update={suffleAudios}  data={audios} />
-                    </>
-                  : <></>}
-
-                  <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
+    <AuthLayout heading='New Stream'>
+      <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
+          <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
+              <div className={step === 1 ? "" : "hidden"}>
+                  <CheckYoutube set={setStatus} />
                   <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
-                      <RiListOrdered2 size={'2rem'} color='#ccc' />
-                      <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Ordered Loop</h2>
+                    <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
+                      <FiVideo size={'3rem'} color='#ccc' />
+                      <h2 className={`${streamType === 'video' ? "text-white" : "text-gray-400"} mt-4 text-xl font-bold mb-2`}>24/7 Video background</h2>
+                      <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
                     </div>
-                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
-                      <RiListUnordered size={'2rem'} color='#ccc' />
-                      <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
+                    <div onClick={()=>setStreamType("image")} className={`${streamType === 'image' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
+                      <LuImage size={'3rem'} color='#ccc' />
+                      <h2 className={`${streamType === 'image' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Image/GIF background</h2>
+                      <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
                     </div>
                   </div>
-                </div>
-          
-                {<div className="m-auto flex mt-8 w-full rounded-xl justify-between">
-                  <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
-                  {step < 3 ? 
-                    <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
-                      : 
-                    <button disabled={playlistsCreating} onClick={createPlaylist}  className={`btn sm mb-0`} >
-                      {playlistsCreating ? "Processing" : "Create Stream"}
-                    </button>
-                  }
-                </div>}
+                  <div className='stream-input-fields' >
+                    {inputFields.map((field, index) => (
+                      <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
+                    ))}
+                    { user && user.plan && user && user.trialStatus === 'active' ?
+                      <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {freeresolutions && freeresolutions.map((resolution, index) => (
+                          <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                      :
+                      <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                          <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                    }
+                    <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
+                  </div>
+              </div>
 
-                {streamStarted ? <LOADING /> : ''}
-               
-            </div>
-        </div>
-      </AuthLayout>
-      </>
+              <div className={step === 2 ? "" : "hidden"}>
+                <UploadThumbnail update={getImageFile}  />
+                {streamType === 'video' ? 
+                  <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
+                : ''} 
+                <UploadAudios getCloudFiles={getCloudAudio} removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
+              </div>
+
+              <div className={step === 3 ? "" : "hidden"}>
+                {/* {videos && videos.length > 0 ?
+                  <> */}
+                    <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
+                    <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
+                    <ManageFiles update={suffleVideos} data={combineVideos} />
+                  {/* </>
+                : <></>}   */}
+
+                {combineAudios && combineAudios.length > 0 ?
+                  <>
+                    <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>
+                    <p className='text-gray-400 mb-4'>Arrange the order of the audios in the stream.</p>
+                    <ManageFiles update={suffleAudios}  data={combineAudios} />
+                  </>
+                : <></>}
+
+                <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
+                <div className='grid sm:grid-cols-2 gap-5 my-4'>
+                  <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} 
+                    ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2 flex items-center border  p-4 sm:p-6 rounded-3xl`}>
+                    <div className={`w-5 h-5 ${loop === true ? 'bg-[var(--main)]' : 'bg-gray-600'} rounded-full me-2`} ></div>
+                    <RiListOrdered2 size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} ps-2 text-normal font-normal uppercase`}>Ordered Loop</h2>
+                  </div>
+                  <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} 
+                    ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2 flex items-center border  p-4 sm:p-6 rounded-3xl`}>
+                    <div className={`w-5 h-5 ${loop === false ? 'bg-[var(--main)]' : 'bg-gray-600'} rounded-full me-2`} ></div>
+                    <RiListUnordered size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} ps-2 text-normal font-normal uppercase`}>Suffled Loop</h2>
+                  </div>
+
+                  {/* <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <RiListUnordered size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
+                  </div> */}
+                </div>
+              </div>
+        
+              {<div className="m-auto flex mt-8 w-full rounded-xl justify-between">
+                <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
+                {step < 3 ? 
+                  <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
+                    : 
+                  <button disabled={playlistsCreating} onClick={createPlaylist}  className={`btn sm mb-0`} >
+                    {playlistsCreating ? "Processing" : "Create Stream"}
+                  </button>
+                }
+              </div>}
+
+              {streamStarted ? <LOADING /> : ''}
+              
+          </div>
+      </div>
+    </AuthLayout>
   )
 }
