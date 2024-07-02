@@ -1,26 +1,24 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext,useEffect,useState } from 'react'
 import AuthLayout from '../../../layout/AuthLayout';
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import ConnectYoutube from './ConnectYoutube';
-import { FaYoutube } from "react-icons/fa";
 import { FiVideo } from "react-icons/fi";
 import { LuImage } from "react-icons/lu";
 import { RiListUnordered } from "react-icons/ri";
-
 import UploadThumbnail from './UploadThumbnail';
 import UploadVideos from './UploadVideos';
 import UploadAudios from './UploadAudios';
 import ManageFiles from './ManageFiles';
 import Api from '../../../api/Api';
 import { RiListOrdered2 } from "react-icons/ri";
+import CheckYoutube from './CheckYoutube';
 const resolutions = [
   { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
   { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
-  { title:"1080x720 720x1080" ,label: '720x1080', value: '720x1080' },
+  { title:"Shorts 720x1080" ,label: '720x1080', value: '720x1080' },
 ];
 const freeresolutions = [
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -28,7 +26,7 @@ const freeresolutions = [
 
 export default function EditStream() {
 
-    const {streamId} = useParams();
+  const {streamId} = useParams();
     console.log("streamId",streamId)
     const [stream, setStream] = useState([]);
     const [checking, setchecking] = useState(false);
@@ -38,6 +36,10 @@ export default function EditStream() {
       resp.then((res) => {
         setchecking(false);
         setStream(res.data.stream);
+        if(res.data.stream){
+          setCombineAudios(stream.audio ? JSON.parse(stream.audio) : []);
+          setCombineVideos(stream.video ? JSON.parse(stream.video) : []);
+        }
       }).catch((err) => {
         setchecking(false);
       });
@@ -49,56 +51,46 @@ export default function EditStream() {
       }
     },[streamId]);
 
-    const {Errors, user} = useContext(UserContext);
-    const [streamType, setStreamType] = useState("video");
-    const [loop, setLoop] = useState(true);
+  
+  const [status, setStatus] = useState();
+  const {Errors, user} = useContext(UserContext);
+  const [streamType, setStreamType] = useState(stream.streamType ? stream.streamType : "video");
+  const [loop, setLoop] = useState(true);
 
-    const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
-    const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
-    console.log(filteredResolutions);
-
-    const [channel, setChannel] = useState();
-    const [status, setStatus] = useState();
-    const check = () => { 
-      const m = new Endpoints();
-      const resp = m.checkYtStatus();
-      resp.then((res)=>{
-        if(res.data && res.data.token && res.data.token.channel){
-          setChannel(JSON.parse(res.data.token.channel));
-        }  
-        if(res.data && res.data.token && res.data.token.token){
-          setStatus("active");
-        } else {setStatus("notactive");}
-      }).catch((err)=> {
-        console.log(err);
-        setStatus("notactive");
-      });
-    }
-
-   useEffect(() => {
-      check();
-   },[]);
+  const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
+  const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const inputFields = [
-    { type:"text", name:"title", label:"Stream Name" },
+    { type:"text", name:"title", label:"Stream Name", defaultValue: stream && stream.title || "" },
   ];
-
+  const [cloudVideos, setCloudVideos] = useState([]);
+  const [cloudAudios, setCloudAudios] = useState([]);
   const [videos, setVideos] = useState([]);
   const [audios, setaudios] = useState([]);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(stream ? stream.thumbnail : '');
   const [radio, setRadio] = useState(null);
+  const [combineVideos, setCombineVideos] = useState([]);
+  const [combineAudios, setCombineAudios] = useState([]);
+
+  useEffect(() => {
+    setCombineAudios([...audios, ...cloudAudios]);
+    console.log("COMBINED AUDIOS",[...audios, ...cloudAudios])
+  }, [audios, cloudAudios]);
+
+  useEffect(() => {
+    setCombineVideos([...videos, ...cloudVideos]);
+    console.log("COMBINED VIDEOS",[...videos, ...cloudVideos])
+  }, [videos, cloudVideos]);
 
   const [data, setData] = useState({
-    title: "",
-    videos: videos,
-    audios: audios,
-    thumbnail: "",
-    resolution: "1080p",
+    title: stream ? stream.title : "",
+    thumbnail: stream ? stream.thumbnail : "",
+    resolution: stream ? stream.resolution : "1080p",
     stream_url: "",
     streamkey: "",
-    description: "",
+    description:  stream ? stream.description : "",
   });
 
   const getImageFile = (image) => {
@@ -107,17 +99,41 @@ export default function EditStream() {
   }
  
   const suffleVideos = (array) =>{ 
-    setVideos(array)
+    setCombineVideos(array);
   }
   const suffleAudios = (array) =>{ 
-    setaudios(array);
+    setCombineAudios(array);
   }
+  const removeUploadedAudio = (l) => {
+    const temp = audios;
+    const removed = temp.filter(f => f.name !== l.name);
+    setaudios(removed);
+    console.log("updated uploaded audio files removed", removed);
+  }
+
+  const getCloudFiles = (array) => {
+    setCloudVideos(array);
+    console.log("cloud videos updated",array)
+  }
+
+  const getCloudAudio = (array) => {
+    setCloudAudios(array);
+  }
+
+  const removeUploadedVideo = (l) => {
+      const temp = videos;
+      const removed = temp.filter(f => f.name !== l.name);
+      setVideos(removed);
+      console.log("updated upload files removed", removed);
+  }
+
   const getVideos = (array) => {
     const tmp = videos;
     tmp.push(array);
     setVideos(tmp);
+    console.log("final video array tmp",tmp)
   }
-
+  
   const getAudios = (array) => {
     const tmp = audios;
     tmp.push(array);
@@ -135,16 +151,17 @@ export default function EditStream() {
   const createPlaylist = async (e) => {
     setStreamStarted(true);
     setPlaylistsCreating(true);
+
     let mp4 = [];
-    videos.forEach(video => {
+    combineVideos.forEach(video => {
       mp4.push(video.url);
     });
 
     let mp3 = [];
-    audios.forEach(audio => {
+    combineAudios.forEach(audio => {
       mp3.push(audio.url);
     });
-    
+
     const resp = Api.post(`/create-playlist`,{
         "type": videos.length < 1 ? 'image' : streamType,
         "videos": mp4,
@@ -162,13 +179,14 @@ export default function EditStream() {
             video: res.data.video,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
+            type:streamType,
             thumbnail: image,
             resolution: data.resolution,
             description: data.description,
             ordered : loop,
             radio:radio,
-            audios: mp3,
-            videos: mp4,
+            audios: combineAudios,
+            videos: combineVideos,
           })
         } else {
           toast.error(res.data.message);
@@ -204,21 +222,6 @@ export default function EditStream() {
     });
   }
 
-  const removeAccount = (e) => {
-    const m = new Endpoints();
-    const resp = m.unLinkYoutube();
-    resp.then(res => {
-      if(res.data.status){
-        toast.success(res.data.message);
-        window.location.reload(false)
-      } else {
-        toast.error(res.data.message);
-      }
-    }).catch(err => {
-      Errors(err);
-    });
-  }
-
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
     if(type === "next" && step === 1 && data.title === ''  ){
@@ -229,21 +232,20 @@ export default function EditStream() {
         toast.error("Stream description is required.");
         return false;
     }
-    if(type === "next" && step === 2 && !image  ){
+    if(type === "next" && step === 2 && image === null || image === ''){
         toast.error("Please select a thumbnail for video stream.");
         return false;
     }
-    if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
+    if(type === "next" && step === 2 && streamType === 'video' && combineVideos.length < 1  ){
         toast.error("Please select atleast one video for this stream.");
         return false;
     }
    
-    if (type === "next" && step === 2 && streamType === 'image' && (!audios || audios.length === 0) && (!radio || radio.length === 0)) {
+    if (type === "next" && step === 2 && streamType === 'image' && (!combineAudios || combineAudios.length === 0) && (!radio || radio.length === 0)) {
       toast.error("Please choose songs or any sound effect for this stream.");
       return false;
     }
-
-    if(type === 'prev' && step == 1){
+    if(type === 'prev' && step === 1){
       return false
     }
     if(type === "next"){
@@ -256,7 +258,7 @@ export default function EditStream() {
   const LOADING = () => {
     return <div className="filter-blur z-10 bg-[#0009] h-screen w-screen fixed top-0 left-0 flex justify-center items-center">
       <div className="wraps p-8" >
-        <div class="grid w-full h-full place-items-center overflow-x-scroll rounded-lg lg:overflow-visible">
+        <div class="grid w-full h-full place-items-center rounded-lg">
         <svg class="w-16 h-16 animate-spin text-gray-400" viewBox="0 0 64 64" fill="none"
         xmlns="http://www.w3.org/2000/svg" width="24" height="24">
         <path
@@ -275,101 +277,105 @@ export default function EditStream() {
   }
 
   return (
-      <>
-      <AuthLayout heading='New Stream'>
-        <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
-            <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[700px] m-auto`} >
-                <div className={step === 1 ? "" : "hidden"}>
-                    <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                      <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
-                        <FiVideo size={'3rem'} color='#ccc' />
-                        <h2 className={`${streamType === 'video' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Video background</h2>
-                        <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
-                      </div>
-                      <div onClick={()=>setStreamType("image")} className={`${streamType === 'image' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
-                        <LuImage size={'3rem'} color='#ccc' />
-                        <h2 className={`${streamType === 'image' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Image/GIF background</h2>
-                        <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
-                      </div>
-                    </div>
-
-                    <div className='stream-input-fields' >
-                      {inputFields.map((field, index) => (
-                        <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
-                      ))}
-                      { user && user.plan && user && user.trialStatus == 'active' ?
-                        <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                          {freeresolutions && freeresolutions.map((resolution, index) => (
-                            <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                          ))}
-                        </select>
-                        :
-                        <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                          {filteredResolutions && filteredResolutions.map((resolution, index) => (
-                            <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                          ))}
-                        </select>
-                      }
-                      <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-                    </div>
-
-                </div>
-
-                <div className={step === 2 ? "" : "hidden"}>
-                  <UploadThumbnail update={getImageFile}  />
-                  {streamType === 'video' ? 
-                    <UploadVideos update={getVideos}/> 
-                  : ''} 
-                  <UploadAudios setRadio={setRadio} streamType={streamType} update={getAudios} />
-                </div>
-
-                <div className={step === 3 ? "" : "hidden"}>
-
-                  {/* {videos && videos.length > 0 ?
-                    <> */}
-                      <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
-                      <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
-                      <ManageFiles update={suffleVideos} data={videos} />
-                    {/* </>
-                  : <></>}   */}
-
-                  {audios && audios.length > 0 ?
-                    <>
-                      <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>
-                      <p className='text-gray-400 mb-4'>Arrange the order of the audios in the stream.</p>
-                      <ManageFiles update={suffleAudios}  data={audios} />
-                    </>
-                  : <></>}
-
-                  <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
+    <AuthLayout heading='New Stream'>
+      <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
+          <div className={` pages-steps  lg:max-w-[700px] m-auto`} >
+              <div className={step === 1 ? "" : "hidden"}>
                   <div className='grid sm:grid-cols-2 gap-5 my-4'>
-                    <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
-                      <RiListOrdered2 size={'2rem'} color='#ccc' />
-                      <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Ordered Loop</h2>
+                    <div onClick={()=>setStreamType("video")} className={`${streamType === 'video' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
+                      <FiVideo size={'3rem'} color='#ccc' />
+                      <h2 className={`${streamType === 'video' ? "text-white" : "text-gray-400"} mt-4 text-xl font-bold mb-2`}>24/7 Video background</h2>
+                      <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
                     </div>
-                    <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
-                      <RiListUnordered size={'2rem'} color='#ccc' />
-                      <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
+                    <div onClick={()=>setStreamType("image")} className={`${streamType === 'image' ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} cursor-pointer bg-dark2  border  sm:p-4 p-8 rounded-3xl`}>
+                      <LuImage size={'3rem'} color='#ccc' />
+                      <h2 className={`${streamType === 'image' ? "text-white" : "text-gray-400"} mt-4  text-xl font-bold mb-2`}>24/7 Image/GIF background</h2>
+                      <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
                     </div>
                   </div>
-                </div>
-          
-                {<div className="m-auto flex mt-8 w-full rounded-xl justify-between">
-                  <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
-                  {step < 3 ? 
-                    <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
-                      : 
-                    <button disabled={playlistsCreating} onClick={createPlaylist}  className={`btn sm mb-0`} >
-                      {playlistsCreating ? "Processing" : "Create Stream"}
-                    </button>
-                  }
-                </div>}
+                  <div className='stream-input-fields' >
+                    {inputFields.map((field, index) => (
+                      <input required key={index} defaultValue={field.defaultValue} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
+                    ))}
+                    { user && user.plan && user && user.trialStatus === 'active' ?
+                      <select defaultValue={stream.resolution} className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {freeresolutions && freeresolutions.map((resolution, index) => (
+                          <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                      :
+                      <select  className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                          <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                        ))}
+                      </select>
+                    }
+                    <textarea defaultValue={stream.description} className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
+                  </div>
+              </div>
 
-                {streamStarted ? <LOADING /> : ''}
-               
-            </div>
-        </div>
-      </AuthLayout>
-      </>
+              <div className={step === 2 ? "" : "hidden"}>
+                <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
+                {streamType === 'video' ? 
+                  <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
+                : ''} 
+                <UploadAudios getCloudFiles={getCloudAudio} removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
+              </div>
+
+              <div className={step === 3 ? "" : "hidden"}>
+                {/* {videos && videos.length > 0 ?
+                  <> */}
+                    <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
+                    <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
+                    <ManageFiles update={suffleVideos} data={combineVideos} />
+                  {/* </>
+                : <></>}   */}
+
+                {combineAudios && combineAudios.length > 0 ?
+                  <>
+                    <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>
+                    <p className='text-gray-400 mb-4'>Arrange the order of the audios in the stream.</p>
+                    <ManageFiles update={suffleAudios}  data={combineAudios} />
+                  </>
+                : <></>}
+
+                <h2 className='text-gray-300 mt-8 font-normal text-normal mb-3 '>Playlist Sequence</h2>
+                <div className='grid sm:grid-cols-2 gap-5 my-4'>
+                  <div onClick={()=>setLoop(true)} className={`${loop === true ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} 
+                    ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2 flex items-center border  p-4 sm:p-6 rounded-3xl`}>
+                    <div className={`w-5 h-5 ${loop === true ? 'bg-[var(--main)]' : 'bg-gray-600'} rounded-full me-2`} ></div>
+                    <RiListOrdered2 size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === true ? "text-white" : "text-gray-500 "} ps-2 text-normal font-normal uppercase`}>Ordered Loop</h2>
+                  </div>
+                  <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} 
+                    ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2 flex items-center border  p-4 sm:p-6 rounded-3xl`}>
+                    <div className={`w-5 h-5 ${loop === false ? 'bg-[var(--main)]' : 'bg-gray-600'} rounded-full me-2`} ></div>
+                    <RiListUnordered size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} ps-2 text-normal font-normal uppercase`}>Suffled Loop</h2>
+                  </div>
+
+                  {/* <div onClick={()=>setLoop(false)} className={`${loop === false ? "border-[var(--main)]" : "bg-dark2 border-gray-600"} ${radio !== '' ? 'disableds' : ''} cursor-pointer bg-dark2  border  p-4 sm:p-6 rounded-3xl`}>
+                    <RiListUnordered size={'2rem'} color='#ccc' />
+                    <h2 className={`${loop  === false ? "text-white" : "text-gray-500 "} mt-4 text-lg font-normal`}>Suffled Loop</h2>
+                  </div> */}
+                </div>
+              </div>
+        
+              {<div className="m-auto flex mt-8 w-full rounded-xl justify-between">
+                <button disabled={step < 2} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
+                {step < 3 ? 
+                  <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
+                    : 
+                  <button disabled={playlistsCreating} onClick={createPlaylist}  className={`btn sm mb-0`} >
+                    {playlistsCreating ? "Processing" : "Create Stream"}
+                  </button>
+                }
+              </div>}
+
+              {streamStarted ? <LOADING /> : ''}
+              
+          </div>
+      </div>
+    </AuthLayout>
   )
 }

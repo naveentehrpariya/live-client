@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from '../common/Button';
 import hero from '../../img/hero.gif';
+import { UserContext } from '../../context/AuthProvider';
 
 export default function Hero() {
+   const {user}  = useContext(UserContext);
+
   return <div className='hero-section'>
       <div className='container m-auto ' >
          <div className='max-w-[860px] py-24 px-2 sm:px-6 m-auto' >
@@ -10,7 +13,8 @@ export default function Hero() {
             <p className='text-center text-white text-[20px] mt-3 leading-[22px]' >Take your YouTube channel to the next level with Upstream.
                The easiest way to build & maintain a 24 hour live stream using pre-recorded videos.</p>
                <div className='flex justify-center' >
-                  <Button text="Sign up for free" classes={'mt-6'} ></Button>
+                  {user ? <Button to="/create-stream" text="Create Stream" classes={'mt-6'} ></Button> : <Button text="Sign up for free" classes={'mt-6'} ></Button> }
+                  
                </div>
          </div>
          <div className='xl:px-16  m-auto' >

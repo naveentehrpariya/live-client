@@ -12,9 +12,9 @@ export default function CheckLogin({redirect, takeaction}) {
       const m = new Endpoints();
       const resp = m.user_profile();
       resp.then((res) => {
-          if(res.data.status && res.data.user && res.data.user.mailVerifiedAt === null){
-            navigate('/send-verification-email');
-          }  
+          // if(res.data.status && res.data.user && res.data.user.mailVerifiedAt === null){
+          //   navigate('/send-verification-email');
+          // }  
          if(res.data.status){
             setIsAuthenticated(true);
             setUser(res.data.user);

@@ -16,11 +16,11 @@ export default function Header() {
             <nav className="px-3 py-1 md:py-3 ">
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                      <Link to="/" class="ms-3 sm:ms-8 flex items-center">
-                        <h2 className='heading drunk lg px-0' >TENNIS</h2>
+                        <h2 className='heading drunk lg px-0' >runstream</h2>
                      </Link>
                      <div className="flex items-center xl:order-2">
                         {user && user.name ? 
-                              <Link to="/home" className="text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">My Account</Link>  
+                              <Link to="/home" className="hidden sm:block  text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">My Account</Link>  
                               :
                            <>
                            <Link to="/login" className="hidden md:block text-main hover:text-white font-medium rounded-lg text-[20px] px-4 py-2 mr-2">Login</Link>
@@ -37,9 +37,6 @@ export default function Header() {
 
                      <div class={`${toggle ? "toggle" : ""} mobile-menu  justify-between items-center w-full xl:flex xl:w-auto xl:order-1`} id="mobile-menu-2">
                         <ul className="flex flex-col  font-medium xl:flex-row xl:space-x-5 ">
-                           {/* <li>
-                                 <a href="#features" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Feature</a>
-                           </li> */}
                            <li>
                                  <a href="#pricing" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</a>
                            </li>
@@ -52,9 +49,6 @@ export default function Header() {
                            <li>
                                  <a href="#features" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">FAQ</a>
                            </li>
-                           {/* <li>
-                                 <Link to="/help" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700">Help</Link>
-                           </li> */}
                         </ul>
                      </div>
                </div>

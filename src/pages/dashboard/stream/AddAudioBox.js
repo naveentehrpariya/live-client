@@ -51,7 +51,7 @@ export default function AddAudioBox({ file, update, removeFile }) {
           <div className='absolute bg-[#0009] rounded-xl top-0 left-0 w-full h-full flex justify-center items-center'>
             {uploading ? 
                 <div>
-                  <div class="grid w-full h-full place-items-center overflow-x-scroll rounded-lg lg:overflow-visible">
+                  <div class="grid w-full h-full place-items-center rounded-lg">
                     <svg class="w-16 h-16 animate-spin text-gray-400" viewBox="0 0 64 64" fill="none"
                       xmlns="http://www.w3.org/2000/svg" width="24" height="24">
                       <path

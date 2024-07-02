@@ -140,7 +140,7 @@ export default function CreateStreamForm() {
     });
 
     const resp = Api.post(`/create-playlist`,{
-        "type": videos.length < 1 ? 'image' : streamType,
+        "type": combineVideos.length < 1 ? 'image' : streamType,
         "videos": mp4,
         "audios": mp3.length ? mp3 : false,
         "thumbnail": image,
@@ -201,28 +201,27 @@ export default function CreateStreamForm() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-    // if(type === "next" && step === 1 && data.title === ''  ){
-    //     toast.error("Stream title is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 1 && data.description === ''  ){
-    //     toast.error("Stream description is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && !image  ){
-    //     toast.error("Please select a thumbnail for video stream.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && streamType === 'video' && videos.length < 1  ){
-    //     toast.error("Please select atleast one video for this stream.");
-    //     return false;
-    // }
+    if(type === "next" && step === 1 && data.title === ''  ){
+        toast.error("Stream title is required.");
+        return false;
+    }
+    if(type === "next" && step === 1 && data.description === ''  ){
+        toast.error("Stream description is required.");
+        return false;
+    }
+    if(type === "next" && step === 2 && !image  ){
+        toast.error("Please select a thumbnail for video stream.");
+        return false;
+    }
+    if(type === "next" && step === 2 && streamType === 'video' && combineVideos.length < 1  ){
+        toast.error("Please select atleast one video for this stream.");
+        return false;
+    }
    
-    // if (type === "next" && step === 2 && streamType === 'image' && (!audios || audios.length === 0) && (!radio || radio.length === 0)) {
-    //   toast.error("Please choose songs or any sound effect for this stream.");
-    //   return false;
-    // }
-
+    if (type === "next" && step === 2 && streamType === 'image' && (!combineAudios || combineAudios.length === 0) && (!radio || radio.length === 0)) {
+      toast.error("Please choose songs or any sound effect for this stream.");
+      return false;
+    }
     if(type === 'prev' && step === 1){
       return false
     }
@@ -236,7 +235,7 @@ export default function CreateStreamForm() {
   const LOADING = () => {
     return <div className="filter-blur z-10 bg-[#0009] h-screen w-screen fixed top-0 left-0 flex justify-center items-center">
       <div className="wraps p-8" >
-        <div class="grid w-full h-full place-items-center overflow-x-scroll rounded-lg lg:overflow-visible">
+        <div class="grid w-full h-full place-items-center rounded-lg">
         <svg class="w-16 h-16 animate-spin text-gray-400" viewBox="0 0 64 64" fill="none"
         xmlns="http://www.w3.org/2000/svg" width="24" height="24">
         <path
