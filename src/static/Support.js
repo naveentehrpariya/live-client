@@ -11,7 +11,7 @@ export default function Support() {
          <div className="w-full md:w-1/2 mb-4 md:mb-0">
             <h2 className="text-xl md:text-2xl font-bold mb-2 mt-6">Contact Information</h2>
             <ul className="list-disc pl-5">
-            <li>Website: <a href="https://www.runstream.co" className="text-blue-500 hover:text-blue-600">RunStream.co</a></li>
+            <li>Website: <a href="https://www.runstream.co" className="text-blue-500 hover:text-blue-600">runstream.co</a></li>
             <li>Email: <a href="mailto:support@runstream.co" className="text-blue-500 hover:text-blue-600">support@runstream.co</a></li>
             </ul>
             <p className="text-gray-300 mt-4">Response Time: We are committed to providing prompt assistance and aim to respond to all inquiries within 24 hours.</p>
@@ -44,13 +44,13 @@ export default function Support() {
             <h2 className="text-xl md:text-2xl font-bold mb-2 mt-6">Connect with Us</h2>
             <ul className="list-disc pl-5">
             <li>Stay updated and engage with us on social media:</li>
-            <li><a href="https://twitter.com/RunStreamCo" className="text-blue-500 hover:text-blue-600">Twitter: @RunStreamCo</a></li>
-            <li><a href="https://www.facebook.com/RunStream.co" className="text-blue-500 hover:text-blue-600">Facebook: RunStream.co</a></li>
-            <li><a href="https://www.instagram.com/RunStream.Co" className="text-blue-500 hover:text-blue-600">Instagram: @RunStream.Co</a></li>
+            <li><a href="https://twitter.com/runstreamCo" className="text-blue-500 hover:text-blue-600">Twitter: @runstreamCo</a></li>
+            <li><a href="https://www.facebook.com/runstream.co" className="text-blue-500 hover:text-blue-600">Facebook: runstream.co</a></li>
+            <li><a href="https://www.instagram.com/runstream.Co" className="text-blue-500 hover:text-blue-600">Instagram: @runstream.Co</a></li>
             </ul>
          </div>
          <div className="w-full mt-4">
-            <p className="text-gray-100 text-center md:text-left">Your satisfaction is our priority. Thank you for choosing RunStream.co.</p>
+            <p className="text-gray-100 text-center md:text-left">Your satisfaction is our priority. Thank you for choosing runstream.co.</p>
          </div>
       </div>
       </div>

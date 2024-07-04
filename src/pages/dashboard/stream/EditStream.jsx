@@ -14,6 +14,8 @@ import ManageFiles from './ManageFiles';
 import Api from '../../../api/Api';
 import { RiListOrdered2 } from "react-icons/ri";
 import CheckYoutube from './CheckYoutube';
+import { FaCircleCheck } from 'react-icons/fa6';
+import { BsFiletypeMp3 } from 'react-icons/bs';
 const resolutions = [
   { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -36,10 +38,6 @@ export default function EditStream() {
       resp.then((res) => {
         setchecking(false);
         setStream(res.data.stream);
-        if(res.data.stream){
-          setCombineAudios(stream.audio ? JSON.parse(stream.audio) : []);
-          setCombineVideos(stream.video ? JSON.parse(stream.video) : []);
-        }
       }).catch((err) => {
         setchecking(false);
       });
@@ -51,11 +49,25 @@ export default function EditStream() {
       }
     },[streamId]);
 
+
+    const [alreadyVideos, setAlreadyVideos] = useState([]);
+    const [alreadyAudios, setAlreadyAudios] = useState([]);
+
+    useEffect(()=>{
+      if(stream){
+        setAlreadyVideos(stream.video ? JSON.parse(stream.video) : []);
+        setAlreadyAudios(stream.audio ? JSON.parse(stream.audio) : []);
+        setCloudVideos(stream.video ? JSON.parse(stream.video) : []);
+        setCloudAudios(stream.audio ? JSON.parse(stream.audio) : []);
+        setStreamType(stream.streamType ? stream.streamType : "video");
+      }
+    },[stream]);
+
   
   const [status, setStatus] = useState();
   const {Errors, user} = useContext(UserContext);
   const [streamType, setStreamType] = useState(stream.streamType ? stream.streamType : "video");
-  const [loop, setLoop] = useState(true);
+  const [loop, setLoop] = useState(stream && stream.ordered ? stream.ordered : true);
 
   const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
   const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
@@ -75,14 +87,12 @@ export default function EditStream() {
   const [combineAudios, setCombineAudios] = useState([]);
 
   useEffect(() => {
-    setCombineAudios([...audios, ...cloudAudios]);
-    console.log("COMBINED AUDIOS",[...audios, ...cloudAudios])
-  }, [audios, cloudAudios]);
+    setCombineAudios([...alreadyAudios, ...cloudAudios]);
+  }, [alreadyAudios, cloudAudios]);
 
   useEffect(() => {
-    setCombineVideos([...videos, ...cloudVideos]);
-    console.log("COMBINED VIDEOS",[...videos, ...cloudVideos])
-  }, [videos, cloudVideos]);
+    setCombineVideos([...alreadyVideos,...cloudVideos]);
+  }, [alreadyVideos, cloudVideos]);
 
   const [data, setData] = useState({
     title: stream ? stream.title : "",
@@ -113,7 +123,6 @@ export default function EditStream() {
 
   const getCloudFiles = (array) => {
     setCloudVideos(array);
-    console.log("cloud videos updated",array)
   }
 
   const getCloudAudio = (array) => {
@@ -124,20 +133,20 @@ export default function EditStream() {
       const temp = videos;
       const removed = temp.filter(f => f.name !== l.name);
       setVideos(removed);
-      console.log("updated upload files removed", removed);
   }
 
   const getVideos = (array) => {
     const tmp = videos;
     tmp.push(array);
     setVideos(tmp);
-    console.log("final video array tmp",tmp)
+    setCombineVideos([...combineVideos, ...tmp]);
   }
   
   const getAudios = (array) => {
     const tmp = audios;
     tmp.push(array);
     setaudios(tmp);
+    setCombineAudios([...combineAudios, ...tmp]);
   }
 
   const handleinput = (e) => {
@@ -146,7 +155,6 @@ export default function EditStream() {
 
   const [playlistsCreating, setPlaylistsCreating] = useState(false);
   const [playlist, setPlaylist] = useState();
-
   const [streamStarted, setStreamStarted] = useState(false);
   const createPlaylist = async (e) => {
     setStreamStarted(true);
@@ -224,23 +232,22 @@ export default function EditStream() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-    if(type === "next" && step === 1 && data.title === ''  ){
-        toast.error("Stream title is required.");
-        return false;
-    }
-    if(type === "next" && step === 1 && data.description === ''  ){
-        toast.error("Stream description is required.");
-        return false;
-    }
-    if(type === "next" && step === 2 && image === null || image === ''){
-        toast.error("Please select a thumbnail for video stream.");
-        return false;
-    }
-    if(type === "next" && step === 2 && streamType === 'video' && combineVideos.length < 1  ){
+    // if(type === "next" && step === 1 && data.title === ''  ){
+    //     toast.error("Stream title is required.");
+    //     return false;
+    // }
+    // if(type === "next" && step === 1 && data.description === ''  ){
+    //     toast.error("Stream description is required.");
+    //     return false;
+    // }
+    // if(type === "next" && step === 2 && image === null || image === ''){
+    //     toast.error("Please select a thumbnail for video stream.");
+    //     return false;
+    // }
+    if(type === "next" && step === 2 && stream && stream.streamType === 'video' && combineVideos.length < 1  ){
         toast.error("Please select atleast one video for this stream.");
         return false;
     }
-   
     if (type === "next" && step === 2 && streamType === 'image' && (!combineAudios || combineAudios.length === 0) && (!radio || radio.length === 0)) {
       toast.error("Please choose songs or any sound effect for this stream.");
       return false;
@@ -274,6 +281,58 @@ export default function EditStream() {
         {loading ? <p className='text-green-500 text-lg text-center my-3'>Almost done !!. Waiting for connection. </p> : ''}
       </div>
     </div>
+  }
+
+  const UpVideo = ({file}) =>{
+    const removeFile = () => {
+      const temp = alreadyVideos;
+      const removed = temp.filter(f => f !== file);
+      setAlreadyVideos(removed);
+      
+      const cmbinetemp = combineVideos;
+      const cremoved = cmbinetemp.filter(f => f !== file);
+      setCombineVideos(cremoved);
+    }
+    return<>
+    <div className="flex justify-center w-full mx-auto">
+    <div className='selectedMedia w-full relative bg-gray-900 rounded-xl' >
+      <button className='z-10 absolute top-2 right-2 bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white' onClick={removeFile} >Remove</button>
+      <video playsInline className='w-full object-cover h-full max-h-[150px] rounded-xl min-h-[150px]'>
+        <source src={file.url} type={file.type} />
+      </video>
+      <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>
+    </div>
+  </div>
+    <h2 className='text-gray-200 text-[14px] mt-2 line-clamp-1'>{file.name}</h2>
+    </> 
+  }
+
+  const UpAudio = ({file}) =>{
+    const removeFile = () => {
+      const temp = alreadyAudios;
+      const removed = temp.filter(f => f !== file);
+      setAlreadyAudios(removed);
+      
+      const cmbinetemp = combineAudios;
+      const cremoved = cmbinetemp.filter(f => f !== file);
+      setCombineAudios(cremoved);
+    }
+    const size = file.size / 1024 / 1024;
+    return<>
+      <div className="flex justify-center w-full mx-auto">
+      <div className='selectedMedia w-full relative border border-gray-500 rounded-xl' >
+        <button className='z-10 absolute top-2 right-2 bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white' onClick={removeFile} >Remove</button>
+        <div className='p-4 flex justify-center items-center w-full min-h-[150px]' >
+          <BsFiletypeMp3 size='3rem' color="#fff" />
+        </div>
+        <div className='p-2 sm:p-3'>
+          <p className='text-gray-400 text-sm line-clamp-1 w-full'>{file.name}</p>
+          <p className='text-gray-400 text-[10px] line-clamp-1 w-full'>Size : {size.toFixed(2)} MB</p>
+          <div className='progresscomplete'><FaCircleCheck size={'2rem'} color='green' /></div>
+        </div>
+      </div>
+    </div>
+    </> 
   }
 
   return (
@@ -317,20 +376,34 @@ export default function EditStream() {
               <div className={step === 2 ? "" : "hidden"}>
                 <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
                 {streamType === 'video' ? 
-                  <UploadVideos getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo}  update={getVideos}/> 
+                <>
+                  <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
+                  <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
+                  <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                    {alreadyVideos && alreadyVideos.map((file, i) => (
+                      <div key={`cloud-file-${i}`} className='wrap'>
+                        <UpVideo file={file} />
+                      </div>
+                    ))}
+                  </div>
+                </>
                 : ''} 
-                <UploadAudios getCloudFiles={getCloudAudio} removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
+                <UploadAudios getCloudFiles={getCloudAudio} 
+                removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
+                <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
+                  <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                    {alreadyAudios && alreadyAudios.map((file, i) => (
+                      <div key={`cloud-file-${i}`} className='wrap'>
+                        <UpAudio file={file} />
+                      </div>
+                    ))}
+                  </div>
               </div>
 
               <div className={step === 3 ? "" : "hidden"}>
-                {/* {videos && videos.length > 0 ?
-                  <> */}
-                    <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
-                    <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
-                    <ManageFiles update={suffleVideos} data={combineVideos} />
-                  {/* </>
-                : <></>}   */}
-
+                <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
+                <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
+                <ManageFiles update={suffleVideos} data={combineVideos} />
                 {combineAudios && combineAudios.length > 0 ?
                   <>
                     <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>

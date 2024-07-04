@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsFiletypeMp3 } from "react-icons/bs";
 import AddAudioBox from './AddAudioBox';
 import Popup from '../../common/Popup';
@@ -28,7 +28,7 @@ import { FaCircleCheck } from 'react-icons/fa6';
     setSelected(removed);
   }
   
-  const [libraryFiles, setLibraryFiles] = useState([])
+  const [libraryFiles, setLibraryFiles] = useState([]);
   const getSelectedVideos = (videos) => {
     console.log("seelcted videos",videos);
     setLibraryFiles([...libraryFiles, ...videos])
@@ -61,7 +61,6 @@ import { FaCircleCheck } from 'react-icons/fa6';
      </div>
    </div>
  </div>  
-    
     
     </> 
   }

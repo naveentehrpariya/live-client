@@ -10,31 +10,31 @@ const testimonials = [
       avatar: user,
       name: "Anthony",
       content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. Runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
+      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
    },
    {
       avatar: user,
       name: "Anthony",
       content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. Runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
+      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
    },
    {
       avatar: user,
       name: "Anthony",
       content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. Runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
+      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
    },
    {
       avatar: user,
       name: "Anthony",
       content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. Runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
+      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
    },
    {
       avatar: user,
       name: "Anthony",
       content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. Runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
+      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
    },
 ];
 

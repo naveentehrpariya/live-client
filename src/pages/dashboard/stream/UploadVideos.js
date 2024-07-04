@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsCameraVideo } from "react-icons/bs";
 import AddVideoBox from './AddVideoBox';
 import MyFiles from './MyFiles';
@@ -43,7 +43,6 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       getCloudFiles(removed)
     }
     return<>
-  
     <div className="flex justify-center w-full mx-auto">
     <div className='selectedMedia w-full relative bg-gray-900 rounded-xl' >
       <button className='z-10 absolute top-2 right-2 bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white' onClick={removeFile} >Remove</button>
@@ -62,19 +61,6 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
       <div className='flex items-center justify-start'>
         <h2 className='mb-0 text-gray-200 text-xl '>Choose videos</h2>
       </div>
-
-      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
-          {selected && selected.map((file, i) => (
-            <div key={`local-file-${i}${file.name}`} className='wrap'>
-              <AddVideoBox key={`local-file-${i}`} removeFile={removeLocalfile} update={update} file={file} />
-            </div>
-          ))}
-          {libraryFiles && libraryFiles.map((file, i) => (
-            <div key={`cloud-file-${i}`} className='wrap'>
-              <CloudFile file={file} />
-            </div>
-          ))}
-      </div> 
       <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
          <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
          <label htmlFor="file-upload-video" className="flex flex-col-reverse items-center justify-center w-full cursor-pointer p-4">
@@ -89,8 +75,19 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
           <MyFiles sendFile={getSelectedVideos} type={'video'} />
         </div>
       </Popup>
-
-        
+      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+          {selected && selected.map((file, i) => (
+            <div key={`local-file-${i}${file.name}`} className='wrap'>
+              <AddVideoBox key={`local-file-${i}`} removeFile={removeLocalfile} update={update} file={file} />
+            </div>
+          ))}
+          {libraryFiles && libraryFiles.map((file, i) => (
+            <div key={`cloud-file-${i}`} className='wrap'>
+              <CloudFile file={file} />
+            </div>
+          ))}
+      </div> 
+      
     </div>
   );
 }

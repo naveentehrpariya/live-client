@@ -5,6 +5,8 @@ import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'r
 import Nocontent from "../../common/NoContent";
 
 export default function ManageFiles({ data, update }) {
+
+  console.log("data", data)
   const Dropdown = () => {  
     const [open, setOpen] = useState(false);
     function showDropdownOptions() {

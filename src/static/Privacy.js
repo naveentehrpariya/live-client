@@ -8,7 +8,7 @@ export default function Privacy() {
       <div className="container mx-auto py-8 md:py-12">
           <h1 className="text-2xl md:text-4xl font-bold text-white">Privacy Policy</h1>
           <p className="text-gray-100 mt-5">Welcome to Run Stream!</p>
-          <p className="text-gray-100 mt-5">This Privacy Policy governs the manner in which <a className='text-blue-500' target='_blank' href='/'>RunStream.co</a>, operated by RunStream, Inc. ("us", "we", or "our"), collects, uses, maintains, and discloses information collected from users ("User" or "You") of the RunStream.co website (the "Service").</p>
+          <p className="text-gray-100 mt-5">This Privacy Policy governs the manner in which <a className='text-blue-500' target='_blank' href='/'>runstream.co</a>, operated by runstream, Inc. ("us", "we", or "our"), collects, uses, maintains, and discloses information collected from users ("User" or "You") of the runstream.co website (the "Service").</p>
           <p className="text-gray-100 mt-5">This page informs you of our policies regarding the collection, use, and disclosure of Personal Information when you use our Service.</p>
           <p className="text-gray-100 mt-5">By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at <Link className='text-blue-500' to='/terms-of-service' target='_blank' >https://runstream.co/terms-of-service</Link></p>
           <h2 className="text-2xl font-bold text-white mt-10">Information Collection And Use</h2>
@@ -25,7 +25,7 @@ export default function Privacy() {
           <p className="text-gray-100 mt-5">We may employ third party companies and individuals to facilitate our Service, to provide the Service on our behalf, to perform Service-related services and/or to assist us in analysing how our Service is used.</p>
           <p className="text-gray-100 mt-5">These third parties have access to your Personal Information only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.</p>
           <h2 className="text-2xl font-bold text-white mt-10">Business Transaction</h2>
-          <p className="text-gray-100 mt-5">If RunStream, Inc. is involved in a merger, acquisition or asset sale, your Personal Information may be transferred as a business asset. In such cases, we will provide notice before your Personal Information is transferred and/or becomes subject to a different Privacy Policy.</p>
+          <p className="text-gray-100 mt-5">If runstream, Inc. is involved in a merger, acquisition or asset sale, your Personal Information may be transferred as a business asset. In such cases, we will provide notice before your Personal Information is transferred and/or becomes subject to a different Privacy Policy.</p>
           <h2 className="text-2xl font-bold text-white mt-10">Security</h2>
           <p className="text-gray-100 mt-5">The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.</p>
           <h2 className="text-2xl font-bold text-white mt-10">Children’s Privacy</h2>
