@@ -59,7 +59,7 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
   return (
     <div className='border-t border-gray-800 mt-8 pt-8'>
       <div className='flex items-center justify-start'>
-        <h2 className='mb-0 text-gray-200 text-xl '>Choose videos</h2>
+        <h2 className='mb-3 text-gray-200 text-xl '>Choose videos</h2>
       </div>
       <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
          <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />

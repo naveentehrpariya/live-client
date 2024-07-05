@@ -100,26 +100,20 @@ import { FaCircleCheck } from 'react-icons/fa6';
 
         <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4'>
           {selected && selected.map((file, i) => (
-            <div key={i} className='wrap'>
+            <div key={`selected-${file.name}-${i}`} className='wrap'>
               <AddAudioBox removeFile={removeLocalfile} update={update} file={file} />
             </div>
           ))}
           {libraryFiles && libraryFiles.map((file, i) => (
-            <div key={`cloud-file-${i}`} className='wrap'>
+            <div key={`cloud-file-${i}-${file.name}`} className='wrap'>
               <CloudFile file={file} />
             </div>
           ))}
         </div> 
-
-        
-
         </>
         : 
         <input onChange={(e)=>setRadio(e.target.value)} name='radiostream' type={'text'} placeholder={"Radio stream url"} className="input" />
       }
-
-        
-
     </div>
   );
 }

@@ -16,6 +16,7 @@ import { RiListOrdered2 } from "react-icons/ri";
 import CheckYoutube from './CheckYoutube';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { BsFiletypeMp3 } from 'react-icons/bs';
+import Loading from '../../common/Loading';
 const resolutions = [
   { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -32,9 +33,12 @@ export default function EditStream() {
     console.log("streamId",streamId)
     const [stream, setStream] = useState([]);
     const [checking, setchecking] = useState(false);
-    function fetchStream() {
+    function fetchStream(signal) {
+      if(checking){
+        return false;
+      }
       setchecking(true);
-      const resp = Api.get(`/stream/${streamId}`);
+      const resp = Api.get(`/stream/${streamId}`, {signal});
       resp.then((res) => {
         setchecking(false);
         setStream(res.data.stream);
@@ -44,8 +48,10 @@ export default function EditStream() {
     }
   
     useEffect(()=>{
+      const controller = new AbortController();
+      const signal = controller.signal;
       if(streamId){
-        fetchStream();
+        fetchStream(signal);
       }
     },[streamId]);
 
@@ -57,16 +63,16 @@ export default function EditStream() {
       if(stream){
         setAlreadyVideos(stream.video ? JSON.parse(stream.video) : []);
         setAlreadyAudios(stream.audio ? JSON.parse(stream.audio) : []);
-        setCloudVideos(stream.video ? JSON.parse(stream.video) : []);
-        setCloudAudios(stream.audio ? JSON.parse(stream.audio) : []);
-        setStreamType(stream.streamType ? stream.streamType : "video");
+        // setCloudVideos(stream.video ? JSON.parse(stream.video) : []);
+        // setCloudAudios(stream.audio ? JSON.parse(stream.audio) : []);
+        setStreamType(stream.stream_type ? stream.stream_type : "video");
       }
     },[stream]);
 
   
   const [status, setStatus] = useState();
   const {Errors, user} = useContext(UserContext);
-  const [streamType, setStreamType] = useState(stream.streamType ? stream.streamType : "video");
+  const [streamType, setStreamType] = useState("video");
   const [loop, setLoop] = useState(stream && stream.ordered ? stream.ordered : true);
 
   const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
@@ -85,6 +91,11 @@ export default function EditStream() {
   const [radio, setRadio] = useState(null);
   const [combineVideos, setCombineVideos] = useState([]);
   const [combineAudios, setCombineAudios] = useState([]);
+
+  const updateRadio = (e) => {
+    console.log("radio",e)
+    setRadio(e);
+  }
 
   useEffect(() => {
     setCombineAudios([...alreadyAudios, ...cloudAudios]);
@@ -118,7 +129,9 @@ export default function EditStream() {
     const temp = audios;
     const removed = temp.filter(f => f.name !== l.name);
     setaudios(removed);
-    console.log("updated uploaded audio files removed", removed);
+
+    const removedc = combineAudios.filter(f => f.name !== l.name);
+    setCombineAudios(removedc);
   }
 
   const getCloudFiles = (array) => {
@@ -133,6 +146,10 @@ export default function EditStream() {
       const temp = videos;
       const removed = temp.filter(f => f.name !== l.name);
       setVideos(removed);
+
+      const tempc = combineVideos;
+      const removedc = tempc.filter(f => f.name !== l.name);
+      setCombineVideos(removedc);
   }
 
   const getVideos = (array) => {
@@ -157,9 +174,8 @@ export default function EditStream() {
   const [playlist, setPlaylist] = useState();
   const [streamStarted, setStreamStarted] = useState(false);
   const createPlaylist = async (e) => {
-    setStreamStarted(true);
-    setPlaylistsCreating(true);
-
+    // setStreamStarted(true);
+    // setPlaylistsCreating(true);
     let mp4 = [];
     combineVideos.forEach(video => {
       mp4.push(video.url);
@@ -170,12 +186,40 @@ export default function EditStream() {
       mp3.push(audio.url);
     });
 
-    const resp = Api.post(`/create-playlist`,{
-        "type": videos.length < 1 ? 'image' : streamType,
-        "videos": mp4,
-        "audios": mp3.length ? mp3 : false,
+    console.log("data",combineVideos, combineAudios)
+    console.log({
+        "type": combineVideos.length < 1 ? 'image' : streamType,
+        "videos": streamType === "image" ? [] : mp4,
+        "audios": radio ? [] : mp3.length ? mp3 : false,
         "thumbnail": image,
-        "radio":radio,
+        "radio": radio,
+        "loop":loop
+    });
+
+    handleCreateStream({
+      streamId : stream && stream.streamId,
+      title: data.title || stream.title,
+      video: "res.data.video",
+      audio: "res.data.audio",
+      playlistId: "res.data.playlistId",
+      type:streamType,
+      thumbnail: image,
+      resolution: data.resolution,
+      description: data.description,
+      ordered : loop,
+      radio:radio,
+      audios: combineAudios,
+      videos: combineVideos,
+    });
+
+    return false;
+
+    const resp = Api.post(`/create-playlist`,{
+        "type": combineVideos.length < 1 ? 'image' : streamType,
+        "videos": streamType === "image" ? [] : mp4,
+        "audios": radio ? [] : mp3.length ? mp3 : false,
+        "thumbnail": image,
+        "radio": radio,
         "loop":loop
     });
     resp.then(res => {
@@ -212,8 +256,7 @@ export default function EditStream() {
 
   const handleCreateStream = (payload) => {
     setLoading(true);
-    const m = new Endpoints();
-    const resp = m.create_stream(payload);
+    const resp = Api.post(`/edit-stream`,payload);
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
@@ -288,7 +331,6 @@ export default function EditStream() {
       const temp = alreadyVideos;
       const removed = temp.filter(f => f !== file);
       setAlreadyVideos(removed);
-      
       const cmbinetemp = combineVideos;
       const cremoved = cmbinetemp.filter(f => f !== file);
       setCombineVideos(cremoved);
@@ -336,8 +378,9 @@ export default function EditStream() {
   }
 
   return (
-    <AuthLayout heading='New Stream'>
-      <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
+    <AuthLayout heading={stream.title || "Edit Stream"}>
+      { checking ? <Loading /> :
+        <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
           <div className={` pages-steps  lg:max-w-[700px] m-auto`} >
               <div className={step === 1 ? "" : "hidden"}>
                   <div className='grid sm:grid-cols-2 gap-5 my-4'>
@@ -376,21 +419,25 @@ export default function EditStream() {
               <div className={step === 2 ? "" : "hidden"}>
                 <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
                 {streamType === 'video' ? 
-                <>
-                  <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
-                  <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
-                  <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
-                    {alreadyVideos && alreadyVideos.map((file, i) => (
-                      <div key={`cloud-file-${i}`} className='wrap'>
-                        <UpVideo file={file} />
-                      </div>
-                    ))}
-                  </div>
-                </>
+                  <>
+                    <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
+                    <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
+                    <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                      {alreadyVideos && alreadyVideos.map((file, i) => (
+                        <div key={`cloud-file-${i}`} className='wrap'>
+                          <UpVideo file={file} />
+                        </div>
+                      ))}
+                    </div>
+                  </>
                 : ''} 
-                <UploadAudios getCloudFiles={getCloudAudio} 
-                removeUploadedAudio={removeUploadedAudio} setRadio={setRadio} streamType={streamType} update={getAudios} />
-                <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
+
+                  <UploadAudios getCloudFiles={getCloudAudio} 
+                  removeUploadedAudio={removeUploadedAudio} setRadio={updateRadio} streamType={streamType} update={getAudios} />
+                  
+                {radio ? "" : 
+                <>
+                  <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
                   <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
                     {alreadyAudios && alreadyAudios.map((file, i) => (
                       <div key={`cloud-file-${i}`} className='wrap'>
@@ -398,13 +445,20 @@ export default function EditStream() {
                       </div>
                     ))}
                   </div>
+                </>
+                }
+
+
               </div>
 
               <div className={step === 3 ? "" : "hidden"}>
-                <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
-                <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
-                <ManageFiles update={suffleVideos} data={combineVideos} />
-                {combineAudios && combineAudios.length > 0 ?
+                {streamType === 'video' ? <>
+                  <h2 className='mt-8 text-white font-bold text-lg'>Arrange Videos Order</h2>
+                  <p className='text-gray-400 mb-4'>Arrange the order of the videos in the stream.</p>
+                  <ManageFiles update={suffleVideos} data={combineVideos} />
+                </> : ""}
+
+                {combineAudios && combineAudios.length > 0 && !radio ?
                   <>
                     <h2 className='mt-8 text-white font-bold text-lg'>Arrange Audios Order</h2>
                     <p className='text-gray-400 mb-4'>Arrange the order of the audios in the stream.</p>
@@ -448,7 +502,8 @@ export default function EditStream() {
               {streamStarted ? <LOADING /> : ''}
               
           </div>
-      </div>
+        </div>
+      }
     </AuthLayout>
   )
 }

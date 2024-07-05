@@ -12,23 +12,22 @@ export default function CheckLogin({redirect, takeaction}) {
       const m = new Endpoints();
       const resp = m.user_profile();
       resp.then((res) => {
-          // if(res.data.status && res.data.user && res.data.user.mailVerifiedAt === null){
-          //   navigate('/send-verification-email');
-          // }  
-         if(res.data.status){
-            setIsAuthenticated(true);
-            setUser(res.data.user);
-          }
-         if(res.data.status){
-          if(redirect){
-              navigate('/home');
-          }
-         } else {
-            toast.error("You must login first.");
-            navigate('/login');
-            setIsAuthenticated(false);
-            setUser(null);
+        if(res.data.status){
+          if(res.data.user && res.data.user.mailVerifiedAt === null){
+            navigate('/send-verification-email');
+          }  
+          setIsAuthenticated(true);
+          setUser(res.data.user);
+         if(redirect){
+             navigate('/home');
          }
+        } else {
+           toast.error("You must login first.");
+           navigate('/login');
+           setIsAuthenticated(false);
+           setUser(null);
+        }
+        
       }).catch((err) => {
         console.log("errors",err);
         if(takeaction){
