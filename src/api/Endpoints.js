@@ -38,8 +38,8 @@ class Endpoints extends Component {
         return Api.post(`/subscribe`,data);
     }
 
-    async mymedia(type) {
-        return Api.get(`/my-media/${type}`);
+    async mymedia(type, page, limit) {
+        return Api.get(`/my-media/${type}?page=${page}&limit=${limit}`);
     }
 
     async delete_media(id) {

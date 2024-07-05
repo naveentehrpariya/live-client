@@ -36,9 +36,12 @@ export default function Stream({data, reload}) {
          </div>
          <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status 
          font-bold bg-green-700 text-white rounded-xl px-3 py-1 ${isLive ? "bg-red-800 " : "bg-yellow-700"}`} >
-        {data.status == 1 ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
+         {data.status === 1 ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
       
-      <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl' to={`/edit-stream/${data.streamId}`} >Edit</Link>
+         {data.status === 1 ? 
+            <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl'
+            to={`/edit-stream/${data.streamId}`} >Edit Stream</Link>
+         : ""}
       
       </div>
       <div className='stream-info p-6 pt-4'>

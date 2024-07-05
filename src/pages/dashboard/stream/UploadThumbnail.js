@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
-import MyFiles from './MyFiles';
 
 export default function UploadThumbnail({update, exists}) {
    const [uploading, setUploading] = useState(false);

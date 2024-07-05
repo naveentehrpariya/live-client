@@ -7,14 +7,24 @@ export default function MyFiles({type, sendFile}) {
    const [loading, setLoading] = useState(false);
    const [files, setFiles] = useState([]);
    const [selected, setSelected] = useState([]);
-
-   const fetchFiles = async () => {
+   const [page, setPage] = useState(1);
+   const [hasMore, setHasMore] = useState(true);
+   const fetchFiles = async (pg) => {
       setLoading(true);
       const m = new Endpoints();
-      const resp = m.mymedia(type || 'image');
+      const resp = m.mymedia((type || 'image'), pg, 10 );
       resp.then(res => {
-         setFiles(res.data.files);
          console.log(res.data);
+         if(pg > 1){
+            const old = files;
+            setFiles([...old, ...res.data.files]);
+         } else { 
+            setFiles(res.data.files);
+         }
+         if(res.data.totalPages === pg){
+            setHasMore(false)
+         }
+         setPage(page+1);
          setLoading(false);
       }).catch(err => {
         console.log(err);
@@ -23,7 +33,7 @@ export default function MyFiles({type, sendFile}) {
    }
 
    useEffect(()=>{
-      fetchFiles();
+      fetchFiles(page);
    },[]);
    
    function selectFile(file) {
@@ -52,9 +62,7 @@ export default function MyFiles({type, sendFile}) {
 
   return (
     <>
-      { loading ? <Loading /> 
-         :
-         <>
+      
             {type === "video" ? 
                <>
                {files && files.length ?
@@ -144,9 +152,14 @@ export default function MyFiles({type, sendFile}) {
                   }
                </> 
             : ""}
+            
+            { loading ? <Loading /> : 
+            <>
+            {hasMore ? <button onClick={()=>fetchFiles(page)}  className='bg-gray-800 rounded-xl px-4 text-sm py-2 text-white table mb-3  m-auto'>Load More</button> : ""}
+            </>
+            }
+
             <button onClick={addFiles} className='bg-main mt-3 rounded-xl px-3 py-2 text-white w-full sticky bottom-0'>+ Add</button>
-         </>
-      }
-    </>
+      </>
   )
 }
