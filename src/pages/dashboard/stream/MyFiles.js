@@ -14,7 +14,6 @@ export default function MyFiles({type, sendFile}) {
       const m = new Endpoints();
       const resp = m.mymedia((type || 'image'), pg, 10 );
       resp.then(res => {
-         console.log(res.data);
          if(pg > 1){
             const old = files;
             setFiles([...old, ...res.data.files]);
@@ -148,18 +147,25 @@ export default function MyFiles({type, sendFile}) {
                            })}
                         </ul>
                      </> 
-                     : <Nocontent />
+                     :<> {!loading ? <Nocontent /> : ''}</>
                   }
                </> 
             : ""}
             
             { loading ? <Loading /> : 
             <>
-            {hasMore ? <button onClick={()=>fetchFiles(page)}  className='bg-gray-800 rounded-xl px-4 text-sm py-2 text-white table mb-3  m-auto'>Load More</button> : ""}
+               { hasMore ? 
+                  <>
+                     {files.length > 0 && <button onClick={()=>fetchFiles(page)} 
+                     className='bg-gray-800 rounded-xl px-4 text-sm py-2 text-white table mb-3  m-auto'>
+                        Load More
+                     </button>} 
+                  </>
+               : ""}
             </>
             }
 
-            <button onClick={addFiles} className='bg-main mt-3 rounded-xl px-3 py-2 text-white w-full sticky bottom-0'>+ Add</button>
+            {files.length > 0 && <button onClick={addFiles} className='bg-main mt-3 rounded-xl px-3 py-2 text-white w-full sticky bottom-0'>+ Add</button>}
       </>
   )
 }

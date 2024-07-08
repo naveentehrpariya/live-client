@@ -174,8 +174,8 @@ export default function EditStream() {
   const [playlist, setPlaylist] = useState();
   const [streamStarted, setStreamStarted] = useState(false);
   const createPlaylist = async (e) => {
-    // setStreamStarted(true);
-    // setPlaylistsCreating(true);
+    setStreamStarted(true);
+    setPlaylistsCreating(true);
     let mp4 = [];
     combineVideos.forEach(video => {
       mp4.push(video.url);
@@ -195,25 +195,6 @@ export default function EditStream() {
         "radio": radio,
         "loop":loop
     });
-
-    handleCreateStream({
-      streamId : stream && stream.streamId,
-      title: data.title || stream.title,
-      video: "res.data.video",
-      audio: "res.data.audio",
-      playlistId: "res.data.playlistId",
-      type:streamType,
-      thumbnail: image,
-      resolution: data.resolution,
-      description: data.description,
-      ordered : loop,
-      radio:radio,
-      audios: combineAudios,
-      videos: combineVideos,
-    });
-
-    return false;
-
     const resp = Api.post(`/create-playlist`,{
         "type": combineVideos.length < 1 ? 'image' : streamType,
         "videos": streamType === "image" ? [] : mp4,
@@ -227,18 +208,27 @@ export default function EditStream() {
         if(res.data.playlistId){
           setPlaylist(res.data);
           handleCreateStream({
-            title: data.title,
+            streamId : stream.streamId,
+            stream : stream.streamId,
+            title: data.title, 
             video: res.data.video,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
             type:streamType,
             thumbnail: image,
-            resolution: data.resolution,
-            description: data.description,
+            resolution: data.resolution || stream.resolution,
+            description: data.description || '',
             ordered : loop,
             radio:radio,
             audios: combineAudios,
             videos: combineVideos,
+            enableMonitorStream: true,
+            enableDvr: true,
+            enableContentEncryption: false,
+            enableEmbed: true,
+            enableAutoStart: false,
+            enableAutoStop: false,
+            broadcastStreamDelayMs : 0
           })
         } else {
           toast.error(res.data.message);
@@ -275,18 +265,18 @@ export default function EditStream() {
 
   const [step, setStep] = useState(1);
   const handleStep = (type) => {
-    // if(type === "next" && step === 1 && data.title === ''  ){
-    //     toast.error("Stream title is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 1 && data.description === ''  ){
-    //     toast.error("Stream description is required.");
-    //     return false;
-    // }
-    // if(type === "next" && step === 2 && image === null || image === ''){
-    //     toast.error("Please select a thumbnail for video stream.");
-    //     return false;
-    // }
+    if(type === "next" && step === 1 && data.title === ''  ){
+        toast.error("Stream title is required.");
+        return false;
+    }
+    if(type === "next" && step === 1 && data.description === ''  ){
+        toast.error("Stream description is required.");
+        return false;
+    }
+    if(type === "next" && step === 2 && image === null || image === ''){
+        toast.error("Please select a thumbnail for video stream.");
+        return false;
+    }
     if(type === "next" && step === 2 && stream && stream.streamType === 'video' && combineVideos.length < 1  ){
         toast.error("Please select atleast one video for this stream.");
         return false;
@@ -399,15 +389,15 @@ export default function EditStream() {
                     {inputFields.map((field, index) => (
                       <input required key={index} defaultValue={field.defaultValue} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
-                    { user && user.plan && user && user.trialStatus === 'active' ?
-                      <select defaultValue={stream.resolution} className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {freeresolutions && freeresolutions.map((resolution, index) => (
+                    { user && user.plan ?
+                      <select  className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
                           <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
                         ))}
                       </select>
-                      :
-                      <select  className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                        :
+                      <select defaultValue={stream.resolution} className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                        {freeresolutions && freeresolutions.map((resolution, index) => (
                           <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
                         ))}
                       </select>
@@ -417,7 +407,11 @@ export default function EditStream() {
               </div>
 
               <div className={step === 2 ? "" : "hidden"}>
-                <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
+                {/* <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  /> */}
+                <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize max-h-[768px] rounded-2xl overflow-hidden relative' >
+                  <img className="h-full w-full thumbnailsize object-cover max-w-full" src={stream.thumbnail} alt="Cloud" />
+                </div>
+
                 {streamType === 'video' ? 
                   <>
                     <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
@@ -494,7 +488,7 @@ export default function EditStream() {
                   <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
                     : 
                   <button disabled={playlistsCreating} onClick={createPlaylist}  className={`btn sm mb-0`} >
-                    {playlistsCreating ? "Processing" : "Create Stream"}
+                    {playlistsCreating ? "Processing" : "Update Stream"}
                   </button>
                 }
               </div>}

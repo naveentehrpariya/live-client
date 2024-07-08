@@ -25,15 +25,13 @@ const freeresolutions = [
 ];
 
 export default function CreateStreamForm() {
-    const [status, setStatus] = useState();
-    const {Errors, user} = useContext(UserContext);
-    const [streamType, setStreamType] = useState("video");
-    const [loop, setLoop] = useState(true);
+  const [status, setStatus] = useState();
+  const {Errors, user} = useContext(UserContext);
+  const [streamType, setStreamType] = useState("video");
+  const [loop, setLoop] = useState(true);
 
-    const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
-    const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
-    console.log(filteredResolutions);
-
+  const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
+  const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -213,14 +211,16 @@ export default function CreateStreamForm() {
         toast.error("Please select a thumbnail for video stream.");
         return false;
     }
-    if(type === "next" && step === 2 && streamType === 'video' && combineVideos.length < 1  ){
+    const v = [...combineVideos, ...videos, ...cloudVideos];
+    if(type === "next" && step === 2 && streamType === 'video' && v.length < 1 ){
         toast.error("Please select atleast one video for this stream.");
         return false;
     }
    
-    if (type === "next" && step === 2 && streamType === 'image' && (!combineAudios || combineAudios.length === 0) && (!radio || radio.length === 0)) {
-      toast.error("Please choose songs or any sound effect for this stream.");
-      return false;
+    const aud = [...combineAudios, ...audios, ...cloudAudios];
+    if(type === "next" && step === 2 && streamType === 'audio' && aud.length < 1 ){
+        toast.error("Please select atleast one audio for this stream.");
+        return false;
     }
     if(type === 'prev' && step === 1){
       return false
@@ -230,6 +230,8 @@ export default function CreateStreamForm() {
     } else {
       setStep(step-1);
     }
+    const wrapper = document.querySelector('.main-wrap');
+    wrapper && wrapper.scrollTo(0, 0);
   }
 
   const LOADING = () => {
@@ -275,15 +277,15 @@ export default function CreateStreamForm() {
                     {inputFields.map((field, index) => (
                       <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
-                    { user && user.plan && user && user.trialStatus === 'active' ?
+                    { user && user.plan ?
                       <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {freeresolutions && freeresolutions.map((resolution, index) => (
-                          <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                        ))}
-                      </select>
+                      {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                        <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                      ))}
+                      </select> 
                       :
                       <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
+                        {freeresolutions && freeresolutions.map((resolution, index) => (
                           <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
                         ))}
                       </select>

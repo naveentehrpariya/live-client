@@ -78,7 +78,7 @@ export default function Login() {
           <div className="w-full flex flex-col px-5 text-base leading-4 max-w-[590px] text-slate-500">
           <header>
               <Link to="/" className="self-center table  m-auto text-3xl font-mono font-bold text-center text-red-500 drunk lowercase">runstream</Link>
-              <h2 className="text-center font-mono text-[20px] mt-6 font-normal text-white">Login into tennis</h2>
+              <h2 className="text-center font-mono text-[20px] mt-6 font-normal text-white">Login into runstream</h2>
           </header>
           <main className="mt-8" >
               <LoginForm />
