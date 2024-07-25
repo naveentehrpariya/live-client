@@ -205,6 +205,10 @@ export default function CreateStreamForm() {
   }
 
   const [step, setStep] = useState(0);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
+
   const handleStep = (type) => {
     if(type === "next" && step === 1 && data.title === ''  ){
         toast.error("Stream title is required.");
@@ -296,7 +300,7 @@ export default function CreateStreamForm() {
                       <CheckYoutube set={setStatus} />
                       <div className={`grid sm:grid-cols-2 gap-5 my-4 `}>
                         <div onClick={()=>setStreamType("video")} className={`relative ${streamType === 'video' ? "border-[var(--main)]" : " border-gray-600"} cursor-pointer bg-black2 border  sm:p-4 p-8 rounded-3xl`}>
-                          <img src={video} className='w-full m-auto max-w-[200px]' alt="video" />
+                          <img src={video} className='w-full m-auto' alt="video" />
                           <h2 className={`${streamType === 'video' ? "text-white" : "text-gray-400"} mt-4 text-xl mb-2`}>24/7 Video background</h2>
                           <p className='text-gray-400'>Create a 24/7 stream with multiple video background and music by your choice.</p>
                           {streamType === 'video' ? <div className='absolute -top-2 -right-2' ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -305,7 +309,7 @@ export default function CreateStreamForm() {
                           : ""}
                         </div>
                         <div onClick={()=>setStreamType("image")} className={`relative ${streamType === 'image' ? "border-[var(--main)]" : " border-gray-600"} cursor-pointer bg-black2   border  sm:p-4 p-8 rounded-3xl`}>
-                        <img src={images} className='w-full m-auto max-w-[200px]' alt="video" />
+                        <img src={images} className='w-full m-auto' alt="video" />
                           <h2 className={`${streamType === 'image' ? "text-white" : "text-gray-400"} mt-4  text-xl mb-2`}>24/7 Image/GIF background</h2>
                           <p className='text-gray-400'>Create a 24/7 stream with single image/gif background and music by your choice.</p>
                           {streamType === 'image' ? <div className='absolute -top-2 -right-2' > <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

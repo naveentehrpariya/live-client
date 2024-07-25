@@ -24,7 +24,9 @@ export default function MyFiles({type, sendFile}) {
             setHasMore(false)
          }
          setPage(page+1);
-         setLoading(false);
+         setTimeout(()=>{
+            setLoading(false);
+         }, 500)
       }).catch(err => {
         console.log(err);
          setLoading(false);
@@ -61,7 +63,8 @@ export default function MyFiles({type, sendFile}) {
 
   return (
     <>
-      
+      { loading ? <Loading /> : 
+         <>
             {type === "video" ? 
                <>
                {files && files.length ?
@@ -147,25 +150,23 @@ export default function MyFiles({type, sendFile}) {
                            })}
                         </ul>
                      </> 
-                     :<> {!loading ? <Nocontent /> : ''}</>
+                     : <Nocontent />
                   }
                </> 
             : ""}
+         </>
+      }
             
-            { loading ? <Loading /> : 
-            <>
-               { hasMore ? 
-                  <>
-                     {files.length > 0 && <button onClick={()=>fetchFiles(page)} 
-                     className='bg-gray-800 rounded-xl px-4 text-sm py-2 text-white table mb-3  m-auto'>
-                        Load More
-                     </button>} 
-                  </>
-               : ""}
-            </>
-            }
+      { !loading  && hasMore ? 
+         <>
+            {files.length > 0 && <button onClick={()=>fetchFiles(page)} 
+            className='bg-gray-800 rounded-xl px-4 text-sm py-2 text-white table mb-3  m-auto'>
+               Load More
+            </button>} 
+         </> : ''
+      }
 
-            {files.length > 0 && <button onClick={addFiles} className='bg-main mt-3 rounded-xl px-3 py-2 text-white w-full sticky bottom-0'>+ Add</button>}
+      {files.length > 0 && <button onClick={addFiles} className='bg-main mt-3 rounded-xl px-3 py-2 text-white w-full sticky bottom-0'>+ Add</button>}
       </>
   )
 }
