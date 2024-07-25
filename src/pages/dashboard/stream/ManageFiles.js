@@ -45,16 +45,16 @@ export default function ManageFiles({ data, update }) {
       {items.map((value, index) => {
         const size = value.size / 1024 / 1024;
         const DragHandle = SortableHandle(() => (
-          <li key={index} class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 flex rounded-xl flex-row mb-2`}>
+          <li key={index} class={`{selected === file.url ? "bg-green-900" : "" } border-gray-400 bg-main text-white flex rounded-xl flex-row mb-2`}>
                   <div id='move' className={`select-none cursor-pointer bg-dark2 rounded-xl flex flex-1 items-center p-4
                     transition duration-500 ease-in-out transform w-full `}>
                     <div className="flex flex-col rounded-md w-10 h-10 min-w-10 bg-gray-300 justify-center items-center mr-2">🎥</div>
                     <div className="flex flex-col rounded-md justify-center items-center mr-4">
-                      <MdDragIndicator size='2rem' color="#cccccc" />
+                      <MdDragIndicator size='2rem' color="#fff" />
                     </div>
                     <div className="pl-1 pr-16">
                       <div className="font-medium text-white line-clamp-1">{value.name}</div>
-                      <div className="text-gray-500 text-sm">{value.mime} | {size.toFixed(2)} MB</div>
+                      <div className="text-gray-200 text-sm">{value.mime} | {size.toFixed(2)} MB</div>
                     </div>
                     <div className="text-gray-600 text-xs">
                         {/* <Dropdown /> */}

@@ -206,11 +206,6 @@ export default function CreateStreamForm() {
 
   const [step, setStep] = useState(0);
   const handleStep = (type) => {
-    if(type === "next" && step === 1 && !image  ){
-        toast.error("Please select a thumbnail for video stream.");
-        return false;
-    }
-
     if(type === "next" && step === 1 && data.title === ''  ){
         toast.error("Stream title is required.");
         return false;
@@ -219,6 +214,11 @@ export default function CreateStreamForm() {
         toast.error("Stream description is required.");
         return false;
     }
+    if(type === "next" && step === 2 && !image  ){
+        toast.error("Please select a thumbnail for video stream.");
+        return false;
+    }
+
     
     const v = [...combineVideos, ...videos, ...cloudVideos];
     if(type === "next" && step === 2 && streamType === 'video' && v.length < 1 ){
