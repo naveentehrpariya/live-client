@@ -51,7 +51,7 @@ export default function CheckYoutube({set}) {
 
   return (
     <div>
-      {status === 'notactive' ? <ConnectYoutube  /> :
+      {status !== 'notactive' ? <ConnectYoutube  /> :
          <>
          {channel && channel.snippet ?  
          <div className=" mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >

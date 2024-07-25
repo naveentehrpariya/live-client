@@ -28,7 +28,7 @@ export default function ConnectYoutube({channel}) {
 
   return (
     <div>
-      <div disabled={loading} onClick={LinkYoutube} class={`${loading ? "disabled" : ""} inline-flex mb-4 items-center justify-center px-4 ms:px-6 w-full cursor-pointer py-1 sm:py-3 text-base font-mediu rounded-[20px] sm:rounded-[30px] bg-gray-50 hover:text-gray-900 hover:bg-gray-100 `}>
+      <div disabled={loading} onClick={LinkYoutube} class={`${loading ? "disabled" : ""} inline-flex mb-4 items-center justify-center px-4 ms:px-6 w-full cursor-pointer py-1 sm:py-3 text-base font-medium rounded-[20px] sm:rounded-[30px] bg-gray-50 hover:text-gray-900 hover:bg-gray-100  `}>
          <FaYoutube size='4rem' color='var(--main)' className='mr-2' />                                           
          <span className="w-full text-black text-md md:text-2xl">{loading ? "Connecting..." : "Connect Youtube Account"}</span>
          <svg className="w-8 h-8 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

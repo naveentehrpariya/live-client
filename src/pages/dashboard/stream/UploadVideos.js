@@ -57,9 +57,9 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
   }
    
   return (
-    <div className='border-t border-gray-800 mt-8 pt-8'>
+    <div className=''>
       <div className='flex items-center justify-start'>
-        <h2 className='mb-3 text-gray-200 text-xl '>Choose videos</h2>
+        <p className='mb-3 text-gray-200 text-md uppercase'>Choose videos</p>
       </div>
       <div className="relative w-full mb-4 bg-dark1 rounded-2xl border-dashed border-gray-700 border-2 m-auto">
          <input onChange={handleFile} type="file" id="file-upload-video" accept="video/*" className="hidden" multiple />
@@ -69,7 +69,7 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
          </label>
       </div>
       <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"Or select from your library"} 
-      btnclasses={'bg-dark1 border border-gray-800 text-white rounded-[30px] w-full p-4 text-[15px]  '} >
+      btnclasses={'text-white rounded-[30px] w-full p-3 mb-4 bg-main'} >
         <h2 className='text-white text-bold text-lg mb-3'>My Video Library</h2>
         <div className='max-h-[70vh] overflow-auto' > 
           <MyFiles sendFile={getSelectedVideos} type={'video'} />

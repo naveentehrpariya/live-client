@@ -66,9 +66,9 @@ import { FaCircleCheck } from 'react-icons/fa6';
   }
 
   return (
-    <div className='pt-8 mt-8 border-t border-gray-800'>
+    <div className=''>
       <div className='flex items-center justify-start mb-2'>
-        <h2 className=' text-gray-200 text-xl '>Choose Sound Effects</h2>
+        <h2 className='text-gray-200 text-md uppercase'>Choose Sound Effects</h2>
       </div>
       {streamType === 'video' ? <p className='mb-4 text-gray-400 text-normal'>
         Audio files are not mandatory but if you want to play custom music over your stream you can upload it here.
@@ -91,7 +91,7 @@ import { FaCircleCheck } from 'react-icons/fa6';
         </div> 
 
         <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"Or select from your library"} 
-      btnclasses={'bg-dark1 border border-gray-800 text-white rounded-[30px] w-full p-4 text-[15px] mb-4  '} >
+      btnclasses={'text-white rounded-[30px] w-full p-3 mb-4 bg-main'} >
           <h2 className='text-white text-bold text-lg mb-3'>My Music Library</h2>
           <div className='max-h-[70vh] overflow-auto' > 
             <MyFiles sendFile={getSelectedVideos} type={'audio'} />
