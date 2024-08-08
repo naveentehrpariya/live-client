@@ -33,6 +33,7 @@ import Contact from './pages/Contact';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import Verifying from './pages/auth/Verifying';
 import EditStream from './pages/dashboard/stream/EditStream';
+import SubscribePlan from './paypal/SubscribePlan';
 
 function App() {
   return (
@@ -41,7 +42,8 @@ function App() {
               <Router>
                 <div className="routes">
                   <Routes>
-                    <Route path="/" element={<Homepage />} />
+                     <Route path="/" element={<SubscribePlan />} />
+                    {/* <Route path="/" element={<Homepage />} />
                     <Route path="/help" element={<Help />} />
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
@@ -77,7 +79,7 @@ function App() {
                     <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
                     <Route path="/admin/media/:type" element={<AdminMedia /> } />
                     <Route path="/admin/logs" element={<ReadLogs /> } />
-                    <Route path="*" element={<Error404 />} />
+                    <Route path="*" element={<Error404 />} /> */}
                   </Routes>
                 </div>
               </Router>
