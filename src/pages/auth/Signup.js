@@ -6,7 +6,8 @@ import Endpoints from "../../api/Endpoints";
 import { UserContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
 
-export default function Signup() {
+export default function Signup(){
+
     const {Errors} = useContext(UserContext);
     function LoginForm(){
 
@@ -14,6 +15,7 @@ export default function Signup() {
     const inputFields = [
       { type:"text", name :"name", label: "Your Name" },
       { type:"text", name :"email", label: "Email" },
+      // { type:"number", name :"phone", label: "phone" },
       { type:"password", name :"password", label: "Password" },
       { type:"password", name :"confirmPassword", label: "Password confirmation" },
     ];
@@ -61,15 +63,14 @@ export default function Signup() {
     const [loading, setLoading] = useState(false);
     function handleSubmit(e) {
       e.preventDefault();
-      if (
-        data.name === "" ||
-        data.email === "" ||
-        data.password === "" ||
-        data.confirmPassword === ""
-      ) {
+      if (data.name === "" || data.email === "" || data.phone === "" || data.password === "" || data.confirmPassword === "") {
         toast.error("Please fill all the fields");
         return false
       }
+      // if(data.phone && data.phone.length > 10 && data.phone.length < 10){
+      //   toast.error("Please enter valid phone number. It should be 10 digits");
+      //   return false
+      // }
       validatePassword(data.password);
       if (data.password!== data.confirmPassword) {
         toast.error("Password and confirm password are not same");
@@ -85,6 +86,7 @@ export default function Signup() {
           setData({
             name: "",
             email: "",
+            phone: "",
             password: "",
             confirmPassword: "",
           });
