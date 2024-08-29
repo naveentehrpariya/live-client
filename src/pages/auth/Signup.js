@@ -70,7 +70,7 @@ export default function Signup(){
       // if(data.phone && data.phone.length > 10 && data.phone.length < 10){
       //   toast.error("Please enter valid phone number. It should be 10 digits");
       //   return false
-      // }
+      // } 
       validatePassword(data.password);
       if (data.password!== data.confirmPassword) {
         toast.error("Password and confirm password are not same");

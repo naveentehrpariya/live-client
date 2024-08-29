@@ -43,7 +43,7 @@ function App() {
                 <div className="routes">
                   <Routes>
                      <Route path="/" element={<SubscribePlan />} />
-                    {/* <Route path="/" element={<Homepage />} />
+                    <Route path="/" element={<Homepage />} />
                     <Route path="/help" element={<Help />} />
                     <Route path="/login" element={<LogIn />} />
                     <Route path="/signup" element={<Signup />} />
@@ -52,8 +52,9 @@ function App() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/my-subscription" element={<Mysubscription />} />
-                    <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
-                    <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} />
+                    <Route path="/payment/status" element={<SubscriptionConfirmation />} />
+                    {/* <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
+                    <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} /> */}
                     <Route path="/media" element={<Media />} />
                     <Route path="/privacy-policy" element={<Privacy />} />
                     <Route path="/support" element={<Support />} />
@@ -79,7 +80,7 @@ function App() {
                     <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
                     <Route path="/admin/media/:type" element={<AdminMedia /> } />
                     <Route path="/admin/logs" element={<ReadLogs /> } />
-                    <Route path="*" element={<Error404 />} /> */}
+                    <Route path="*" element={<Error404 />} /> 
                   </Routes>
                 </div>
               </Router>

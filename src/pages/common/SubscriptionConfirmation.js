@@ -7,44 +7,47 @@ export default function SubscriptionConfirmation() {
 
    const [loading, setLoading] = useState(false);
    const [data, setData] = useState([]);
-   const {id} = useParams();
+   const {razorpay_payment_link_status} = useParams();
 
-   function getDetails() {
-      setLoading(true); 
-      const m = new Endpoints();
-      const resp = m.update_payment_status({
-         id:id
-      });
-      resp.then((res) => {
-         if(res.data.status){
-            toast.success(res.data.message);
-            setTimeout(()=>{
-               window.location.href = '/home';
-            }, 2000);
-         } else { 
-            toast.error(res.data.message);
-         }
-         setLoading(false);
-      }).catch((err) => {
-         setLoading(false);
-      });
-   }
-    useEffect(()=>{
-      getDetails();
-    },[]);
-
-   // const [count, setCount] = useState(0);
-   //  useEffect(()=>{
-   //    const interval = setInterval(() => {
-   //       setCount(count + 1);
-   //       if(count === 5){
-   //          clearInterval(interval);
-   //          window.location.href = '/home';
+   // function getDetails() {
+   //    setLoading(true); 
+   //    const m = new Endpoints();
+   //    const resp = m.update_payment_status({
+   //       id:id
+   //    });
+   //    resp.then((res) => {
+   //       if(res.data.status){
+   //          toast.success(res.data.message);
+   //          setTimeout(()=>{
+   //             window.location.href = '/home';
+   //          }, 2000);
+   //       } else { 
+   //          toast.error(res.data.message);
    //       }
-   //    }, 1000);
-   //    return () => clearInterval(interval);
-   // },[]);
+   //       setLoading(false);
+   //    }).catch((err) => {
+   //       setLoading(false);
+   //    });
+   // }
+   //  useEffect(()=>{
+   //    getDetails();
+   //  },[]);
 
+   const [count, setCount] = useState(0);
+    useEffect(()=>{
+      if(razorpay_payment_link_status !== 'paid'){
+          toast.error("Payment Failed");
+      } else { 
+         const interval = setInterval(() => {
+            setCount(count + 1);
+            if(count === 5){
+               clearInterval(interval);
+               window.location.href = '/home';
+            }
+         }, 1000);
+         return () => clearInterval(interval);
+      }
+   },[]);
 
   return (
     <div className='w-full h-screen bg-gray-200 flex items-center justify-center' >

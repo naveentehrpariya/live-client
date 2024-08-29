@@ -50,14 +50,13 @@ export default function Pricing({classes, colclasses, heading}) {
          setSubscribing(true);
          const m = new Endpoints();
          const resp = m.subscribePlan({
-            productId : id
+            id : id
          });
          resp.then((res) => {
-            setSubscribing(false);
-            if(res.data.status && res.data.url){
-               window.location.href = res.data.url;
-            }else {
-               toast.error(res.data.message);
+            if(res.data.status && res.data.short_url){
+               window.location.href = res.data.short_url;
+            } else {
+               toast.error(res.data.message || "Something went wrong with plans. Please try again later");
             }
          }).catch((err) => {
             setSubscribing(false);
@@ -79,7 +78,7 @@ export default function Pricing({classes, colclasses, heading}) {
          ))}
          {user && user.role == 1 ? 
          <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8"> Edit Plan</Link>
-         : <button onClick={()=>subscribePlan(p.productId)} className="btn md mt-8">
+         : <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">
             {subscribing ? "Loading" : "Buy Now"}
          </button> 
          }

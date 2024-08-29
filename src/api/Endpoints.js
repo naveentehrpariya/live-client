@@ -35,7 +35,7 @@ class Endpoints extends Component {
     }
 
     async subscribePlan(data) {
-        return Api.post(`/subscribe`,data);
+        return Api.post(`/create-order`,data);
     }
 
     async mymedia(type, page, limit) {
