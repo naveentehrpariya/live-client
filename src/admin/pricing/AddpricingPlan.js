@@ -15,6 +15,7 @@ export default function AddPricingPlan() {
   const {id} = useParams();
   const [plan, setPlan] = useState(null);
 
+  const [planduration, setPlanduration] = useState(1);
   const [resolutions, setresolution] = useState(plan && plan.resolutions ? JSON.parse(plan.resolutions) : []);
   const [data, setData] = useState({
     name: (plan && plan.name) || "",
@@ -41,6 +42,7 @@ export default function AddPricingPlan() {
     const resp = Api.get(`/plan-detail/${id}`);
     resp.then((res)=>{
       setPlan(res.data.plan);
+      setPlanduration(res.data.plan.duration || 1);
       setLoading(false);
     }).catch((err)=>{
       console.log(err);
@@ -78,6 +80,14 @@ export default function AddPricingPlan() {
     },
   ];
 
+  const planTitles = {
+    "1": "Monthly",
+    "2": "Bi-Monthly",
+    "4": "Quarterly",
+    "6": "Semi-Annual",
+    "12": "Annual" 
+    }
+
   const inputFields = [
     { type:"text", name:"name", label:"Plan Name", default : (plan && plan.name) || "" },
     { type:"number", name:"price", label:"Price", default :( plan && plan.price) || ""},
@@ -93,7 +103,7 @@ export default function AddPricingPlan() {
   const addPlan = (e) => {
     setLoading(true);
     const m = new AdminEndpoints();
-    const resp = m.create_plan({...data,resolutions:resolutions });
+    const resp = m.create_plan({...data, duration:planduration, duration_title:planTitles[planduration], resolutions:resolutions });
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
@@ -132,13 +142,13 @@ export default function AddPricingPlan() {
     } else {
       setresolution([...resolutions, e]);
     }
-    console.log("resolutions",resolutions);
   }
 
+  const durations = [1, 2, 4, 6, 12];
   return (
       <AdminLayout heading={"Add Pricing Plan"} >
         <AdminTitle heading={"Add New Plan"}></AdminTitle>
-        <div className='grid grid-cols-2 gap-6' >
+        <div className='grid grid-cols-2 gap-6' > 
          {inputFields.map((field, index) => (
           <div>
             <label className='ps-0 text-gray-300 mb-2'>{field.label}</label>
@@ -147,7 +157,15 @@ export default function AddPricingPlan() {
           ))}
         </div>
         <textarea defaultValue={plan && plan.description}  className='input mt-8' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-        <p className='text-gray-300 mt-6 mb-3'>Choose Resolution</p>
+        <p className='text-gray-300 mt-6 mb-3'>Choose Duration</p>
+        <div className='flex flex-wrap justify-start' >
+          {durations && durations.map((r, i)=>{
+            return <button onClick={()=>setPlanduration(r)} 
+            className={`text-lg  ${planduration == r ? 'bg-main text-gray-200' : " bg-gray-900 text-gray-500"}  rounded-xl px-5 py-2 mb-2 me-2 text-lg capitalize`} >{r} {r>1 ? "months" :"month"}</button>
+          })}
+        </div>
+
+        <p className='text-gray-300 mt-6 mb-3 mt-6'>Choose Resolution</p>
         <div className='flex flex-wrap justify-start' >
           {rs && rs.map((r, i)=>{
             const isChecked = resolutions.includes(r.value);

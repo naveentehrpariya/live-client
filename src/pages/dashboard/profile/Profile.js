@@ -34,7 +34,7 @@ export default function Profile() {
                         </dt>
                         <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            {user && user.plan ? <>
-                              {user && user.plan && user.plan.name} (${user && user.plan && user.plan.price}/month)
+                              {user && user.plan && user.plan.name} (${user && user.plan && user.plan.price} {user && user.plan && user.plan.duration_title})
                            </> : "No Subscription"
                            }
                         </dd>

@@ -8,7 +8,8 @@ import Loading from '../common/Loading';
 
 export default function Pricing({classes, colclasses, heading}) {
 
-   const {user} = useContext(UserContext);
+   const {user, admin} = useContext(UserContext);
+   console.log(admin);
    const [lists, setLists] = useState([]);
    const [loading, setLoading] = useState(false);
    function fetch_plans() {
@@ -62,13 +63,10 @@ export default function Pricing({classes, colclasses, heading}) {
             setSubscribing(false);
          });
       }
-
       const currency = CurrencyFormat(); 
-
-
       return <div key={p._id} className={`bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
          <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
-         <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">{currency(p.price)}</div>
+         <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">{currency(p.price)} -  {p.duration} months</div>
          <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
          <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
          {features && features.map((f, index) => (
@@ -76,7 +74,7 @@ export default function Pricing({classes, colclasses, heading}) {
                {f.text}
             </FeatureItem>
          ))}
-         {user && user.role == 1 ? 
+         {admin && admin.role === '1' ? 
          <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8"> Edit Plan</Link>
          : <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">
             {subscribing ? "Loading" : "Buy Now"}

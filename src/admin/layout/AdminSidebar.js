@@ -30,7 +30,7 @@ export default function AdminSidebar({toggle}) {
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
-            {/* <Link to='/admin' > <Logo /></Link> */}
+            <Link to='/admin' > <Logo /></Link>
          </div>
         </div>
 

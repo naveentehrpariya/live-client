@@ -42,7 +42,7 @@ function App() {
               <Router>
                 <div className="routes">
                   <Routes>
-                     <Route path="/" element={<SubscribePlan />} />
+                     {/* <Route path="/" element={<SubscribePlan />} /> */}
                     <Route path="/" element={<Homepage />} />
                     <Route path="/help" element={<Help />} />
                     <Route path="/login" element={<LogIn />} />

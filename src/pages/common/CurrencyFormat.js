@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function CurrencyFormat() {
-   const formatCurrency = (amount, locale = 'en-US', currency = 'USD') => {
+   const formatCurrency = (amount, currency = 'USD', locale = 'en-US',) => {
       return new Intl.NumberFormat(locale, {
          style: 'currency',
          currency: currency,
