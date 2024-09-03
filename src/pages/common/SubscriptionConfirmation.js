@@ -40,10 +40,10 @@ export default function SubscriptionConfirmation() {
       } else { 
          const interval = setInterval(() => {
             setCount(count + 1);
-            if(count === 5){
-               clearInterval(interval);
+            if(count == 5){
                window.location.href = '/home';
             }
+            clearInterval(interval);
          }, 1000);
          return () => clearInterval(interval);
       }
@@ -63,10 +63,10 @@ export default function SubscriptionConfirmation() {
                      <h3 className="md:text-2xl text-base text-green-600 font-semibold text-center">Payment Done!</h3>
                      <p className="text-gray-600 my-2">Thank you for completing your secure online payment.</p>
                      <p> Have a great day!  </p>
-                     <p> Redirecting in 5 secs.</p>
+                     {/* <p> Redirecting in 5 secs.</p> */}
                      <div className="py-10 text-center">
                         <Link to="/home" className="sm btn btn-main">
-                           GO BACK 
+                           BACK TO HOMEPAGE
                         </Link>
                      </div>
                </div>

@@ -9,9 +9,9 @@ import Loading from '../common/Loading';
 export default function Pricing({classes, colclasses, heading}) {
 
    const {user, admin} = useContext(UserContext);
-   console.log(admin);
    const [lists, setLists] = useState([]);
    const [loading, setLoading] = useState(false);
+   
    function fetch_plans() {
       setLoading(true);
       const m = new Endpoints();
