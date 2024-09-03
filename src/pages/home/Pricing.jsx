@@ -28,8 +28,19 @@ export default function Pricing({classes, colclasses, heading}) {
       fetch_plans();
     },[]);
 
-   const PLAN = ({p, i}) => { 
+    async function getUserCurrencyByIP() {
+      try {
+        const response = await fetch('https://ipapi.co/json/'); // Using IPAPI as an example
+        const data = await response.json();
+        console.log("data.currency",data.currency)
+        return data.currency || 'USD'; // Default to USD if not available
+      } catch (error) {
+        console.error('Error fetching user location:', error);
+        return 'USD'; // Default to USD on error
+      }
+    }
 
+   const PLAN = ({p, i}) => { 
       const rsarrya = JSON.parse(p && p.resolutions);
       const features =  [
          { text: `Number of streams: ${p.allowed_streams}`},
@@ -43,16 +54,16 @@ export default function Pricing({classes, colclasses, heading}) {
       const navigate = useNavigate();
       const [subscribing, setSubscribing ] = useState(false);
 
-      const subscribePlan = (id) => { 
+      const subscribePlan = async (id) => { 
+         const c =  await getUserCurrencyByIP();
+         console.log('c', c)
          if(!user){
             navigate('/login');
             return false;
-         }
+         } 
          setSubscribing(true);
          const m = new Endpoints();
-         const resp = m.subscribePlan({
-            id : id
-         });
+         const resp = m.subscribePlan({ id : id, currency:c || "USD"}); 
          resp.then((res) => {
             if(res.data.status && res.data.short_url){
                window.location.href = res.data.short_url;
