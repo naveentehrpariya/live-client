@@ -54,38 +54,44 @@ export default function Mysubscription () {
                   </div>
                 </div>
 
-                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl mb-1' >{data && data.plan && data.plan.name}</h2>
+                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
+                  <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
+                  
                   <div className='flex justify-between mt-8'>
                     <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white font-bold text-md ' >{data?.plan?.duration || 1} months at {currency(data && data.plan && data.plan.price, "INR")}</h3>
+                    <h3 className='text-white text-md ' >{data?.plan?.duration || 1} months at {currency(data && data.plan && data.plan.price, "USD")}</h3>
                   </div>
+
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white font-bold text-md ' >{data?.plan?.duration || 1} Months</h3>
+                    <h3 className='text-white text-md ' >{data?.plan?.duration || 1} Months</h3>
                   </div>
+
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Start On : </h3>
-                    <h3 className='text-white font-bold text-md ' >{time(data && data.createdAt)}</h3>
+                    <h3 className='text-white text-md ' >{time(data && data.createdAt)}</h3>
                   </div>
+
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Expire On : </h3>
-                    <h3 className='text-white font-bold text-md ' >{time(data && data.endOn)}</h3>
+                    <h3 className='text-white text-md ' >{time(data && data.endOn)}</h3>
                   </div>
 
                   <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
                     <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
                   </div>
+
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Video quality</h2>
-                    <div className='text-white text-lg'>{vr.join(", ")}</div>
+                    <div className='max-w-[50%] text-white text-lg'>{vr.join(", ")}</div>
                   </div>
+                  
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
                     <div className='text-white text-lg'>320kbps</div>
                   </div>
 
-                  <p className='text-gray-200 font-bold text-md  mt-4' >{data && data.plan && data.plan.description}</p>
               </div> 
             </>
             : 
@@ -97,23 +103,25 @@ export default function Mysubscription () {
                   </div>
                 </div>
 
-                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl mb-1' >{data && data.plan && data.plan.name}</h2>
+                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
+                  <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
+                  
                   <h2 className='text-red-500 text-xl my-2 lg:text-center'>Your Subscription has been expired.</h2>
                   <div className='flex justify-between mt-8'>
                     <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white font-bold text-md ' >{data && data.plan && data.plan.duration_title} months at {currency(data && data.plan && data.plan.price, "INR")}</h3>
+                    <h3 className='text-white text-md ' >{data && data.plan && data.plan.duration_title} months at {currency(data && data.plan && data.plan.price, "USD")}</h3>
                   </div>
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white font-bold text-md ' >{data?.plan?.duration || 1} Months</h3>
+                    <h3 className='text-white  text-md ' >{data?.plan?.duration || 1} Months</h3>
                   </div>
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Start On : </h3>
-                    <h3 className='text-white font-bold text-md ' >{time(data && data.createdAt)}</h3>
+                    <h3 className='text-white text-md ' >{time(data && data.createdAt)}</h3>
                   </div>
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Expire On : </h3>
-                    <h3 className='text-white font-bold text-md ' >{time(data && data.endOn)}</h3>
+                    <h3 className='text-white  text-md ' >{time(data && data.endOn)}</h3>
                   </div>
 
                   <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
@@ -122,13 +130,12 @@ export default function Mysubscription () {
                   </div>
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Video quality</h2>
-                    <div className='text-white text-lg'>{vr.join(", ")}</div>
+                    <div className='max-w-[50%] text-white text-lg'>{vr.join(", ")}</div>
                   </div>
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
                     <div className='text-white text-lg'>320kbps</div>
                   </div>
-                  <p className='text-gray-200 font-bold text-md  mt-4' >{data && data.plan && data.plan.description}</p>
                   <Link to='/upgrade/subscription' className="block text-normal mt-6 px-4 py-3 rounded-3xl text-center text-white uppercase bg-[var(--main)]">
                     Renew Plan
                 </Link>
