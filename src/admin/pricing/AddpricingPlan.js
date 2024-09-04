@@ -6,6 +6,7 @@ import AdminEndpoints from '../../api/AdminEndpoints';
 import toast from 'react-hot-toast';
 import AdminTitle from '../layout/AdminTitle';
 import Api from '../../api/Api';
+import AdminApi from '../../api/AdminApi';
 
 export default function AddPricingPlan() {
 
@@ -120,7 +121,7 @@ export default function AddPricingPlan() {
   
   const updateplan = (e) => {
     setLoading(true);
-    const resp = Api.post(`/update-pricing-plan/${plan._id}`,{...data, resolutions:resolutions });
+    const resp =  AdminApi.post(`/update-pricing-plan/${plan._id}`,{...data, resolutions:resolutions });
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
@@ -145,6 +146,7 @@ export default function AddPricingPlan() {
   }
 
   const durations = [1, 2, 4, 6, 12];
+  
   return (
       <AdminLayout heading={"Add Pricing Plan"} >
         <AdminTitle heading={"Add New Plan"}></AdminTitle>
