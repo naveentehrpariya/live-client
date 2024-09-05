@@ -10,6 +10,7 @@ import Nocontent from '../pages/common/NoContent';
 import Time from '../pages/common/Time';
 import Pagination from '../pages/common/Pagination';
 import AdminApi from '../api/AdminApi';
+import CurrencyFormat from '../pages/common/CurrencyFormat';
 
 export default function Subscriptions() {
 
@@ -50,6 +51,8 @@ export default function Subscriptions() {
   const handleState = (e) => {
     navigate(`/admin/subscriptions/${e}`);
   }
+
+  const currency = CurrencyFormat(); 
   
   const ITEM = ({item}) => { 
     const [status, setStatus] = useState(item.status);
@@ -57,12 +60,11 @@ export default function Subscriptions() {
     return <tr className="border-b border-gray-900">
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({item?.plan?.price || "N/A"}/month) </> : "--"}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{status === "paid" ? time(item?.upcomingPayment) : "N/A"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({currency(item?.plan?.price) || "N/A"} / {item.plan.duration} {item.plan.duration == 1 ? "month" : "months"}) </> : "--"}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endedAt ? time(item?.createdAt) : "N/A"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endOn ? time(item?.endOn) : "N/A"}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
-      {status === "paid" ? <span className={`text-white rounded-xl py-1 px-3 bg-green-600`}>
+      {status === "active" ? <span className={`text-white rounded-xl py-1 px-3 bg-green-600`}>
         Paid
       </span> : ""}
       {status === "expired" ? <span className={`text-white rounded-xl py-1 px-3 bg-red-600`}>
@@ -88,7 +90,7 @@ export default function Subscriptions() {
         <AdminTitle heading="Subscriptions">
             <div>
               <button className={`${type === 'all' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("all")}>All</button>
-              <button className={`${type === "paid" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("paid")}>Paid</button>
+              <button className={`${type === "paid" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("active")}>Paid</button>
               {/* <button className={`${type === "pending" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("pending")}>Pending</button> */}
               <button className={`${type === "inactive" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("inactive")}>Inactive</button>
             </div>
@@ -104,9 +106,8 @@ export default function Subscriptions() {
                 <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">User</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Plan</td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Upcoming Payment</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended Date</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended On</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
               </tr>
             </thead>

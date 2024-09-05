@@ -118,7 +118,10 @@ export default function AddPricingPlan() {
       setLoading(false);
     });
   }
+
   
+ 
+
   const updateplan = (e) => {
     setLoading(true);
     const resp =  AdminApi.post(`/update-pricing-plan/${plan._id}`,{...data, resolutions:resolutions });
@@ -177,7 +180,7 @@ export default function AddPricingPlan() {
         </div>
         <div className='flex justify-center pt-4'>
           {id ?
-          <button disabled={loading} onClick={updateplan}  className={`btn w-full mx-auto sm:w-auto lg`} >{loading ? "Processing" : "Update Plan"}</button>
+            <button disabled={loading} onClick={updateplan}  className={`btn md mb-3 cursor-pointer`} >{loading ? "Processing" : "Update Plan"}</button>
           : 
           <button disabled={loading} onClick={addPlan}  className={`btn w-full mx-auto sm:w-auto lg`} >{loading ? "Processing" : "Create Plan"}</button>
            }

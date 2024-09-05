@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Loading() {
+export default function Loading({fixed}) {
   return (
-    <div className='w-full px-12 py-20 flex justify-center'>
+    <div className={`w-full px-12 py-20 flex justify-center ${fixed ? 'fixed top-0 z-50 flex justify-center items-center h-full bg-[#0004] left-0' : ''}`}>
       <style>{`
       .loader {
          width: 100px;

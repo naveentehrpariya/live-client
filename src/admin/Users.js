@@ -76,7 +76,7 @@ export default function Users() {
     <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
       {item.name}
     </td>
-    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td>
+    {/* <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td> */}
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
@@ -114,7 +114,7 @@ export default function Users() {
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
                       Name
                     </td>
-                    <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Username</td>
+                    {/* <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Username</td> */}
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
                       Joined Date

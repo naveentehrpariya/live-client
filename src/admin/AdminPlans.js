@@ -10,7 +10,7 @@ export default function AdminPlans() {
           <AdminTitle heading="Plans">
               <Link to="/admin/pricing/add" className=" rounded-[30px] bg-main text-white py-2 px-4 shadow-md">+ Add Pricing Plan</Link>
           </AdminTitle>
-         <Pricing classes="" colclasses="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" />
+         <Pricing type='admin' classes="" colclasses="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" />
       </AdminLayout>
   )
 }
