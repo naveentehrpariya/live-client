@@ -1,4 +1,4 @@
-import React, { useContext,useEffect,useState } from 'react'
+import React, { useContext,useEffect,useMemo,useState } from 'react'
 import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
@@ -54,12 +54,12 @@ export default function CreateStreamForm() {
   const [combineVideos, setCombineVideos] = useState([]);
   const [combineAudios, setCombineAudios] = useState([]);
 
-  useEffect(() => {
+  useMemo(() => {
     setCombineAudios([...audios, ...cloudAudios]);
     console.log("COMBINED AUDIOS",[...audios, ...cloudAudios])
   }, [audios, cloudAudios]);
 
-  useEffect(() => {
+  useMemo(() => {
     setCombineVideos([...videos, ...cloudVideos]);
     console.log("COMBINED VIDEOS",[...videos, ...cloudVideos])
   }, [videos, cloudVideos]);
@@ -112,14 +112,13 @@ export default function CreateStreamForm() {
   const getVideos = (array) => {
     const tmp = videos;
     tmp.push(array);
-    setVideos(tmp);
-    console.log("final video array tmp",tmp)
+    setCombineVideos((prev)=>[...videos, ...prev]);
   }
   
   const getAudios = (array) => {
     const tmp = audios;
     tmp.push(array);
-    setaudios(tmp);
+    setCombineAudios((prev) => [...tmp, ...prev]);
   }
 
   const handleinput = (e) => {
@@ -225,12 +224,12 @@ export default function CreateStreamForm() {
 
     
     const v = [...combineVideos, ...videos, ...cloudVideos];
+    const aud = [...combineAudios, ...audios, ...cloudAudios];
     if(type === "next" && step === 2 && streamType === 'video' && v.length < 1 ){
         toast.error("Please select atleast one video for this stream.");
         return false;
     }
    
-    const aud = [...combineAudios, ...audios, ...cloudAudios];
     if(type === "next" && step === 2 && streamType === 'audio' && aud.length < 1 ){
         toast.error("Please select atleast one audio for this stream.");
         return false;

@@ -33,7 +33,7 @@ export default function UploadThumbnail({update, exists}) {
       setUploading(true);
       const m = new Endpoints();
       const fdata = new FormData();
-      fdata.append('attachment', f);
+      fdata.append('file', f);
       const resp = m.uploadMedia(fdata, setProgress);
       resp.then((res)=>{
       if(res.data.file_data.url)

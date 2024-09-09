@@ -8,7 +8,7 @@ async function UploadMedia(file, setProgress, setUploading, update, setUrl, ) {
    setUploading(true);
    const m = new Endpoints();
    const fdata = new FormData();
-   fdata.append('attachment', file);
+   fdata.append('file', file);
    try {
      const res = await m.uploadMedia(fdata, setProgress);
      if (res.data.file_data.url) {
