@@ -16,12 +16,15 @@ export default function Addmedia({update}) {
       const type = e.target.files[0] && e.target.files[0].type;
       const isImage = type.includes('image');
       const isVideo = type.includes('video');
+      const isAudio = type.includes('audio');
       if (isImage) {
          setFileMime('image');
+      } else if (isAudio) {
+         setFileMime('audio');
       } else if (isVideo) {
          setFileMime('video');
       } else {
-         setFileMime(null);
+         setFileMime();
       }
    }
    
@@ -31,7 +34,7 @@ export default function Addmedia({update}) {
       setUploading(true);
       const m = new Endpoints();
       const fdata = new FormData();
-      fdata.append('attachment', file);
+      fdata.append('file', file);
       try {
           await m.uploadMedia(fdata, setProgress);
           toast.success('File uploaded successfully');
