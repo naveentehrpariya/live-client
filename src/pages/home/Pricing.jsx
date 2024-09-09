@@ -5,22 +5,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import CurrencyFormat from '../common/CurrencyFormat';
 import toast from 'react-hot-toast';
 import Loading from '../common/Loading';
+import AdminApi from '../../api/AdminApi';
 
-export default function Pricing({classes, colclasses, heading}) {
+export default function Pricing({classes, colclasses, heading, type}) {
 
-   const {user, admin} = useContext(UserContext);
+   const {user, admin, Errors} = useContext(UserContext);
+
    const [lists, setLists] = useState([]);
    const [loading, setLoading] = useState(false);
-   
+
    function fetch_plans() {
       setLoading(true);
       const m = new Endpoints();
-      const resp = m.pricingPlanLists();
+      const resp = type === "admin" ? m.adminpricingPlanLists() : m.pricingPlanLists() ;
       resp.then((res) => {
-      setLoading(false);
-      setLists(res.data.items);
+         setLoading(false);
+         setLists(res.data.items);
       }).catch((err) => {
-      setLoading(false);
+         setLoading(false);
       });
    }
   
@@ -47,7 +49,7 @@ export default function Pricing({classes, colclasses, heading}) {
          { text: "Stream duration: 24/7" },
          { text: `Storage: ${p.storage}GB` },
          { text: "Stream builder" },
-         { text: `Video quality: ${rsarrya.join(", ")}` },
+         { text: `${rsarrya.join(", ")}` },
          { text: "Audio quality: 320kbps" },
          { text: "Instant server availability" },
       ]
@@ -56,7 +58,6 @@ export default function Pricing({classes, colclasses, heading}) {
 
       const subscribePlan = async (id) => { 
          const c =  await getUserCurrencyByIP();
-         console.log('c', c)
          if(!user){
             navigate('/login');
             return false;
@@ -74,19 +75,30 @@ export default function Pricing({classes, colclasses, heading}) {
             setSubscribing(false);
          });
       }
+
       const currency = CurrencyFormat(); 
-      return <div key={p._id} className={`bg-dark2 flex flex-col items-center py-6 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
-         <h2 className='text-[25px] font-bold  ' >{p.name}</h2>
-         <div className="mt-3.5 font-bold text-red-500 text-[24px] capitalize leading-[90%]">{currency(p.price)} -  {p.duration} months</div>
+      return <div key={p._id} className={`bg-dark2 px-4 py-8 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
+         <div className='px-4'>
+            <h2 className='text-[17px] font-bold mb-6' >{p.name}</h2>
+            <div className="mt-3.5 font-[900] text-red-500 text-[40px] capitalize leading-[90%]">{currency(p.price)}<span className='text-[17px]'> / {p.duration} {p.duration == 1 ? "month" : "months"}</span></div>
+            <div title={p.description} className="mb-6 mt-3.5 font-[900] text-gray-300 text-[16px] capitalize line-clamp-2">{p.description}</div>
+         </div>
+         {dloading ? <Loading fixed={true} /> : ""}
          <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
-         <hr className="shrink-0 h-px border border-solid bg-white bg-opacity-10 border-white border-opacity-10" />
          {features && features.map((f, index) => (
             <FeatureItem key={index} >
                {f.text}
             </FeatureItem>
          ))}
          {admin && admin.role === '1' ? 
+         <>
          <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8"> Edit Plan</Link>
+         {p.status === "active" ?
+            <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-red-800 md mt-3 cursor-pointer`} >{"Disable Plan"}</button>
+         :
+            <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-green-800 md mt-3 cursor-pointer`} >{dloading ? "Processing" : "Enable Plan"}</button>
+         }
+         </>
          : <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">
             {subscribing ? "Loading" : "Buy Now"}
          </button> 
@@ -107,9 +119,27 @@ export default function Pricing({classes, colclasses, heading}) {
       );
    }
 
+   const navigate = useNavigate();
+   const [dloading, setDloading] = useState(false);
+   const disablePlan = (id) => {
+      setDloading(true);
+      const resp =  AdminApi.get(`/disable_pricing_plan/${id}`);
+      resp.then(res => {
+        if(res.data.status){
+           window.location.reload();  // Refresh the page to reflect the changes in plans.  //
+           toast.success(res.data.message);
+        } else {
+          toast.error(res.data.message);
+        }
+        setDloading(false);
+      }).catch(err => {
+        Errors(err);
+        setDloading(false);
+      });
+   }
+
   return (
     <div id='pricing'>
-
       { loading ? <Loading /> : 
       <div className={` ${classes}`}>
          {heading ? <>
