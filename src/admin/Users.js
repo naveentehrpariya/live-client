@@ -81,7 +81,7 @@ export default function Users() {
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
       <p>{item?.plan?.name || "N/A"}</p>
-      {item?.plan?.price ? <p>{currency(item?.plan?.price)}/month</p> :""}
+      {item?.plan?.price ? <p>{currency(item?.plan?.price)}/{item?.plan?.duration_title}</p> :""}
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       <button onClick={changeStatus} className={`capitalize text-white rounded-xl py-1 px-3 ${status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>

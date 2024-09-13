@@ -34,6 +34,8 @@ import VerifyEmail from './pages/auth/VerifyEmail';
 import Verifying from './pages/auth/Verifying';
 import EditStream from './pages/dashboard/stream/EditStream';
 import SubscribePlan from './paypal/SubscribePlan';
+import SiteFeatures from './admin/feature/SiteFeatures';
+import SiteTestimonials from './admin/testimonials/SiteTestimonials';
 
 function App() {
   return (
@@ -80,6 +82,8 @@ function App() {
                     <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
                     <Route path="/admin/media/:type" element={<AdminMedia /> } />
                     <Route path="/admin/logs" element={<ReadLogs /> } />
+                    <Route path="/admin/site-features" element={<SiteFeatures /> } />
+                    <Route path="/admin/testimonials" element={<SiteTestimonials /> } />
                     <Route path="*" element={<Error404 />} /> 
                   </Routes>
                 </div>

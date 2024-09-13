@@ -66,6 +66,7 @@ export default function Sidebar({toggle, trial, logout}) {
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Collections" />
 
+
             {/* <MenuItem path="/subscriptions"
             icon={<SlCalender size={'1.3rem'}  />}
             label="My Subscription" /> */}

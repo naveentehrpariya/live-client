@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import AdminApi from '../api/AdminApi';
-export default function useFetch({url}){
+import Api from './../api/Api';
+export default function useFetch({url, type}){
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -8,14 +9,26 @@ export default function useFetch({url}){
   async function fetch(signal) {
     if(url && !loading){
       setLoading(true);
-      const resp = AdminApi.get(url, {signal});
-      resp.then((res)=>{
-        setData(res.data.result || []);
-        setLoading(false);
-      }).catch((err)=>{
-        console.log(err);
-        setLoading(false);
-      });
+      if(type === "user"){
+        const resp = Api.get(url, {signal});
+        resp.then((res)=>{
+          setData(res.data.result || []);
+          setLoading(false);
+        }).catch((err)=>{
+          console.log(err);
+          setLoading(false);
+        });
+      } else { 
+        const resp = AdminApi.get(url, {signal});
+        resp.then((res)=>{
+          setData(res.data.result || []);
+          setLoading(false);
+        }).catch((err)=>{
+          console.log(err);
+          setLoading(false);
+        });
+      }
+
     }
   }
 

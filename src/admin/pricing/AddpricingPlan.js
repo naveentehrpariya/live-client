@@ -124,7 +124,7 @@ export default function AddPricingPlan() {
 
   const updateplan = (e) => {
     setLoading(true);
-    const resp =  AdminApi.post(`/update-pricing-plan/${plan._id}`,{...data, resolutions:resolutions });
+    const resp =  AdminApi.post(`/update-pricing-plan/${plan._id}`,{...data, duration:planduration, duration_title:planTitles[planduration], resolutions:resolutions });
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);

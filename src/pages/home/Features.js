@@ -1,29 +1,11 @@
 import React, { useState } from 'react';
 import feature from '../../img/features.png';
+import useFetch from '../../hooks/useFetch';
 
 export default function Features() {
 
-    const data = [
-        {
-            title: "Drag & Drop",
-            description: "Best in class drag & drop stream designer",
-        },
-        {
-            title: "Video Editing",
-            description: "Best in class video editing",
-        },
-        {
-            title: "Live Stream",
-            description: "Best in class live stream",
-        },
-        {
-            title: "24/7 Support",
-            description: "24/7 Live support available for assistance",
-        }
-    ];
-
+    const { loading, data  } = useFetch({url:'/all-features', type:"user"});
     const [opened, setOpened] = useState(0);
-
     const ITEM = ({ item, i }) => { 
         const openItem = () => {
             if (opened === i) {
@@ -64,6 +46,8 @@ export default function Features() {
     };
 
     return (
+        <>
+        {data && data.length > 0 ? 
         <div id="features" className="features py-24">
             <div className="container m-auto">
                 <h2 className="heading-md text-center">
@@ -84,6 +68,8 @@ export default function Features() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
+        : ''}
+        </>
     );
 }

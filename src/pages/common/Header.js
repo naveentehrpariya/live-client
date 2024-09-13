@@ -3,6 +3,7 @@ import { Link  } from 'react-router-dom';
 import Button from './Button';
 import { UserContext } from '../../context/AuthProvider';
 import CheckLogin from '../auth/CheckLogin';
+import Logotext from './Logotext';
 
 export default function Header() {
   const {user}  = useContext(UserContext);
@@ -16,7 +17,7 @@ export default function Header() {
             <nav className="px-3 py-1 md:py-3 ">
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                      <Link to="/" class="ms-3 sm:ms-8 flex items-center">
-                        <h2 className='heading !text-[25px] drunk lg px-0' >runstream</h2>
+                        <h2 className='heading !text-[25px] drunk lg px-0' ><Logotext /></h2>
                      </Link>
                      <div className="flex items-center xl:order-2">
                         {user && user.name ? 

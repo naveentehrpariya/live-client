@@ -7,13 +7,17 @@ import { FaUserCog } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import Logo from '../../pages/common/Logo';
 import { CgLogOut } from 'react-icons/cg';
+import { TfiWrite } from "react-icons/tfi";
+import { MdFeaturedPlayList } from "react-icons/md";
+import { CiCalendarDate } from "react-icons/ci";
+import { MdLiveTv } from "react-icons/md";
 
 export default function AdminSidebar({toggle}) {
   const {pathname} = window.location;
   function MenuItem({ icon, label, path }) {
     return (
       <NavLink to={path || "/home"} 
-      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "}  flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
+      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "} flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
     );
@@ -45,7 +49,7 @@ export default function AdminSidebar({toggle}) {
             label="Users" />
 
             <MenuItem path="/admin/streams/all"
-            icon={<TbHome size={'2rem'} />}
+            icon={<MdLiveTv size={'1.52rem'} />}
             label="Live Streams" />
 
             <MenuItem path="/admin/pricing"
@@ -53,12 +57,20 @@ export default function AdminSidebar({toggle}) {
             label="Pricing Plans" />
 
             <MenuItem path="/admin/subscriptions/all"
-            icon={<DiHtml5Multimedia size={'2rem'}  />}
+            icon={<CiCalendarDate size={'2rem'}  />}
             label="Subscription" /> 
 
             <MenuItem path="/admin/media/image"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Media Collections" />
+
+            <MenuItem path="/admin/site-features"
+            icon={<MdFeaturedPlayList size={'1.5rem'}  />}
+            label="Features" />
+
+            <MenuItem path="/admin/testimonials"
+            icon={<TfiWrite  size={'1.5rem'}  />}
+            label="Testimonials" />
 
             <div className='xl:hidden'>
               <MenuItem onclick={logout}
