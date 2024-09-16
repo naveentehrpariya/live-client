@@ -10,9 +10,14 @@ class Endpoints extends Component {
         return Api.post(`/user/login`, data);
     }
 
+    async contact_us(data){
+        return Api.post(`/user/contact_us`, data);
+    }
+
     async forgotpassword(data) {
         return Api.post(`/user/forgotpassword`, data);
     }
+
     async resetpassword(id, data) {
         return Api.patch(`/user/resetpassword/${id}`, data);
     }
@@ -39,6 +44,7 @@ class Endpoints extends Component {
     async adminpricingPlanLists() {
         return Api.get(`/admin-pricing-plans`);
     }
+    
     async pricingPlanLists() {
         return Api.get(`/pricing-plans`);
     }

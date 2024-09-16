@@ -37,6 +37,7 @@ import SubscribePlan from './paypal/SubscribePlan';
 import SiteFeatures from './admin/feature/SiteFeatures';
 import SiteTestimonials from './admin/testimonials/SiteTestimonials';
 import ResetPasswordPage from './pages/auth/ResetPasswordPage';
+import Inquiries from './admin/Inquries';
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
                     <Route path="/admin/logs" element={<ReadLogs /> } />
                     <Route path="/admin/site-features" element={<SiteFeatures /> } />
                     <Route path="/admin/testimonials" element={<SiteTestimonials /> } />
+                    <Route path="/admin/inquiries" element={<Inquiries /> } />
                     <Route path="*" element={<Error404 />} /> 
                   </Routes>
                 </div>

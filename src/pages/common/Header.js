@@ -20,7 +20,6 @@ export default function Header() {
 
   const handleNavigation = (path, sectionId) => {
     navigate(path);
-    // Wait until the page renders before scrolling
     setTimeout(() => {
       scrollToSection(sectionId);
     }, 100);
@@ -34,7 +33,7 @@ export default function Header() {
             <nav className="px-3 py-1 md:py-3 ">
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                      <Link to="/" class="ms-3 sm:ms-8 flex items-center">
-                        <h2 className='heading !text-[25px] drunk lg px-0' ><Logotext /></h2>
+                        <h2 className='heading !text-[20px] sm:!text-[25px] drunk lg px-0 capitalize' ><Logotext /></h2>
                      </Link>
                      <div className="flex items-center xl:order-2">
                         {user && user.name ? 

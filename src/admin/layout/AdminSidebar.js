@@ -8,7 +8,7 @@ import { SlCalender } from "react-icons/sl";
 import Logo from '../../pages/common/Logo';
 import { CgLogOut } from 'react-icons/cg';
 import { TfiWrite } from "react-icons/tfi";
-import { MdFeaturedPlayList } from "react-icons/md";
+import { MdFeaturedPlayList, MdOutlineContactSupport } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 import { MdLiveTv } from "react-icons/md";
 
@@ -71,6 +71,10 @@ export default function AdminSidebar({toggle}) {
             <MenuItem path="/admin/testimonials"
             icon={<TfiWrite  size={'1.5rem'}  />}
             label="Testimonials" />
+
+            <MenuItem path="/admin/inquiries"
+            icon={<MdOutlineContactSupport  size={'1.5rem'}  />}
+            label="Inquiries" />
 
             <div className='xl:hidden'>
               <MenuItem onclick={logout}
