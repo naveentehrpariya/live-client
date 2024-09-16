@@ -10,7 +10,7 @@ export default function CreateStreamPage({setStep}) {
                <p className='text-gray-500 text-center text-[17px] pt-2' >Every 24/7 stream is a server instance that you can manage and personalize from this dashboard.</p>
             </div>
             <div className='flex justify-center mt-4' >
-               <button onClick={()=>setStep('link')} className='btn mt-4 sm:mt-0 btn-main lg' >Create New Stream</button>
+               <button onClick={()=>setStep(0)} className='btn mt-4 sm:mt-0 btn-main lg' >Create New Stream</button>
             </div>
          </div>
     </div>

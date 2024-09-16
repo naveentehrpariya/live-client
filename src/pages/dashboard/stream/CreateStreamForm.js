@@ -203,7 +203,7 @@ export default function CreateStreamForm() {
     });
   }
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(-1);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [step]);
@@ -234,7 +234,7 @@ export default function CreateStreamForm() {
         toast.error("Please select atleast one audio for this stream.");
         return false;
     }
-    if(type === 'prev' && step === 1){
+    if(type === 'prev' && step === -1){
       return false
     }
     if(type === "next"){
@@ -271,7 +271,7 @@ export default function CreateStreamForm() {
   const STEPS = () => {
     return <>
       {step > 0 ? <div className="m-auto flex mt-8 w-full rounded-xl justify-between">
-          <button disabled={step < 1} onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
+          <button onClick={()=>handleStep("prev")} className='bg-gray-700 rounded-[30px] text-gray-300 px-6 py-2' >Back</button>
           {step < 3 ? 
             <button onClick={()=>handleStep("next")}  className={`btn sm mb-0`} >Next</button>
               : 
@@ -287,13 +287,13 @@ export default function CreateStreamForm() {
       <div className='create-stream-form m-auto px-6 pb-6'>
           <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[1100px] m-auto`} >
             
-              <div className={step === 0 ? "" : "hidden"}>
+              <div className={step === -1 ? "" : "hidden"}>
                 <div className='h-full flex justify-center items-center'>
                     <CreateStreamPage setStep={setStep} />
                 </div>
               </div>
 
-              <div className={step === 'link' ? "" : "hidden"}>
+              <div className={step === 0 ? "" : "hidden"}>
                   <div className='min-h-[80vh] max-w-[800px] m-auto pt-6 lg:flex justify-center items-center' >
                     <div>
                       <CheckYoutube set={setStatus} />

@@ -25,6 +25,9 @@ export default function AddFeature({fetch, item, classes, text}) {
          setLoading(false);
          fetch && fetch();
          setOpen('close');
+         setTimeout(()=>{
+            setOpen();
+         },100);
       }).catch((err)=>{
          console.log(err);
          setLoading(false);
@@ -71,7 +74,7 @@ export default function AddFeature({fetch, item, classes, text}) {
 
                   <div className='mb-6'>
                      <label className='text-gray-500 w-full block mb-1'>Feature Description</label>
-                     <input defaultValue={item?.description} onChange={(e)=>setDescription(e.target.value)} className='focus:outline-none bg-gray-200 w-full rounded-lg px-4 py-3' placeholder='Enter feature description' />
+                     <textarea row='8' defaultValue={item?.description} onChange={(e)=>setDescription(e.target.value)} className='focus:outline-none bg-gray-200 min-h-[100px] w-full rounded-lg px-4 py-3' placeholder='Enter feature description' />
                   </div>
 
                   <div className='flex justify-center'>

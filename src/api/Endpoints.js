@@ -10,6 +10,13 @@ class Endpoints extends Component {
         return Api.post(`/user/login`, data);
     }
 
+    async forgotpassword(data) {
+        return Api.post(`/user/forgotpassword`, data);
+    }
+    async resetpassword(id, data) {
+        return Api.patch(`/user/resetpassword/${id}`, data);
+    }
+
     async user_profile() {
         return Api.get(`/user/profile`);
     }

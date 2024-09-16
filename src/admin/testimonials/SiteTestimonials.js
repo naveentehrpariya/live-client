@@ -52,7 +52,7 @@ export default function SiteTestimonials(){
               
               <div className="border h-full border-gray-800 mb-6 transition-all duration-200 rounded-[20px] cursor-pointer">
                   <div className={`testimonial text-center p-6`}>
-                    <img alt={item.name} src={defaultimg} className='object-cover m-auto d-table mb-6 w-[80px] h-[80px] min-w-[80px] min-h-[80px] rounded-[50%]' />
+                    <img alt={item.name} src={item.avatar || defaultimg} className='object-cover m-auto d-table mb-6 w-[80px] h-[80px] min-w-[80px] min-h-[80px] rounded-[50%]' />
                     <p className="text-[17px] text-white text-center font-bold">{item.name}</p>
                     <p title={item.description} className="text-[17px] text-gray-400 line-clamp-4">{item.description}</p>
                     <div className='flex item-center mt-4 justify-center'>

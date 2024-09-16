@@ -7,6 +7,7 @@ import { UserContext } from "../../context/AuthProvider";
 import toast from "react-hot-toast";
 import CheckLogin from "./CheckLogin";
 import Logotext from "../common/Logotext";
+import ForgotPasswors from "./ForgotPassword";
 
 export default function Login() {
   
@@ -80,7 +81,10 @@ export default function Login() {
               <Link to="/" className="self-center table  m-auto text-3xl font-mono font-bold text-center text-red-500 drunk lowercase">
                 <Logotext />
               </Link>
-              <h2 className="text-center font-mono text-[20px] mt-6 font-normal text-white">Login into runstream</h2>
+              <h2 className="font-bold mb-1 text-center font-mono text-[20px] mt-6   text-white">Login into runstream</h2>
+              <div className="flex justify-center py-3">
+              <ForgotPasswors />
+              </div>
           </header>
           <main className="mt-8" >
               <LoginForm />

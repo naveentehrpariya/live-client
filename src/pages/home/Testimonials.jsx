@@ -4,54 +4,29 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import user from '../../img/user.png';
 import heart from '../../img/heart.png';
+import useFetch from '../../hooks/useFetch';
+import { Mousewheel, Pagination } from 'swiper/modules';
+import 'swiper/css/pagination';
 
-const testimonials = [
-   {
-      avatar: user,
-      name: "Anthony",
-      content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
-   },
-   {
-      avatar: user,
-      name: "Anthony",
-      content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
-   },
-   {
-      avatar: user,
-      name: "Anthony",
-      content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
-   },
-   {
-      avatar: user,
-      name: "Anthony",
-      content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
-   },
-   {
-      avatar: user,
-      name: "Anthony",
-      content:
-      "My first day contacting support I met Sebastian. I have never has such good customer service in my life! I wish more businesses cared as much about customers as Sebastian. runstream sets a standard far above what most business ethics offer today. Sebastian took his time to explain.",
-   },
-];
+import defaultimg from '../../img/default-avatar.jpg'
 
+ 
 export default function Testimonials(){
 
+   const { loading, data} = useFetch({url:'/all-testimonial', type:"user"});
+
    function Avatar({ src, alt }) {
-      return <img loading="lazy" src={src} alt={alt} className="shrink-0 rounded-full aspect-square w-[52px]" />;
+      return <img loading="lazy" src={src} alt={alt} className="shrink-0 rounded-full aspect-square w-[44px]" />;
    }
    
    function Testimonial({ avatar, name, content }) {
       return (
-         <article className="flex bg-dark1 flex-col p-6 text-white rounded-3xl bg-slate-950">
+         <article className="min-h-[350px] flex bg-dark1 h-full flex-col p-6 text-white rounded-3xl bg-slate-950">
           <header className="flex gap-4 text-xl font-bold leading-5 text-center whitespace-nowrap">
-            <Avatar src={avatar} alt={`${name}'s avatar`} />
+            <Avatar src={avatar || defaultimg} alt={`${name}'s avatar`} />
             <h2 className="my-auto">{name}</h2>
           </header>
-          <p className="mt-5 text-base leading-7 text-gray-400">{content}</p>
+          <p className="mt-5 text-normal leading-7 text-gray-400">{content}</p>
         </article>
       );
    }
@@ -74,6 +49,11 @@ export default function Testimonials(){
                   <div className='relative' > 
                      <div className='left t-overlay' ></div>
                         <Swiper
+                           mousewheel={true}
+                           modules={[Mousewheel, Autoplay]}
+                           pagination={{
+                              clickable: true,
+                            }}
                            autoplay={{
                               delay:4000,
                               disableOnInteraction: false,
@@ -91,12 +71,12 @@ export default function Testimonials(){
                                 spaceBetween: 20,
                               },
                             }}
-                           modules={[Autoplay]}  >
+                            >
 
-                           {testimonials && testimonials.map((t, i) => {
+                           {data && data.map((t, i) => {
                               return (
-                                 <SwiperSlide key={i}>
-                                 <Testimonial avatar={t.avatar} name={t.name} content={t.content} />
+                                 <SwiperSlide className='h-full' key={i}>
+                                 <Testimonial avatar={t.avatar} name={t.name} content={t.description} />
                               </SwiperSlide>
                               );
                            })}

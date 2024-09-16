@@ -4,7 +4,7 @@ import HomeLayout from '../layout/HomeLayout'
 export default function Contact() {
   return (
       <HomeLayout>
-         <div className="flex py-16 md:py-28 items-center justify-start bg-dark">
+         <div id='contact' className="flex py-16 md:py-28 items-center justify-start bg-dark">
             <div className="mx-auto w-full p-6 max-w-lg">
                <h1 className="text-3xl text-center text-white font-medium">Contact us</h1>
                <p className="mt-2 text-center text-gray-300">Email us at <a className='text-main' href="mailto:support@runstream.co">support@runstream.co</a> or message us here:</p>

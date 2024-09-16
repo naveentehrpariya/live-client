@@ -36,6 +36,7 @@ import EditStream from './pages/dashboard/stream/EditStream';
 import SubscribePlan from './paypal/SubscribePlan';
 import SiteFeatures from './admin/feature/SiteFeatures';
 import SiteTestimonials from './admin/testimonials/SiteTestimonials';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
                     <Route path="/upgrade/subscription" element={<UpgradePlan />} />
                     <Route path="/my-subscription" element={<Mysubscription />} />
                     <Route path="/payment/status" element={<SubscriptionConfirmation />} />
+                    <Route path="/user/resetpassword/:id" element={<ResetPasswordPage />} />
                     {/* <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} /> */}
                     <Route path="/media" element={<Media />} />

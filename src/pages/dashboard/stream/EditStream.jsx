@@ -408,8 +408,8 @@ export default function EditStream() {
 
               <div className={step === 2 ? "" : "hidden"}>
                 {/* <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  /> */}
-                <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize max-h-[768px] rounded-2xl overflow-hidden relative' >
-                  <img className="h-full w-full thumbnailsize object-cover max-w-full" src={stream.thumbnail} alt="Cloud" />
+                <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize w-full max-h-[500px] rounded-2xl overflow-hidden relative' >
+                  <img className="h-full w-full object-cover max-w-full" src={stream.thumbnail} alt="Cloud" />
                 </div>
 
                 {streamType === 'video' ? 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link  } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import Button from './Button';
 import { UserContext } from '../../context/AuthProvider';
 import CheckLogin from '../auth/CheckLogin';
@@ -9,10 +9,27 @@ export default function Header() {
   const {user}  = useContext(UserContext);
   const [toggle, setToggle] = React.useState(false);
 
+  const navigate = useNavigate();
+
+  const scrollToSection = (sectionId) => {
+    const section = document.querySelector(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleNavigation = (path, sectionId) => {
+    navigate(path);
+    // Wait until the page renders before scrolling
+    setTimeout(() => {
+      scrollToSection(sectionId);
+    }, 100);
+  };
+
   return (
     <>
     <CheckLogin  />
-      <header className='sticky top-2 py-3 z-10' >
+      <header id='header' className='sticky top-2 py-3 z-10' >
          <div className='container m-auto'>
             <nav className="px-3 py-1 md:py-3 ">
                <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
@@ -33,22 +50,21 @@ export default function Header() {
                            <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                            <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
-                        
                      </div>
 
                      <div class={`${toggle ? "toggle" : ""} mobile-menu  justify-between items-center w-full xl:flex xl:w-auto xl:order-1`} id="mobile-menu-2">
                         <ul className="flex flex-col  font-medium xl:flex-row xl:space-x-5 ">
                            <li>
-                                 <a href="#pricing" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</a>
+                                 <button onClick={() => handleNavigation('/', '#pricing')}   className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</button>
                            </li>
                            <li>
-                                 <Link to="/contact" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Contact</Link>
+                                 <button  onClick={() => handleNavigation('/contact', "#contact")} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Contact</button>
                            </li>
                            <li>
-                                 <a href="#reviews" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Reviews</a>
+                                 <button onClick={() => handleNavigation('/', '#reviews')} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Reviews</button>
                            </li>
                            <li>
-                                 <a href="#features" className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">FAQ</a>
+                                 <Link onClick={() => handleNavigation('/', '#features')} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Features</Link>
                            </li>
                         </ul>
                      </div>

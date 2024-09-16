@@ -77,7 +77,7 @@ export default function Mysubscription () {
                     <h3 className='text-white text-md ' >{time(data && data.endOn)}</h3>
                   </div>
 
-                  <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
+                  {/* <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
                     <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
                   </div>
@@ -90,7 +90,7 @@ export default function Mysubscription () {
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
                     <div className='text-white text-lg'>320kbps</div>
-                  </div>
+                  </div> */}
 
               </div> 
             </>
@@ -124,7 +124,7 @@ export default function Mysubscription () {
                     <h3 className='text-white  text-md ' >{time(data && data.endOn)}</h3>
                   </div>
 
-                  <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
+                  {/* <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
                     <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
                   </div>
@@ -135,7 +135,7 @@ export default function Mysubscription () {
                   <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
                     <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
                     <div className='text-white text-lg'>320kbps</div>
-                  </div>
+                  </div> */}
                   <Link to='/upgrade/subscription' className="block text-normal mt-6 px-4 py-3 rounded-3xl text-center text-white uppercase bg-[var(--main)]">
                     Renew Plan
                 </Link>
