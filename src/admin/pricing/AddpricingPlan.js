@@ -104,7 +104,7 @@ export default function AddPricingPlan() {
   const addPlan = (e) => {
     setLoading(true);
     const m = new AdminEndpoints();
-    const resp = m.create_plan({...data, duration:planduration, duration_title:planTitles[planduration], resolutions:resolutions });
+    const resp = m.create_plan({...data, duration:1,  resolutions:resolutions });
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
@@ -148,7 +148,6 @@ export default function AddPricingPlan() {
     }
   }
 
-  const durations = [1, 2, 4, 6, 12];
   
   return (
       <AdminLayout heading={"Add Pricing Plan"} >
@@ -162,13 +161,13 @@ export default function AddPricingPlan() {
           ))}
         </div>
         <textarea defaultValue={plan && plan.description}  className='input mt-8' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-        <p className='text-gray-300 mt-6 mb-3'>Choose Duration</p>
+        {/* <p className='text-gray-300 mt-6 mb-3'>Choose Duration</p>
         <div className='flex flex-wrap justify-start' >
           {durations && durations.map((r, i)=>{
             return <button onClick={()=>setPlanduration(r)} 
             className={`text-lg  ${planduration == r ? 'bg-main text-gray-200' : " bg-gray-900 text-gray-500"}  rounded-xl px-5 py-2 mb-2 me-2 text-lg capitalize`} >{r} {r>1 ? "months" :"month"}</button>
           })}
-        </div>
+        </div> */}
 
         <p className='text-gray-300 mt-6 mb-3 mt-6'>Choose Resolution</p>
         <div className='flex flex-wrap justify-start' >

@@ -19,7 +19,6 @@ export default function Users() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const time = Time();
-
   const limit = 30
   async function fetch(pg,signal) {
     if(!loading){
@@ -76,12 +75,11 @@ export default function Users() {
     <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
       {item.name}
     </td>
-    {/* <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.username}</td> */}
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
       <p>{item?.plan?.name || "N/A"}</p>
-      {item?.plan?.price ? <p>{currency(item?.plan?.price)}/{item?.plan?.duration_title}</p> :""}
+      {item?.plan?.price ? <p>{currency(item?.plan?.price)}/month</p> :""}
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       <button onClick={changeStatus} className={`capitalize text-white rounded-xl py-1 px-3 ${status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>

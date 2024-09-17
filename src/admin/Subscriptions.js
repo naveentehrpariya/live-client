@@ -60,7 +60,7 @@ export default function Subscriptions() {
     return <tr className="border-b border-gray-900">
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({currency(item?.plan?.price) || "N/A"} / {item.plan.duration} {item.plan.duration == 1 ? "month" : "months"}) </> : "--"}</td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({currency(item?.plan?.price) || "N/A"} / {item.duration}{item.duration > 2 ? "month" : "months"}) </> : "--"}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endOn ? time(item?.endOn) : "N/A"}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">

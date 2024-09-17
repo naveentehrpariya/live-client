@@ -6,6 +6,7 @@ import CurrencyFormat from '../common/CurrencyFormat';
 import toast from 'react-hot-toast';
 import Loading from '../common/Loading';
 import AdminApi from '../../api/AdminApi';
+import Popup from '../common/Popup';
 
 export default function Pricing({classes, colclasses, heading, type}) {
 
@@ -42,6 +43,8 @@ export default function Pricing({classes, colclasses, heading, type}) {
       }
     }
 
+   
+
    const PLAN = ({p, i}) => { 
       const rsarrya = JSON.parse(p && p.resolutions);
       const features =  [
@@ -52,10 +55,12 @@ export default function Pricing({classes, colclasses, heading, type}) {
          { text: `${rsarrya.join(", ")}` },
          { text: "Audio quality: 320kbps" },
          { text: "Instant server availability" },
-      ]
+      ];
+
+
       const navigate = useNavigate();
       const [subscribing, setSubscribing ] = useState(false);
-
+      const [selectedDuration, setSelectedDuration] = useState(1);
       const subscribePlan = async (id) => { 
          const c =  await getUserCurrencyByIP();
          if(!user){
@@ -64,7 +69,7 @@ export default function Pricing({classes, colclasses, heading, type}) {
          } 
          setSubscribing(true);
          const m = new Endpoints();
-         const resp = m.subscribePlan({ id : id, currency:c || "USD"}); 
+         const resp = m.subscribePlan({ id : id, currency:c || "USD", duration : selectedDuration}); 
          resp.then((res) => {
             if(res.data.status && res.data.short_url){
                window.location.href = res.data.short_url;
@@ -76,37 +81,62 @@ export default function Pricing({classes, colclasses, heading, type}) {
          });
       }
 
-      const currency = CurrencyFormat(); 
-      return <div key={p._id} className={`bg-dark2 px-4 py-8 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
-         <div className='px-4'>
-            <h2 className='text-[17px] font-bold mb-6' >{p.name}</h2>
-            <div className="mt-3.5 font-[900] text-red-500 text-[40px] capitalize leading-[90%]">{currency(p.price)}<span className='text-[17px]'> / {p.duration} {p.duration == 1 ? "month" : "months"}</span></div>
-            <div title={p.description} className="mb-6 mt-3.5 font-[900] text-gray-300 text-[16px] capitalize line-clamp-2">{p.description}</div>
-         </div>
-         {dloading ? <Loading fixed={true} /> : ""}
-         <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
-         {features && features.map((f, index) => (
-            <FeatureItem key={index} >
-               {f.text}
-            </FeatureItem>
-         ))}
-         {admin && admin.role === '1' ? 
-         <>
-         <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8"> Edit Plan</Link>
-         {p.status === "active" ?
-            <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-red-800 md mt-3 cursor-pointer`} >{"Disable Plan"}</button>
-         :
-            <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-green-800 md mt-3 cursor-pointer`} >{dloading ? "Processing" : "Enable Plan"}</button>
-         }
-         </>
-         : <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">
-            {subscribing ? "Loading" : "Buy Now"}
-         </button> 
-         }
-         </div>
-      </div>
-   }
+      const Subscribe = ({p}) => {
+         const [open, setOpen] = useState();
+         const durations = [1, 2, 4, 6, 12];
+         return <>
+            <Popup action={open} space={'p-6 sm:p-10'} btntext={"Buy Now"} btnclasses={'btn md mt-8'} >
+               <div className="flex justify-center w-full mx-auto">
+                  <div className=" w-full bg-white sm:rounded-lg">
+                     <div className="mb-4 md:mb-10 text-center">
+                        <h2 className="text-xl sm:text-2xl font-semibold mb-2">Subscribe Plan</h2>
+                        <p className="text-md text-gray-500"> You are subscribing to {p.name} for {selectedDuration} months. </p>
+                     </div>
 
+                     <div className='chooseDurations grid grid-cols-2 sm:grid-cols-3 gap-2' >
+                        {durations && durations.map((d, index) => (
+                           <div onClick={()=>setSelectedDuration(d)} key={index}  className={` ${selectedDuration === d ? "bg-main text-white" : "bg-gray-200 text-black"} rounded-xl px-4 py-2 text-center cursor-pointer choosedurationItem`}>{d} Months</div>
+                        ))}
+                     </div>
+
+                     <div className='flex justify-center'>
+                        <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">{subscribing ? "Loading" : "Buy Now"}</button>                
+                     </div>
+                  </div>
+               </div>
+            </Popup>
+         </>
+      }
+
+      const currency = CurrencyFormat(); 
+         return <div key={p._id} className={`bg-dark2 px-4 py-8 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
+            <div className='px-4'>
+               <h2 className='text-[17px] font-bold mb-6' >{p.name}</h2>
+               <div className="mt-3.5 font-[900] text-red-500 text-[40px] capitalize leading-[90%]">{currency(p.price)}<span className='text-[17px]'> /month</span></div>
+               <div title={p.description} className="mb-6 mt-3.5 font-[900] text-gray-300 text-[16px] capitalize line-clamp-2">{p.description}</div>
+            </div>
+            {dloading ? <Loading fixed={true} /> : ""}
+            <div className="flex flex-col self-stretch px-4 mt-6 w-full text-base">
+            {features && features.map((f, index) => (
+               <FeatureItem key={index} >
+                  {f.text}
+               </FeatureItem>
+            ))}
+            {admin && admin.role === '1' ? 
+            <>
+            <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8">Edit Plan</Link>
+            {p.status === "active" ?
+               <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-red-800 md mt-3 cursor-pointer`} >{"Disable Plan"}</button>
+            :
+               <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-green-800 md mt-3 cursor-pointer`} >{dloading ? "Processing" : "Enable Plan"}</button>
+            }
+            </>
+            : <Subscribe p={p}  /> 
+            }
+            </div>
+         </div>
+      }
+   
    function FeatureItem({ icon, children }) {
       return (
         <div className="flex gap-2 mt-5">
