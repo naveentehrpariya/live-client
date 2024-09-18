@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Popup from '../../common/Popup'
 import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
+import { UserContext } from '../../../context/AuthProvider';
 
 export default function Addmedia({update, classes}) {
 
@@ -9,6 +10,7 @@ export default function Addmedia({update, classes}) {
    const [uploading, setUploading] = useState(false);
    const [file, setFile] = useState(null);
    const [fileMime, setFileMime] = useState(null);
+   const {Errors} = useContext(UserContext);
 
    const handleFile = async (e) => {
       setFile(e.target.files[0]);
@@ -35,23 +37,28 @@ export default function Addmedia({update, classes}) {
       const m = new Endpoints();
       const fdata = new FormData();
       fdata.append('file', file);
-      try {
-          await m.uploadMedia(fdata, setProgress);
-          toast.success('File uploaded successfully');
-          setProgress(100);
-          setTimeout(()=>{
-            setFile(null);
-            setOpen('close');
-            update && update();
+      const resp = m.uploadMedia(fdata, setProgress); 
+      resp.then((res)=>{
+         if(res.data.status){
+            toast.success(res.data.message);
+            setProgress(100);
             setTimeout(()=>{
-               setOpen('');
+               setFile(null);
+               setOpen('close');
+               update && update(1);
+               setTimeout(()=>{
+                  setOpen('');
+               }, 500);
             }, 1000);
-          }, 1000);
-      } catch (err) {
-          toast.error('File upload failed');
-      } finally {
-          setUploading(false);
-      }
+         } else {
+            toast.error(res.data.message);
+         }
+         setUploading(false);
+      }).catch(err => {
+         Errors(err);
+         toast.error('File upload failed');
+         setUploading(false);
+      });
    }
 
   return (
@@ -61,7 +68,7 @@ export default function Addmedia({update, classes}) {
                <div className=" w-full bg-white sm:rounded-lg">
                   <div className="mb-4 md:mb-10 text-center">
                      <h2 className="text-xl sm:text-2xl font-semibold mb-2">Upload your files</h2>
-                     <p className="text-md text-gray-500">File should be of format .mp4, .png, .jpeg or .avif</p>
+                     <p className="text-md text-gray-500">File should be of format .mp4, .png, .jpeg, .mp3, or .avif</p>
                   </div>
 
                   {file ? <>

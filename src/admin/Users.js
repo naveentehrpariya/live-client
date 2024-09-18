@@ -67,6 +67,17 @@ export default function Users() {
     }
     const currency = CurrencyFormat(); 
 
+    function formatBytes(bytes, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      if(bytes){
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+      } else { 
+        return "N/A";
+      }
+    }
 
     return <tr className="border-b border-gray-900">
     {/* <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
@@ -77,9 +88,10 @@ export default function Users() {
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{formatBytes(parseInt(item.uploaded_content) || 0)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
       <p>{item?.plan?.name || "N/A"}</p>
-      {item?.plan?.price ? <p>{currency(item?.plan?.price)}/month</p> :""}
+      {item?.plan?.price ? <p>{currency(item?.plan?.price)} for {item?.plan_months || 1} months</p> :""}
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       <button onClick={changeStatus} className={`capitalize text-white rounded-xl py-1 px-3 ${status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>
@@ -105,17 +117,10 @@ export default function Users() {
               <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
                 <thead className=" border-b border-gray-800 lg:table-header-group">
                   <tr className="">
-                    {/* <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
-                      Sr.
-                    </td> */}
-                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
-                      Name
-                    </td>
-                    {/* <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Username</td> */}
+                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
-                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">
-                      Joined Date
-                    </td>
+                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Joined Date</td>
+                    <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Uploaded Media</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Active Plan</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   </tr>

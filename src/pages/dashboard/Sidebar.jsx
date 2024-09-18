@@ -16,8 +16,8 @@ export default function Sidebar({toggle, trial, logout}) {
   const {user} = useContext(UserContext);
   function MenuItem({ icon, label, path, onclick = false }) {
     return (
-      <NavLink onClick={onclick} to={path || "/home"} activeclassname="bg-dark1"
-      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "}  flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
+      <NavLink onClick={onclick} to={path || "/home"} activeclassname=" bg-dark1"
+      className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "} capitalize  flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
     );
@@ -46,12 +46,19 @@ export default function Sidebar({toggle, trial, logout}) {
     );
   }
 
+  const sortName = (n) => { 
+    const name = n;
+    return name.split(' ')[0] || name;
+  }
+
   return (
     <>
+
       <nav className={`sidebar-wrapper border-r border-gray-900 text-base ${toggle ? "sidebar-open" : ""}`}>
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
-          <Link to='/home' > <Logo /></Link>
+          <Link to='/home' > <Logo /> </Link>
         </div>
+
 
         <div className='menus p-8 pt-0' >
             <MenuItem path="/home"
@@ -60,7 +67,7 @@ export default function Sidebar({toggle, trial, logout}) {
 
             <MenuItem path="/profile"
             icon={<FaUserCog size={'2rem'}  />}
-            label={user ? `${user.name} Profile` : `Profile`} />
+            label={user ? `${sortName(user.name)}'s Profile` : `Profile`} />
 
             <MenuItem path="/media"
             icon={<DiHtml5Multimedia size={'2rem'}  />}

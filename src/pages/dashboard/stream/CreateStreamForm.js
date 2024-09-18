@@ -283,16 +283,14 @@ export default function CreateStreamForm() {
       </>
   }
   return (
-    <StreamLayout heading='New Stream' disabled={playlistsCreating} onclick={createPlaylist}>
+    <StreamLayout step={step} heading='New Stream' disabled={playlistsCreating} onclick={createPlaylist}>
       <div className='create-stream-form m-auto px-6 pb-6'>
           <div className={`${status ? "" : "disabled"} pages-steps  lg:max-w-[1100px] m-auto`} >
-            
               <div className={step === -1 ? "" : "hidden"}>
                 <div className='h-full flex justify-center items-center'>
                     <CreateStreamPage setStep={setStep} />
                 </div>
               </div>
-
               <div className={step === 0 ? "" : "hidden"}>
                   <div className='min-h-[80vh] max-w-[800px] m-auto pt-6 lg:flex justify-center items-center' >
                     <div>
@@ -323,12 +321,14 @@ export default function CreateStreamForm() {
                     </div>
                   </div>
               </div>
-
               <div className={step === 1 ? "" : "hidden"}>
                 <div className='pt-[50px]' >
                   <div className=' m-auto' >
-                      <UploadThumbnail update={getImageFile}  />
-                      <div className='stream-input-fields' >
+                    <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-8'>
+                      <div className='part1'>
+                        <UploadThumbnail update={getImageFile}  />
+                      </div>
+                      <div className='part2 stream-input-fields' >
                         {inputFields.map((field, index) => (
                           <input required key={index} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                         ))}
@@ -347,6 +347,7 @@ export default function CreateStreamForm() {
                         }
                         <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
                       </div>
+                    </div>
                       <STEPS />
                   </div>
                 </div>

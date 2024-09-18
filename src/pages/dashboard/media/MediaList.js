@@ -21,15 +21,14 @@ export default function MediaList() {
      if(loading) return false;
      setLoading(true);
      const m = new Endpoints();
-     const resp = m.mymedia(filter,p,30);
+     const resp = m.mymedia(filter,p,15);
      resp.then((res) => {
-      setLoading(false);
-      if(p === 1) setLists(res.data.files);
-      else setLists(prev => [...prev, ...res.data.files]);
-      setTotalPages(res.data.totalPages);
-      if(res.data.totalPages == p){
-         setHasMore(false);
-      }
+         setLoading(false);
+         setLists(res.data.files);
+         setTotalPages(res.data.totalPages);
+         if(res.data.totalPages === p){
+            setHasMore(false);
+         }
      }).catch((err) => {
        setTimeout(()=>{
          setLoading(false);
@@ -74,7 +73,7 @@ export default function MediaList() {
   return (
     <div className='medias-lists'>
 
-      <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.plan && user.plan.storage}GB</div>
+      <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.plan ? user.plan.storage : 1}GB</div>
       <div className='sm:flex justify-between mb-6 ' >
             <div className='flex items-center'>
                <button className={`${filter === 'image' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>changeFilter("image")} >Images</button>
@@ -84,8 +83,9 @@ export default function MediaList() {
             <Addmedia classes="bg-main mt-4 sm:mt-0 !py-3 sm:py-2 w-full sm:w-auto text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px] uppercase " update={fetchMedias} />
       </div>
       <>
-         { lists && lists.length ? 
-            <div className={`grid ${filter === 'audio' ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3" : 'grid-cols-2 md:grid-cols-3'} gap-5`}>
+         {loading ? <Loading /> : <>
+            { lists && lists.length ? 
+               <div className={`grid ${filter === 'audio' ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3" : 'grid-cols-2 md:grid-cols-3'} gap-5`}>
                   {lists && lists.map((item, index) => {
                      const size = item.size / 1024 / 1024;
                      return <>
@@ -131,9 +131,10 @@ export default function MediaList() {
                      : '' }  
                      </> 
                   })}
-         </div>
-         : !loading ? <NoContent /> : ""}  
-         {loading ? <Loading /> :  '' }
+               </div>
+               : !loading ? <NoContent /> : ""}
+            </> 
+         }
          {lists && lists.length ? <Pagination fetch={fetchMedias} setPage={setPage} total={totalPages} currentPage={page} /> : ''}
       </>
          

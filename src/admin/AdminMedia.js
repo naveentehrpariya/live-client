@@ -47,6 +47,7 @@ export default function AdminMedia() {
 
   const navigate = useNavigate();
   const handleState = (e) => {
+    setPage(1);
     navigate(`/admin/media/${e}`);
   }
 
@@ -71,39 +72,41 @@ export default function AdminMedia() {
                            {type === 'image'? 
                           <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
                             <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
-                            <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                            <RemoveMedia update={fetch} id={item._id} classes={'bg-black rounded-xl  absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                               <div className='p-3 text-white ' >
                                  <p className='mb-1 line-clamp-1'>{item.name}</p>
-                                 <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
-                                 <p>Size : {size.toFixed(2)}MB</p>
+                                 <p className='text-sm mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
+                                 <p className='text-sm'>Size : {size.toFixed(2)}MB</p>
                               </div>
                            </div>
                            : '' } 
 
                            {type === 'video'? 
                               <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
-                                 <video playsInline className='w-full h-full max-h-[200px]' controls >
+                                 <video playsInline className='min-h-[150px]' controls >
                                     <source src={item.url} type={item.mime} />
                                  </video>
-                                <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                                <RemoveMedia update={fetch} id={item._id} classes={'absolute  bg-black rounded-xl  top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                                 <div className='p-3 text-white ' >
                                    <p className='mb-1 line-clamp-1'>{item.name}</p>
-                                   <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
-                                   <p>Size : {size.toFixed(2)}MB</p>
+                                   <p className='mb-1 text-sm line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
+                                   <p className='text-sm'>Size : {size.toFixed(2)}MB</p>
                                 </div>
                              </div>
                            : '' } 
 
                            {type === 'audio'? 
                               <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
+                                 <div className='p-3'>
                                   <audio playsInline className='w-full ' controls >
                                     <source src={item.url} type={item.mime} />
                                   </audio>
-                                <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
-                                <div className='p-3 text-white ' >
-                                    <p className='mb-1 line-clamp-1'>{item.name}</p>
-                                    <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
-                                    <p>Size : {size.toFixed(2)}MB</p>
+                                 </div>
+                                <RemoveMedia update={fetch} id={item._id} classes={'absolute bg-black rounded-xl bottom-3 right-4 bg-danger-600 text-white  px-3 py-2 rounded-[30px'}  />
+                                <div className='p-3 text-white w-full' >
+                                    <p className='mb-1 line-clamp-1'>{item.name.replaceAll('-', ' ')}</p>
+                                    <p className='mb-1 line-clamp-1 text-sm'>User : {item.user.name} ({item.user.email})</p>
+                                    <p className='text-sm'>Size : {size.toFixed(2)}MB</p>
                                 </div>
                               </div>
                            : '' } 

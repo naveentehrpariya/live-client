@@ -149,7 +149,7 @@ export default function AddTestimonials({fetch, item, classes, text}) {
                                           stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-900">
                                        </path>
                                     </svg>
-                                    <p className='text-center text-lg text-white max-w-[200px] mt-2'>Uploading..</p>
+                                    {/* <p className='text-center text-lg text-white max-w-[200px] mt-2'>Uploading..</p> */}
                                  </div> 
                               </div> 
                            : ""}
