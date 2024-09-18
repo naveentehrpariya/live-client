@@ -56,7 +56,7 @@ export default function Addmedia({update}) {
 
   return (
    <>
-      <Popup action={open} space={'p-6 sm:p-10'} btntext={"+ Add More"} btnclasses={'bg-main text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[13px] text-[12px] md:text-[15px] font-bold uppercase  '} >
+      <Popup action={open} space={'p-6 sm:p-10'} btntext={"+ Add More"} btnclasses={'bg-main text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px]   uppercase  '} >
             <div className="flex justify-center w-full mx-auto">
                <div className=" w-full bg-white sm:rounded-lg">
                   <div className="mb-4 md:mb-10 text-center">
@@ -93,7 +93,7 @@ export default function Addmedia({update}) {
                   </div>
                </div>
             </div>
-      </Popup>
+      </Popup> 
    </>
   )
 }

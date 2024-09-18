@@ -81,18 +81,21 @@ export default function Sidebar({toggle, trial, logout}) {
 
         {user && user.plan && user.plan._id ? 
           <div className='px-6 pb-8'>
-            <Link to="/my-subscription" className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
-                alt="Upgrade your plan"
-                className="z-10 self-center mt-0 aspect-[1.2] w-[100px]" />
-              <div className="mt-2.5 leading-5 text-neutral-200 text-main font-bold text-2xl">
-                {user.plan.name} 
-              </div>
-              <p className='text-gray-400 mt-3'>{user.plan.description} </p>
-              {/* <h2 className='text-white font-bold mt-2' >${user.plan.price} {user.plan.duration_title}</h2> */}
-          </Link>
+              <Link to="/my-subscription" className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
+                  alt="Upgrade your plan"
+                  className="z-10 self-center mt-0 aspect-[1.2] w-[100px]" />
+                
+                <div className="mt-2.5 text-white text-lg">
+                  Active Plan
+                </div>
+                <div className="mt-2.5 leading-5 text-neutral-200 text-main font-bold text-2xl">
+                  {user.plan.name} 
+                </div>
+                <p className='text-gray-400 mt-3'>{user.plan.description} </p>
+              </Link>
               <Link to='/upgrade/subscription' className="justify-center px-10 py-3 mt-6 text-white capitalize text-sm bg-red-500 leading-[90%] rounded-[180px] block text-center max-md:px-5">
                   Upgrade Plan
               </Link>            

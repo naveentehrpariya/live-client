@@ -55,21 +55,6 @@ export default function AdminMedia() {
 
   const ITEM = ({item}) => { 
     const [status, setStatus] = useState(item.status);
-   //  const stopStream = () => { 
-   //    const resp = Api.get(`/admin/media/${item.streamId}`);
-   //    resp.then((res)=> {
-   //      if(res.data.status){
-   //        setStatus(status === 1 ? 0 : 1);
-   //        toast.success(res.data.message);
-   //      } else { 
-   //        toast.error(res.data.message);
-   //      }
-   //    }).catch((err)=>{
-   //      console.log(err);
-   //      Errors(err);
-   //    });
-   //  }
-
     return <tr className="border-b border-gray-900">
       <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">{item.title}</td>
       <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.createdAt)}</td>
@@ -91,8 +76,8 @@ export default function AdminMedia() {
       <AdminLayout>
         <AdminTitle heading={`${type === 'image' ? "Images" : "Videos"  }`}>
             <div>
-                <button className={`${type == 'image' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("image")}>All Images</button>
-                <button className={`${type == 'video' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("video")}>All Videos</button>
+                <button className={`${type === 'image' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("image")}>All Images</button>
+                <button className={`${type === 'video' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("video")}>All Videos</button>
             </div>
         </AdminTitle>
         {loading ? <Loading /> : 

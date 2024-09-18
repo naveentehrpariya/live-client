@@ -13,6 +13,7 @@ export default function Pagination({total, currentPage, fetch, setPage}) {
    },[total]);
    
    const fetchdata = (e)=> {
+      console.log(e)
       fetch(e);
       setPage(e);
       setCurrent(e)
