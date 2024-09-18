@@ -50,34 +50,14 @@ export default function AdminMedia() {
     navigate(`/admin/media/${e}`);
   }
 
-  const time = Time();
-
-
-  const ITEM = ({item}) => { 
-    const [status, setStatus] = useState(item.status);
-    return <tr className="border-b border-gray-900">
-      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">{item.title}</td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.createdAt)}</td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{time(item?.endedAt)}</td>
-      <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
-      {status === 1 ?  <button className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Running</button>
-        :
-        <span className={`text-white rounded-xl py-1 px-3 ${status == 1 ? "bg-green-600 " : "bg-red-800" }`}>ENDED</span>
-      }
-    </td>
-      <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
-       <a target="_blank"  rel="noreferrer" href={`https://www.youtube.com/watch?v=${item.streamId}`} className={`text-white rounded-xl py-1 px-3 ${status === 1 ? "bg-green-600 " : "bg-red-500" }`}>Watch</a>
-    </td>
-  </tr>
-  }
-
   return (
     <>
       <AdminLayout>
-        <AdminTitle heading={`${type === 'image' ? "Images" : "Videos"  }`}>
+        <AdminTitle heading={`${type === 'image' ? "Images" : type === 'video' ? "Videos" : "Audios"  }`}>
             <div>
                 <button className={`${type === 'image' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("image")}>All Images</button>
                 <button className={`${type === 'video' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("video")}>All Videos</button>
+                <button className={`${type === 'audio' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("audio")}>All Audios</button>
             </div>
         </AdminTitle>
         {loading ? <Loading /> : 
@@ -86,20 +66,45 @@ export default function AdminMedia() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                      <>
                         {data && data.map((item, index) => {
+                          const size = item.size / 1024 / 1024;
                            return <>
                            {type === 'image'? 
-                              <div className='relative' key={`file-${type}-${index}`}>
-                                 <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
-                                 <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                          <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
+                            <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+                            <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                              <div className='p-3 text-white ' >
+                                 <p className='mb-1 line-clamp-1'>{item.name}</p>
+                                 <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
+                                 <p>Size : {size.toFixed(2)}MB</p>
                               </div>
+                           </div>
                            : '' } 
 
                            {type === 'video'? 
-                              <div  className='relative max-h-[130px] min-h-[150px] sm:max-h-[200px] bg-dark2 rounded-xl overflow-hidden' key={`file-${type}-${index}`}>
-                                 <video playsInline className='w-full h-full' controls >
+                              <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
+                                 <video playsInline className='w-full h-full max-h-[200px]' controls >
                                     <source src={item.url} type={item.mime} />
                                  </video>
-                                 <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                                <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                                <div className='p-3 text-white ' >
+                                   <p className='mb-1 line-clamp-1'>{item.name}</p>
+                                   <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
+                                   <p>Size : {size.toFixed(2)}MB</p>
+                                </div>
+                             </div>
+                           : '' } 
+
+                           {type === 'audio'? 
+                              <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${type}-${index}`}>
+                                  <audio playsInline className='w-full ' controls >
+                                    <source src={item.url} type={item.mime} />
+                                  </audio>
+                                <RemoveMedia update={fetch} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                                <div className='p-3 text-white ' >
+                                    <p className='mb-1 line-clamp-1'>{item.name}</p>
+                                    <p className='mb-1 line-clamp-1'>User : {item.user.name} ({item.user.email})</p>
+                                    <p>Size : {size.toFixed(2)}MB</p>
+                                </div>
                               </div>
                            : '' } 
 

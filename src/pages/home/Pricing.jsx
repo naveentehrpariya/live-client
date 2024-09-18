@@ -15,10 +15,10 @@ export default function Pricing({classes, colclasses, heading, type}) {
    const [lists, setLists] = useState([]);
    const [loading, setLoading] = useState(false);
 
-   function fetch_plans() {
+   function fetch_plans({signal}) {
       setLoading(true);
       const m = new Endpoints();
-      const resp = type === "admin" ? m.adminpricingPlanLists() : m.pricingPlanLists() ;
+      const resp = type === "admin" ? m.adminpricingPlanLists(signal) : m.pricingPlanLists(signal) ;
       resp.then((res) => {
          setLoading(false);
          setLists(res.data.items);
@@ -28,7 +28,9 @@ export default function Pricing({classes, colclasses, heading, type}) {
    }
   
     useEffect(()=>{
-      fetch_plans();
+      const controller = new AbortController();
+      const signal = controller.signal;
+      fetch_plans(signal);
     },[]);
 
     async function getUserCurrencyByIP() {
@@ -59,49 +61,54 @@ export default function Pricing({classes, colclasses, heading, type}) {
 
 
       const navigate = useNavigate();
-      const [subscribing, setSubscribing ] = useState(false);
-      const [selectedDuration, setSelectedDuration] = useState(1);
-      const subscribePlan = async (id) => { 
-         const c =  await getUserCurrencyByIP();
-         if(!user){
-            navigate('/login');
-            return false;
-         } 
-         setSubscribing(true);
-         const m = new Endpoints();
-         const resp = m.subscribePlan({ id : id, currency:c || "USD", duration : selectedDuration}); 
-         resp.then((res) => {
-            if(res.data.status && res.data.short_url){
-               window.location.href = res.data.short_url;
-            } else {
-               toast.error(res.data.message || "Something went wrong with plans. Please try again later");
-            }
-         }).catch((err) => {
-            setSubscribing(false);
-         });
-      }
+      
 
       const Subscribe = ({p}) => {
          const [open, setOpen] = useState();
-         const durations = [1, 2, 4, 6, 12];
+         const durations = [1, 2, 3, 4, 6, 12];
+         const [subscribing, setSubscribing ] = useState(false);
+         const [selectedDuration, setSelectedDuration] = useState(1);
+         const subscribePlan = async (id) => { 
+            const c =  await getUserCurrencyByIP();
+            if(!user){
+               navigate('/login');
+               return false;
+            } 
+            setSubscribing(true);
+            const m = new Endpoints();
+            const resp = m.subscribePlan({ id : id, currency:c || "USD", duration : selectedDuration}); 
+            resp.then((res) => {
+               if(res.data.status && res.data.short_url){
+                  window.location.href = res.data.short_url;
+               } else {
+                  toast.error(res.data.message || "Something went wrong with plans. Please try again later");
+               }
+            }).catch((err) => {
+               setSubscribing(false);
+            });
+         }
+         
          return <>
             <Popup action={open} space={'p-6 sm:p-10'} btntext={"Buy Now"} btnclasses={'btn md mt-8'} >
                <div className="flex justify-center w-full mx-auto">
                   <div className=" w-full bg-white sm:rounded-lg">
                      <div className="mb-4 md:mb-10 text-center">
                         <h2 className="text-xl sm:text-2xl font-semibold mb-2">Subscribe Plan</h2>
-                        <p className="text-md text-gray-500"> You are subscribing to {p.name} for {selectedDuration} months. </p>
+                        <p className="text-md text-gray-500">
+                            You are subscribing to {p.name} for {selectedDuration} months. </p>
                      </div>
 
+                     {subscribing ? <div className='bg-[#fff6] h-full w-full absolute top-0 left-0 flex justify-center items-center'>
+                        <Loading  dark={true}/>
+                     </div> : ""}
+
+                     <h2 className='font-bold text-black mb-3 mt-3 text-center'>Choose Plan Duration</h2>
                      <div className='chooseDurations grid grid-cols-2 sm:grid-cols-3 gap-2' >
                         {durations && durations.map((d, index) => (
-                           <div onClick={()=>setSelectedDuration(d)} key={index}  className={` ${selectedDuration === d ? "bg-main text-white" : "bg-gray-200 text-black"} rounded-xl px-4 py-2 text-center cursor-pointer choosedurationItem`}>{d} Months</div>
+                           <div onClick={()=>subscribePlan(p._id, d)} key={index}  className={` focus:bg-main bg-gray-200 text-black  rounded-2xl px-4  py-2 text-center cursor-pointer choosedurationItem`}>{d} {d >1 ?"Months" : "Month"}</div>
                         ))}
                      </div>
 
-                     <div className='flex justify-center'>
-                        <button onClick={()=>subscribePlan(p._id)} className="btn md mt-8">{subscribing ? "Loading" : "Buy Now"}</button>                
-                     </div>
                   </div>
                </div>
             </Popup>

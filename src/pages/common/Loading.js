@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Loading({fixed}) {
+export default function Loading({fixed, dark}) {
   return (
     <div className={`w-full px-12 py-20 flex justify-center ${fixed ? 'fixed top-0 z-50 flex justify-center items-center h-full bg-[#0004] left-0' : ''}`}>
       <style>{`
@@ -15,7 +15,7 @@ export default function Loading({fixed}) {
          width:25px;
          height:25px;
          border-radius: 50%;
-         background-color: #fff;
+         background-color: ${dark ? '#000' : '#fff'};
        }
        
        .ball:nth-child(1) {

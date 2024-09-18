@@ -3,7 +3,7 @@ import Popup from '../../common/Popup'
 import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
 
-export default function Addmedia({update}) {
+export default function Addmedia({update, classes}) {
 
    const [open, setOpen] = useState();
    const [uploading, setUploading] = useState(false);
@@ -56,7 +56,7 @@ export default function Addmedia({update}) {
 
   return (
    <>
-      <Popup action={open} space={'p-6 sm:p-10'} btntext={"+ Add More"} btnclasses={'bg-main text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px]   uppercase  '} >
+      <Popup action={open} space={'p-6 sm:p-10'} btntext={"+ Add More"} btnclasses={classes ? classes : 'bg-main text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px]   uppercase  '} >
             <div className="flex justify-center w-full mx-auto">
                <div className=" w-full bg-white sm:rounded-lg">
                   <div className="mb-4 md:mb-10 text-center">
@@ -69,10 +69,18 @@ export default function Addmedia({update}) {
                         <button onClick={()=>setFile(null)} className='bg-red-800 rounded-xl px-3 py-2 text-sm text-white absolute top-2 right-2 z-[2]'>Remove</button>
                         { fileMime === 'image'? 
                            <img className="h-auto w-full object-cover max-w-full max-h-[200px] sm:max-h-[300px] rounded-xl" src={URL.createObjectURL(file)} alt="Cloud" />
-                           : fileMime === 'video'?
+                           : ""
+                        }
+                        { fileMime === 'video'?
                            <video playsInline className='w-full h-full rounded-xl min-h-[200px]' controls >
                               <source src={URL.createObjectURL(file)} type={file.type} />
                            </video>
+                           : ""
+                        }
+                        { fileMime === 'audio'?
+                           <audio playsInline className='w-full rounded-xl ' controls >
+                              <source src={URL.createObjectURL(file)} type={file.type} />
+                           </audio>
                            : ""
                         }
                      </div>

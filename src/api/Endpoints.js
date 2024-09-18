@@ -41,12 +41,12 @@ class Endpoints extends Component {
     async pricingPlanLists() {
         return Api.get(`/pricing-plans`);
     }
-    async adminpricingPlanLists() {
-        return Api.get(`/admin-pricing-plans`);
+    async adminpricingPlanLists(signal) {
+        return Api.get(`/admin-pricing-plans`, {signal});
     }
     
-    async pricingPlanLists() {
-        return Api.get(`/pricing-plans`);
+    async pricingPlanLists(signal) {
+        return Api.get(`/pricing-plans`, {signal});
     }
 
     async update_payment_status(data) {
