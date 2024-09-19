@@ -73,15 +73,13 @@ export default function MediaList() {
   return (
     <div className='medias-lists'>
 
-      <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.plan ? user.plan.storage : 1}GB</div>
+      {totalSize ? <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.plan ? user.plan.storage : 1}GB</div> : ''}
       <div className='sm:flex justify-between mb-6 ' >
             <div className='flex items-center'>
                <button className={`${filter === 'image' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>changeFilter("image")} >Images</button>
                <button className={`${filter === 'video' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>changeFilter("video")} >Videos</button>
                <button className={`${filter === 'audio' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>changeFilter("audio")} >Audios</button>
             </div>
-      GetFilesSize();
-      GetFilesSize();
             <Addmedia updateSize={GetFilesSize} classes="bg-main mt-4 sm:mt-0 !py-3 sm:py-2 w-full sm:w-auto text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px] uppercase " update={fetchMedias} />
       </div>
       <>

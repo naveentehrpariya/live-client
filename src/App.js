@@ -38,6 +38,7 @@ import SiteFeatures from './admin/feature/SiteFeatures';
 import SiteTestimonials from './admin/testimonials/SiteTestimonials';
 import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 import Inquiries from './admin/Inquries';
+import LiveRTMP from './pages/dashboard/stream/LiveRTMP';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
                     <Route path="/send-verification-email" element={<VerifyEmail />} />
                     <Route path="/verify-email/:token" element={<Verifying />} />
                     <Route path="/edit-stream/:streamId" element={<EditStream /> } />
+                    <Route path="/live-stream/:streamKey" element={<LiveRTMP /> } />
 
                     {/* Stream Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />

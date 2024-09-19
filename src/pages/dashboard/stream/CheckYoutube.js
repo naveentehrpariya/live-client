@@ -57,31 +57,31 @@ export default function CheckYoutube({set}) {
          <div className=" mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
             <div className='sm:flex items-center'>
                <img alt="" src={channel && channel.snippet.thumbnails.high.url}
-               className="mx-auto h-20 w-20  rounded-[50%] object-cover"
+               className="mx-auto h-14 w-14  rounded-[50%] object-cover"
                />
                <div className='ps-3'>
-               <div className='flex justify-center '><FaYoutube size="3rem" color='red' /></div>
-               <h2 className='text-center sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
+               <div className='flex justify-center '><FaYoutube size="2rem" color='red' /></div>
+               <h2 className='text-center text-sm sm:text-start '>{channel && channel?.snippet?.localized?.title || ''  }</h2>
                </div>
             </div>
             <div className="">
                <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-md">
                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
                   <div className="mt-1.5 sm:mt-0">
-                     <p className="font-bold text-lg text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
-                     <p className="text-gray-500 text-center">Views Count</p>
+                     <p className="font-bold text-normal text-center">{channel && channel?.statistics?.viewCount || ''  }</p>
+                     <p className="text-gray-500 text-center text-sm">Views Count</p>
                   </div>
                </div>
                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
                   <div className="mt-1.5 sm:mt-0">
-                     <p className="font-bold text-lg text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
-                     <p className="text-gray-500 text-center">Video Count</p>
+                     <p className="font-bold text-normal text-center">{channel && channel?.statistics?.videoCount || ''  }</p>
+                     <p className="text-gray-500 text-center text-sm">Video Count</p>
                   </div>
                </div>
                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
                   <div className="mt-1.5 sm:mt-0">
-                     <p className="font-bold text-lg text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
-                     <p className="text-gray-500 text-center">Subscribers</p>
+                     <p className="font-bold text-normal text-center">{channel && channel?.statistics?.subscriberCount || ''  }</p>
+                     <p className="text-gray-500 text-center text-sm">Subscribers</p>
                   </div>
                </div>
                </div>
