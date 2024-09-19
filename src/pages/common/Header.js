@@ -53,17 +53,24 @@ export default function Header() {
 
                      <div class={`${toggle ? "toggle" : ""} mobile-menu  justify-between items-center w-full xl:flex xl:w-auto xl:order-1`} id="mobile-menu-2">
                         <ul className="flex flex-col  font-medium xl:flex-row xl:space-x-5 ">
+                           
+                           {user && user.name ?  '' :
+                           <>
+                              <li>
+                                    <button onClick={() => handleNavigation('/login', '')}   className="md:hidden !text-start w-full text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Login</button>
+                              </li> 
+                           </> }
                            <li>
-                                 <button onClick={() => handleNavigation('/', '#pricing')}   className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</button>
+                                 <button onClick={() => handleNavigation('/', '#pricing')}   className="w-full  !text-start text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Pricing</button>
                            </li>
                            <li>
-                                 <button  onClick={() => handleNavigation('/contact', "#contact")} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Contact</button>
+                                 <button  onClick={() => handleNavigation('/contact', "#contact")} className="w-full  !text-start text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Contact</button>
                            </li>
                            <li>
-                                 <button onClick={() => handleNavigation('/', '#reviews')} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Reviews</button>
+                                 <button onClick={() => handleNavigation('/', '#reviews')} className="w-full  !text-start text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Reviews</button>
                            </li>
                            <li>
-                                 <Link onClick={() => handleNavigation('/', '#features')} className="text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Features</Link>
+                                 <Link onClick={() => handleNavigation('/', '#features')} className="w-full  !text-start text-2xl xl:text-lg block py-3 xl:py-2 pr-2 pl-2 text-white rounded bg-primary-700" aria-current="page">Features</Link>
                            </li>
                         </ul>
                      </div>

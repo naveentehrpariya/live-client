@@ -15,6 +15,33 @@ export default function ResetPasswordPage() {
 
    const navigate = useNavigate();
    async function reset() {
+
+      const minLength = 8;
+      const uppercaseRegex = /[A-Z]/;
+      const lowercaseRegex = /[a-z]/;
+      const digitRegex = /[0-9]/;
+      const specialCharRegex = /[!@#$%^&*]/;
+      if (password.length < minLength) {
+          toast.error("Password must be at least 8 characters long.");
+          return false;
+      }
+      if (!uppercaseRegex.test(password)) {
+           toast.error("Password must contain at least one uppercase letter.");
+          return false;
+      }
+      if (!lowercaseRegex.test(password)) {
+          toast.error("Password must contain at least one lowercase letter.");
+          return false;
+      }
+      if (!digitRegex.test(password)) {
+           toast.error("Password must contain at least one digit.");
+          return false;
+      }
+      if (!specialCharRegex.test(password)) {
+          toast.error("Password must contain at least one special character.")
+          return false;
+      }
+
       setLoading(true);
       const m = new Endpoints();
       const resp = m.resetpassword(id, { password: password, confirmPassword: confirmPassword});

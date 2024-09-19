@@ -13,7 +13,7 @@ export default function Hero() {
             <p className='text-center text-white text-[20px] mt-3 leading-[22px]' >Take your YouTube channel to the next level with Upstream.
                The easiest way to build & maintain a 24 hour live stream using pre-recorded videos.</p>
                <div className='flex justify-center' >
-                  {user ? <Button to="/create-stream" text="Create Stream" classes={'mt-6'} ></Button> : <Button text="Sign up for free" classes={'mt-6'} ></Button> }
+                  {user ? <Button to="/create-stream" text="Create Stream" classes={'mt-6'} ></Button> : <Button to="/signup" text="Sign up for free" classes={'mt-6'} ></Button> }
                   
                </div>
          </div>

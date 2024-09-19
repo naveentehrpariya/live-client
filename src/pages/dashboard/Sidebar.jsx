@@ -94,11 +94,10 @@ export default function Sidebar({toggle, trial, logout}) {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c6ec264598e3cd87b1d2591426df05954e4abb434a4a199ebaf9fd206758a4e?apiKey=2e16c10895744f95b3906b7e14da906a&"
                   alt="Upgrade your plan"
                   className="z-10 self-center mt-0 aspect-[1.2] w-[100px]" />
-                
                 <div className="mt-2.5 text-white text-lg">
                   Active Plan
                 </div>
-                <div className="mt-2.5 leading-5 text-neutral-200 text-main font-bold text-2xl">
+                <div className="mt-2.5 leading-6 text-neutral-200 text-main font-bold text-2xl">
                   {user.plan.name} 
                 </div>
                 <p className='text-gray-400 mt-3'>{user.plan.description} </p>

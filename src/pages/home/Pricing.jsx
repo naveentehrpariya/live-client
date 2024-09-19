@@ -27,24 +27,23 @@ export default function Pricing({classes, colclasses, heading, type}) {
       });
    }
   
-    useEffect(()=>{
-      const controller = new AbortController();
-      const signal = controller.signal;
-      fetch_plans(signal);
-    },[]);
+   useEffect(()=>{
+   const controller = new AbortController();
+   const signal = controller.signal;
+   fetch_plans(signal);
+   },[]);
 
-    async function getUserCurrencyByIP() {
-      try {
-        const response = await fetch('https://ipapi.co/json/'); // Using IPAPI as an example
-        const data = await response.json();
-        console.log("data.currency",data.currency)
-        return data.currency || 'USD'; // Default to USD if not available
-      } catch (error) {
-        console.error('Error fetching user location:', error);
-        return 'USD'; // Default to USD on error
-      }
-    }
-
+   // async function getUserCurrencyByIP() {
+   //    try {
+   //       const response = await fetch('https://ipapi.co/json/'); // Using IPAPI as an example
+   //       const data = await response.json();
+   //       console.log("data.currency",data.currency)
+   //       return data.currency || 'USD'; // Default to USD if not available
+   //    } catch (error) {
+   //       console.error('Error fetching user location:', error);
+   //       return 'USD'; // Default to USD on error
+   //    }
+   // }
    
 
    const PLAN = ({p, i}) => { 
@@ -67,16 +66,14 @@ export default function Pricing({classes, colclasses, heading, type}) {
          const [open, setOpen] = useState();
          const durations = [1, 2, 3, 4, 6, 12];
          const [subscribing, setSubscribing ] = useState(false);
-         const [selectedDuration, setSelectedDuration] = useState(1);
-         const subscribePlan = async (id) => { 
-            const c =  await getUserCurrencyByIP();
+         const subscribePlan = async (id, d) => { 
+            setSubscribing(true);
             if(!user){
                navigate('/login');
                return false;
             } 
-            setSubscribing(true);
             const m = new Endpoints();
-            const resp = m.subscribePlan({ id : id, currency:c || "USD", duration : selectedDuration}); 
+            const resp = m.subscribePlan({ id : id, currency:user.currency || "USD", duration : d}); 
             resp.then((res) => {
                if(res.data.status && res.data.short_url){
                   window.location.href = res.data.short_url;
@@ -95,7 +92,7 @@ export default function Pricing({classes, colclasses, heading, type}) {
                      <div className="mb-4 md:mb-10 text-center">
                         <h2 className="text-xl sm:text-2xl font-semibold mb-2">Subscribe Plan</h2>
                         <p className="text-md text-gray-500">
-                            You are subscribing to {p.name} for {selectedDuration} months. </p>
+                            You are subscribing to {p.name}. </p>
                      </div>
 
                      {subscribing ? <div className='bg-[#fff6] h-full w-full absolute top-0 left-0 flex justify-center items-center'>

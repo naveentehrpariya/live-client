@@ -9,7 +9,6 @@ export default function Stream({data, reload}) {
 
    const [loading, setLoading] = useState(false);
    const endStream = (e) => {
-      console.log("data fetched",data)
       setLoading(true);
       const m = new Endpoints();
       const resp = m.stop_stream(e);
@@ -37,6 +36,7 @@ export default function Stream({data, reload}) {
          <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status 
          font-bold bg-green-700 text-white rounded-xl px-3 py-1 ${isLive ? "bg-red-800 " : "bg-yellow-700"}`} >
          {data.status === 1 ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
+         {data.platformtype ? <div className="text-[8px] md:text-[11px] absolute bottom-3 left-3 z-1 stream-status bg-green-800 text-white rounded-xl px-3 py-1 uppercase">{data.platformtype || 'Youtube'} Stream </div> : '' }
       
          {data.status === 1 ? 
             <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl'

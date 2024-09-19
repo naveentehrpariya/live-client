@@ -30,7 +30,9 @@ export default function SubscriptionConfirmation() {
    //    });
    // }
    //  useEffect(()=>{
-   //    getDetails();
+   //    setTimeout(()=>{
+   //       window.location.href = '/home';
+   //    }, 5000);
    //  },[]);
 
    const [count, setCount] = useState(0);
@@ -40,7 +42,7 @@ export default function SubscriptionConfirmation() {
       } else { 
          const interval = setInterval(() => {
             setCount(count + 1);
-            if(count == 5){
+            if(count === 5){
                window.location.href = '/home';
             }
             clearInterval(interval);

@@ -59,12 +59,12 @@ export default function Mysubscription () {
                   
                   <div className='flex justify-between mt-8'>
                     <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white text-md ' >{data?.plan?.duration || 1} months at {currency(data && data.plan && data.plan.price, "USD")}</h3>
+                    <h3 className='text-white text-md' > {currency(data && data.plan && data.plan.price, "USD")}/month</h3>
                   </div>
 
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white text-md ' >{data?.plan?.duration || 1} Months</h3>
+                    <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
                   </div>
 
                   <div className='flex justify-between mt-4'>
@@ -103,24 +103,25 @@ export default function Mysubscription () {
                   </div>
                 </div>
 
-                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
-                  <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
+                <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
+                <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
                   
                   <h2 className='text-red-500 text-xl my-2 lg:text-center'>Your Subscription has been expired.</h2>
                   <div className='flex justify-between mt-8'>
                     <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white text-md ' >{data && data.plan && data.plan.duration_title} months at {currency(data && data.plan && data.plan.price, "USD")}</h3>
+                    <h3 className='text-white text-md' > {currency(data && data.plan && data.plan.price, "USD")}/month</h3>
                   </div>
+
                   <div className='flex justify-between mt-4'>
                     <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white  text-md ' >{data?.plan?.duration || 1} Months</h3>
+                    <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
                   </div>
                   <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Start On : </h3>
+                    <h3 className='text-white font-bold text-md' >Started From : </h3>
                     <h3 className='text-white text-md ' >{time(data && data.createdAt)}</h3>
                   </div>
                   <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Expire On : </h3>
+                    <h3 className='text-white font-bold text-md' >Expired On : </h3>
                     <h3 className='text-white  text-md ' >{time(data && data.endOn)}</h3>
                   </div>
 

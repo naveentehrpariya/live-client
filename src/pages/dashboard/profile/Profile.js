@@ -2,9 +2,11 @@ import React, { useContext } from 'react'
 import AuthLayout from '../../../layout/AuthLayout'
 import { UserContext } from '../../../context/AuthProvider';
 import DeleteAccount from './DeleteAccount';
+import Time from '../../common/Time';
 
 export default function Profile() {
    const { user } = useContext(UserContext);
+   const time = Time();
    return (
       <>
       <AuthLayout heading={"Profile"} >
@@ -34,9 +36,19 @@ export default function Profile() {
                         </dt>
                         <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
                            {user && user.plan ? <>
-                              {user && user.plan && user.plan.name} (${user && user.plan && user.plan.price} {user && user.plan && user.plan.duration_title})
+                              <p>{user && user.plan && user.plan.name} for {user?.plan_months} months</p>
+                              {/* <p className=''>${user && user.plan && user.plan.price}/month</p> */}
+                              <p>End on : {time(user && user.plan_end_on)}</p>
                            </> : "No Subscription"
                            }
+                        </dd>
+                     </div>
+                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-md font-medium text-gray-500">
+                           Country
+                        </dt>
+                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
+                        {user && user.country} ({user && user.country_code})
                         </dd>
                      </div>
                      <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

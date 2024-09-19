@@ -4,7 +4,7 @@ import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
 import { UserContext } from '../../../context/AuthProvider';
 
-export default function Addmedia({update, classes}) {
+export default function Addmedia({update, classes, updateSize}) {
 
    const [open, setOpen] = useState();
    const [uploading, setUploading] = useState(false);
@@ -46,6 +46,7 @@ export default function Addmedia({update, classes}) {
                setFile(null);
                setOpen('close');
                update && update(1);
+               updateSize && updateSize();
                setTimeout(()=>{
                   setOpen('');
                }, 500);

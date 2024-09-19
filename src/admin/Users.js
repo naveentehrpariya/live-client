@@ -87,6 +87,7 @@ export default function Users() {
       {item.name}
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.country} ({item.country_code})</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{formatBytes(parseInt(item.uploaded_content) || 0)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
@@ -119,6 +120,7 @@ export default function Users() {
                   <tr className="">
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
+                    <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Country</td>
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Joined Date</td>
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Uploaded Media</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Active Plan</td>
