@@ -3,7 +3,7 @@ import HomeLayout from '../layout/HomeLayout'
 
 export default function Refund() {
   return (
-   <HomeLayout>
+   <HomeLayout title="Cancellation and Refund Policy">
       <div className='py-6 md:py-12'>
          <div className="container mx-auto  text-white">
             <h1 className="text-2xl md:text-3xl font-bold mb-8">Cancellation and Refund Policy</h1>

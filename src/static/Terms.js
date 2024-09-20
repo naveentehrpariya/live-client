@@ -3,7 +3,7 @@ import HomeLayout from '../layout/HomeLayout'
 
 export default function Terms() {
   return (
-   <HomeLayout>
+   <HomeLayout title="Terms and conditions">
       <div className='container'>
          <div className="py-6 md:py-12 text-white">
          <h1 className="text-3xl md:text-4xl font-bold mb-4">Welcome to runstream.co!</h1>

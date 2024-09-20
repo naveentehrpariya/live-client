@@ -3,7 +3,7 @@ import HomeLayout from '../layout/HomeLayout'
 
 export default function Support() {
   return (
-    <HomeLayout>
+    <HomeLayout title="Customer Support">
      <div className="container">
      <div className="py-6 md:py-12 text-white ">
       <h1 className="text-2xl md:text-3xl font-bold mb-4">Customer Support</h1>

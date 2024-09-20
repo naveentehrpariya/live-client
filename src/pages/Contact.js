@@ -34,7 +34,7 @@ export default function Contact(){
 
 
    return (
-      <HomeLayout>
+      <HomeLayout title="Contact Us">
          <div id='contact' className="flex py-16 md:py-22 items-center justify-start bg-dark">
             <div className="mx-auto w-full p-6 max-w-lg">
                <h1 className="text-3xl text-center text-white font-medium">Contact us</h1>

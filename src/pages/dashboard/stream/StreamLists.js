@@ -10,7 +10,7 @@ export default function StreamLists({lists, reload, loading}) {
 
    const AddMoreStream = () => {
       return (
-         <div className='stream box overflow-hidden'>
+         <div className='stream box border border-gray-800 overflow-hidden'>
             <div className='stream-img w-full relative p-3' >
                <img src={addmore} className='img-fluid w-full max-h-[200px] object-cover' alt='images'  />
             </div>

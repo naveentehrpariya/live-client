@@ -17,6 +17,8 @@ import CheckYoutube from './CheckYoutube';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { BsFiletypeMp3 } from 'react-icons/bs';
 import Loading from '../../common/Loading';
+import defaultimg from '../../../img/default-stream.png';
+
 const resolutions = [
   { title:"2160p 3840x2160" ,label: '2160p', value: '3840x2160' },
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -109,8 +111,8 @@ export default function EditStream() {
     title: stream ? stream.title : "",
     thumbnail: stream ? stream.thumbnail : "",
     resolution: stream ? stream.resolution : "1080p",
-    stream_url: "",
-    streamkey: "",
+    stream_url:  stream ? stream.stream_url : "",
+    streamkey:  stream ? stream.streamkey : "",
     description:  stream ? stream.description : "",
   });
 
@@ -188,6 +190,8 @@ export default function EditStream() {
 
     console.log("data",combineVideos, combineAudios)
     console.log({
+        "combineVideos": combineVideos,
+        "combineAudios": combineAudios,
         "type": combineVideos.length < 1 ? 'image' : streamType,
         "videos": streamType === "image" ? [] : mp4,
         "audios": radio ? [] : mp3.length ? mp3 : false,
@@ -244,9 +248,11 @@ export default function EditStream() {
     });
   }
 
+
+  const [chhoseNewThumb, setchhoseNewThumb] = useState(false);
   const handleCreateStream = (payload) => {
     setLoading(true);
-    const resp = Api.post(`/edit-stream`,payload);
+    const resp = data && data.platformtype === "youtube" ? Api.post(`/edit-stream`,payload) : Api.post(`/edit-rtmp-stream`,payload) ;
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
@@ -269,14 +275,24 @@ export default function EditStream() {
         toast.error("Stream title is required.");
         return false;
     }
-    if(type === "next" && step === 1 && data.description === ''  ){
+    if(data && data.platformtype === 'youtube' && type === "next" && step === 1 && data.description === ''  ){
         toast.error("Stream description is required.");
         return false;
     }
-    if(type === "next" && step === 2 && image === null || image === ''){
+    if(data && data.platformtype === 'youtube' && type === "next" && step === 2 && image === null || image === ''){
         toast.error("Please select a thumbnail for video stream.");
         return false;
     }
+    if(data && data.platformtype === 'rtmp' && type === "next" && step === 1 && data.streamkey === ''){
+        toast.error("Stream Key is required.");
+        return false;
+    }
+    if(data && data.platformtype === 'rtmp' && type === "next" && step === 1 && data.stream_url === ''){
+        toast.error("Stream URL is required.");
+        return false;
+    }
+
+
     if(type === "next" && step === 2 && stream && stream.streamType === 'video' && combineVideos.length < 1  ){
         toast.error("Please select atleast one video for this stream.");
         return false;
@@ -364,12 +380,12 @@ export default function EditStream() {
         </div>
       </div>
     </div>
-    </> 
+    </>  
   }
 
   return (
     <AuthLayout heading={stream.title || "Edit Stream"}>
-      { checking ? <Loading /> :
+      { checking ? <Loading /> : 
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
           <div className={` pages-steps  lg:max-w-[700px] m-auto`} >
               <div className={step === 1 ? "" : "hidden"}>
@@ -389,6 +405,15 @@ export default function EditStream() {
                     {inputFields.map((field, index) => (
                       <input required key={index} defaultValue={field.defaultValue} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
+
+                    {stream.platformtype}
+
+                    { stream.platformtype === 'rtmp' ? <>
+                    <input name={'streamkey'} defaultValue={stream.streamkey} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-1" />
+                    <input name={'stream_url'} defaultValue={stream.stream_url} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-6" />
+                    </> : ''}
+
+
                     { user && user.plan ?
                       <select  className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
                         {filteredResolutions && filteredResolutions.map((resolution, index) => (
@@ -402,45 +427,64 @@ export default function EditStream() {
                         ))}
                       </select>
                     }
+
+                    {stream.platformtype === 'youtube' ? 
                     <textarea defaultValue={stream.description} className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
-                  </div>
+                    : ""}
+                    </div>
               </div>
 
               <div className={step === 2 ? "" : "hidden"}>
-                {/* <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  /> */}
+                {chhoseNewThumb ? 
+                  <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
+                :
                 <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize w-full max-h-[500px] rounded-2xl overflow-hidden relative' >
-                  <img className="h-full w-full object-cover max-w-full" src={stream.thumbnail} alt="Cloud" />
+                  <img className="h-full w-full object-cover max-w-full" src={stream.thumbnail || defaultimg} alt="Cloud" />
+                  <button onClick={(e)=>setchhoseNewThumb(true)} className='absolute bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white top-2 right-2' >Remove</button>
+                </div>
+                }
+
+
+                <div className='bg-dark2 text-white  p-4 sm:p-6 rounded-xl'>
+                  {streamType === 'video' ? 
+                    <>
+                      <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
+                      <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
+                      
+
+                      {alreadyAudios &&  alreadyAudios.length  ? 
+                      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                        {alreadyVideos && alreadyVideos.map((file, i) => (
+                          <div key={`cloud-file-${i}`} className='wrap'>
+                            <UpVideo file={file} />
+                          </div>
+                        ))}
+                      </div> :
+                      <div  className='bg-dark2 text-white text-center p-3 rounded-xl'>No Videos selected</div>}
+                      </>
+                  : ''} 
                 </div>
 
-                {streamType === 'video' ? 
-                  <>
-                    <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
-                    <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
-                      {alreadyVideos && alreadyVideos.map((file, i) => (
-                        <div key={`cloud-file-${i}`} className='wrap'>
-                          <UpVideo file={file} />
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                : ''} 
 
+                <div className='bg-dark2 text-white mt-6 p-4 sm:p-6 rounded-xl'>
                   <UploadAudios getCloudFiles={getCloudAudio} 
                   removeUploadedAudio={removeUploadedAudio} setRadio={updateRadio} streamType={streamType} update={getAudios} />
-                  
-                {radio ? "" : 
-                <>
-                  <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
-                  <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
-                    {alreadyAudios && alreadyAudios.map((file, i) => (
-                      <div key={`cloud-file-${i}`} className='wrap'>
-                        <UpAudio file={file} />
-                      </div>
-                    ))}
-                  </div>
-                </>
-                }
+                  {radio ? "" : 
+                  <>
+                    <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
+                    {alreadyAudios &&  alreadyAudios.length  ? 
+                    <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                      {alreadyAudios.map((file, i) => (
+                        <div key={`cloud-file-${i}`} className='wrap'>
+                          <UpAudio file={file} />
+                        </div>
+                      )) }
+                    </div> :
+                    <div  className='bg-dark2 text-white text-center p-3 rounded-xl'>No Audios selected</div>}
+                  </>
+                  }
+                </div>
+
 
 
               </div>

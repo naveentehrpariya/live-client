@@ -4,7 +4,7 @@ import HomeLayout from '../layout/HomeLayout'
 
 export default function Privacy() {
   return (
-    <HomeLayout>
+    <HomeLayout title="Privacy Policy">
       <div className="container mx-auto py-8 md:py-12">
           <h1 className="text-2xl md:text-4xl font-bold text-white">Privacy Policy</h1>
           <p className="text-gray-100 mt-5">Welcome to Run Stream!</p>
