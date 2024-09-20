@@ -5,7 +5,7 @@ import MyFiles from './MyFiles';
 import Popup from '../../common/Popup';
 import { FaCircleCheck } from 'react-icons/fa6';
 
-export default function UploadVideos({update, removeUploadedVideo, getCloudFiles}) {
+export default function UploadVideos({ children, update, removeUploadedVideo, getCloudFiles}) {
 
   const [open, setOpen] = useState();
   const [selected, setSelected] = useState([]);
@@ -76,6 +76,7 @@ export default function UploadVideos({update, removeUploadedVideo, getCloudFiles
         </div>
       </Popup>
       <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+          {children}
           {selected && selected.map((file, i) => (
             <div key={`local-file-${i}${file.name}`} className='wrap'>
               <AddVideoBox key={`local-file-${i}`} removeFile={removeLocalfile} update={update} file={file} />

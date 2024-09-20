@@ -72,7 +72,7 @@ export default function CreateStreamForm() {
     thumbnail: "",
     resolution: "1080p",
     stream_url: "",
-    streamKey: "",
+    streamkey: "",
     description: "",
     platformtype :""
   });
@@ -171,7 +171,7 @@ export default function CreateStreamForm() {
             audios: combineAudios,
             videos: combineVideos,
             stream_url: data.stream_url,
-            streamKey: data.streamKey,
+            streamkey: data.streamkey,
           })
         } else {
           toast.error(res.data.message);
@@ -198,6 +198,7 @@ export default function CreateStreamForm() {
         navigate('/home');
         setStreamStarted(false);
       } else {
+        setStreamStarted(false);
         toast.error(res.data.message);
       }
       setLoading(false);
@@ -220,12 +221,17 @@ export default function CreateStreamForm() {
         return false;
     }
 
+    if( type === "next" && step === 1 && data.thumbnail === ''  ){
+        toast.error("Please choose a thumbnail for the stream.");
+        return false;
+    }
+
     if(data.platformtype === 'rtmp' && type === "next" && step === 1 && data.stream_url === ''  ){
         toast.error("Stream URL is required.");
         return false;
     }
 
-    if(data.platformtype === 'rtmp' && type === "next" && step === 1 && data.streamKey === ''  ){
+    if(data.platformtype === 'rtmp' && type === "next" && step === 1 && data.streamkey === ''  ){
         toast.error("Stream key is required.");
         return false;
     }
@@ -395,7 +401,7 @@ export default function CreateStreamForm() {
                       <div className='part1'>
                         <UploadThumbnail update={getImageFile}  />
                         { data.platformtype === 'rtmp' ?
-                        <p className='text-green-600 !mb-6 md:mb-0'>Note : In custom RTMP server thumbnail is optional and it will only use for system. This will not update on live stream.</p> : "" }
+                        <p className='text-green-600 !mb-6 md:mb-0'>Note : In custom RTMP server thumbnail will only use for system. This will not update on live stream.</p> : "" }
                       </div>
                       <div className='part2 stream-input-fields' >
 
@@ -404,7 +410,7 @@ export default function CreateStreamForm() {
                         ))}
 
                         { data.platformtype === 'rtmp' ? <>
-                        <input name={'streamKey'} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-4" />
+                        <input name={'streamkey'} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-4" />
                         <input name={'stream_url'} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-4" />
                         </> : ''}
 

@@ -187,18 +187,31 @@ export default function EditStream() {
     combineAudios.forEach(audio => {
       mp3.push(audio.url);
     });
-
-    console.log("data",combineVideos, combineAudios)
-    console.log({
-        "combineVideos": combineVideos,
-        "combineAudios": combineAudios,
-        "type": combineVideos.length < 1 ? 'image' : streamType,
-        "videos": streamType === "image" ? [] : mp4,
-        "audios": radio ? [] : mp3.length ? mp3 : false,
-        "thumbnail": image,
-        "radio": radio,
-        "loop":loop
+    
+    console.log("data",{
+      streamId : stream.streamId,
+      stream : stream.streamId,
+      title: data.title, 
+      type:combineVideos.length < 1 ? 'image' : streamType,
+      thumbnail: image,
+      streamkey: stream.streamkey,
+      stream_url: stream.stream_url,
+      resolution: data.resolution || stream.resolution,
+      description: data.description || '',
+      ordered : loop,
+      radio:radio,
+      audios: radio ? [] : mp3.length ? mp3 : false,
+      videos: streamType === "image" ? [] : mp4,
+      enableMonitorStream: true,
+      enableDvr: true,
+      enableContentEncryption: false,
+      enableEmbed: true,
+      enableAutoStart: false,
+      enableAutoStop: false,
+      broadcastStreamDelayMs : 0
     });
+
+
     const resp = Api.post(`/create-playlist`,{
         "type": combineVideos.length < 1 ? 'image' : streamType,
         "videos": streamType === "image" ? [] : mp4,
@@ -218,6 +231,8 @@ export default function EditStream() {
             video: res.data.video,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
+            streamkey: stream.streamkey,
+            stream_url: stream.stream_url,
             type:streamType,
             thumbnail: image,
             resolution: data.resolution || stream.resolution,
@@ -448,19 +463,13 @@ export default function EditStream() {
                 <div className='bg-dark2 text-white  p-4 sm:p-6 rounded-xl'>
                   {streamType === 'video' ? 
                     <>
-                      <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}/> 
-                      <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Videos</h2>
-                      
-
-                      {alreadyAudios &&  alreadyAudios.length  ? 
-                      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
+                      <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}>
                         {alreadyVideos && alreadyVideos.map((file, i) => (
                           <div key={`cloud-file-${i}`} className='wrap'>
                             <UpVideo file={file} />
                           </div>
                         ))}
-                      </div> :
-                      <div  className='bg-dark2 text-white text-center p-3 rounded-xl'>No Videos selected</div>}
+                      </UploadVideos>
                       </>
                   : ''} 
                 </div>
@@ -468,25 +477,18 @@ export default function EditStream() {
 
                 <div className='bg-dark2 text-white mt-6 p-4 sm:p-6 rounded-xl'>
                   <UploadAudios getCloudFiles={getCloudAudio} 
-                  removeUploadedAudio={removeUploadedAudio} setRadio={updateRadio} streamType={streamType} update={getAudios} />
+                  removeUploadedAudio={removeUploadedAudio} setRadio={updateRadio} streamType={streamType} update={getAudios}>
                   {radio ? "" : 
-                  <>
-                    <h2 className='text-gray-300 mb-2 mt-3'>Already Uploaded Audios</h2>
-                    {alreadyAudios &&  alreadyAudios.length  ? 
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
-                      {alreadyAudios.map((file, i) => (
-                        <div key={`cloud-file-${i}`} className='wrap'>
-                          <UpAudio file={file} />
-                        </div>
-                      )) }
-                    </div> :
-                    <div  className='bg-dark2 text-white text-center p-3 rounded-xl'>No Audios selected</div>}
-                  </>
+                    <>
+                        {alreadyAudios && alreadyAudios.length && alreadyAudios.map((file, i) => (
+                          <div key={`cloud-file-${i}`} className='wrap'>
+                            <UpAudio file={file} />
+                          </div>
+                        )) }
+                    </>
                   }
+                  </UploadAudios>
                 </div>
-
-
-
               </div>
 
               <div className={step === 3 ? "" : "hidden"}>

@@ -58,9 +58,9 @@ export default function UploadThumbnail({update, exists}) {
          <div className="flex justify-center w-full mx-auto mb-4">
             <div className="relative w-full sm:rounded-lg">
                {file ? <>
-                  <div className='selectedMedia border border-gray-600 mb-6 w-full h-full max-h-[600px] rounded-2xl overflow-hidden relative' >
+                  <div className='selectedMedia border border-gray-600 mb-6 w-full h-full max-h-[400px] rounded-2xl overflow-hidden relative' >
                      <button onClick={removeFile} className='bg-red-800 rounded-xl px-3 py-2 text-sm text-white absolute top-2 right-2 z-[2]'>Remove</button>
-                     <img className="img-fluid m-auto table h-full max-h-[260px]" src={URL.createObjectURL(file)} alt="Cloud" />
+                     <img className="img-fluid m-auto table object-cover w-full h-full " src={URL.createObjectURL(file)} alt="Cloud" />
                   </div>
                </> :
                   <div class="flex items-center justify-center w-full">

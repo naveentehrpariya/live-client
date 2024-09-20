@@ -72,7 +72,7 @@ function App() {
                     <Route path="/send-verification-email" element={<VerifyEmail />} />
                     <Route path="/verify-email/:token" element={<Verifying />} />
                     <Route path="/edit-stream/:streamId" element={<EditStream /> } />
-                    <Route path="/live-stream/:streamKey" element={<LiveRTMP /> } />
+                    <Route path="/live-stream/:streamkey" element={<LiveRTMP /> } />
 
                     {/* Stream Routes */}
                     <Route path="/admin" element={<AdminDashboard />} />
