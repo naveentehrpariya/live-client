@@ -77,16 +77,16 @@ export default function UploadVideos({ children, update, removeUploadedVideo, ge
       </Popup>
       <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4 mt-4'>
           {children}
-          {selected && selected.map((file, i) => (
+          {selected ? selected.map((file, i) => (
             <div key={`local-file-${i}${file.name}`} className='wrap'>
               <AddVideoBox key={`local-file-${i}`} removeFile={removeLocalfile} update={update} file={file} />
             </div>
-          ))}
-          {libraryFiles && libraryFiles.map((file, i) => (
+          )) :''}
+          {libraryFiles ? libraryFiles.map((file, i) => (
             <div key={`cloud-file-${i}`} className='wrap'>
               <CloudFile file={file} />
             </div>
-          ))}
+          )) : ''}
       </div> 
       
     </div>

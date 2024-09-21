@@ -95,7 +95,6 @@ export default function EditStream() {
   const [combineAudios, setCombineAudios] = useState([]);
 
   const updateRadio = (e) => {
-    console.log("radio",e)
     setRadio(e);
   }
 
@@ -112,7 +111,7 @@ export default function EditStream() {
     thumbnail: stream ? stream.thumbnail : "",
     resolution: stream ? stream.resolution : "1080p",
     stream_url:  stream ? stream.stream_url : "",
-    streamkey:  stream ? stream.streamkey : "",
+    streamkey: stream?.streamkey || "",
     description:  stream ? stream.description : "",
   });
 
@@ -188,30 +187,6 @@ export default function EditStream() {
       mp3.push(audio.url);
     });
     
-    console.log("data",{
-      streamId : stream.streamId,
-      stream : stream.streamId,
-      title: data.title, 
-      type:combineVideos.length < 1 ? 'image' : streamType,
-      thumbnail: image,
-      streamkey: stream.streamkey,
-      stream_url: stream.stream_url,
-      resolution: data.resolution || stream.resolution,
-      description: data.description || '',
-      ordered : loop,
-      radio:radio,
-      audios: radio ? [] : mp3.length ? mp3 : false,
-      videos: streamType === "image" ? [] : mp4,
-      enableMonitorStream: true,
-      enableDvr: true,
-      enableContentEncryption: false,
-      enableEmbed: true,
-      enableAutoStart: false,
-      enableAutoStop: false,
-      broadcastStreamDelayMs : 0
-    });
-
-
     const resp = Api.post(`/create-playlist`,{
         "type": combineVideos.length < 1 ? 'image' : streamType,
         "videos": streamType === "image" ? [] : mp4,
@@ -224,15 +199,16 @@ export default function EditStream() {
       if(res.data.status){
         if(res.data.playlistId){
           setPlaylist(res.data);
+          console.log("data stream",data)
           handleCreateStream({
-            streamId : stream.streamId,
-            stream : stream.streamId,
+            objectID:stream._id,
+            streamId : data.streamkey || stream.streamkey,
             title: data.title, 
             video: res.data.video,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
-            streamkey: stream.streamkey,
-            stream_url: stream.stream_url,
+            streamkey: data.streamkey || stream.streamkey,
+            stream_url: data.stream_url || stream.stream_url,
             type:streamType,
             thumbnail: image,
             resolution: data.resolution || stream.resolution,
@@ -266,6 +242,7 @@ export default function EditStream() {
 
   const [chhoseNewThumb, setchhoseNewThumb] = useState(false);
   const handleCreateStream = (payload) => {
+    console.log("payload",payload)
     setLoading(true);
     const resp = data && data.platformtype === "youtube" ? Api.post(`/edit-stream`,payload) : Api.post(`/edit-rtmp-stream`,payload) ;
     resp.then(res => {
@@ -421,8 +398,6 @@ export default function EditStream() {
                       <input required key={index} defaultValue={field.defaultValue} name={field.name} onChange={handleinput} type={field.password} placeholder={field.label} className="input" />
                     ))}
 
-                    {stream.platformtype}
-
                     { stream.platformtype === 'rtmp' ? <>
                     <input name={'streamkey'} defaultValue={stream.streamkey} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-1" />
                     <input name={'stream_url'} defaultValue={stream.stream_url} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-6" />
@@ -464,11 +439,11 @@ export default function EditStream() {
                   {streamType === 'video' ? 
                     <>
                       <UploadVideos  getCloudFiles={getCloudFiles} removeUploadedVideo={removeUploadedVideo} update={getVideos}>
-                        {alreadyVideos && alreadyVideos.map((file, i) => (
+                        {alreadyVideos && alreadyVideos.length ? alreadyVideos.map((file, i) => (
                           <div key={`cloud-file-${i}`} className='wrap'>
                             <UpVideo file={file} />
                           </div>
-                        ))}
+                        )) : ""} 
                       </UploadVideos>
                       </>
                   : ''} 
@@ -476,15 +451,15 @@ export default function EditStream() {
 
 
                 <div className='bg-dark2 text-white mt-6 p-4 sm:p-6 rounded-xl'>
-                  <UploadAudios getCloudFiles={getCloudAudio} 
+                  <UploadAudios stream={stream} getCloudFiles={getCloudAudio} 
                   removeUploadedAudio={removeUploadedAudio} setRadio={updateRadio} streamType={streamType} update={getAudios}>
                   {radio ? "" : 
                     <>
-                        {alreadyAudios && alreadyAudios.length && alreadyAudios.map((file, i) => (
+                        {alreadyAudios && alreadyAudios.length ? alreadyAudios.map((file, i) => (
                           <div key={`cloud-file-${i}`} className='wrap'>
                             <UpAudio file={file} />
                           </div>
-                        )) }
+                        )) : ""}
                     </>
                   }
                   </UploadAudios>

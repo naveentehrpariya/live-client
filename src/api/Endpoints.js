@@ -30,7 +30,7 @@ class Endpoints extends Component {
         return Api.post(`/create-stream`,data);
     }
     async create_rtmp_stream(data) {
-        return Api.post(`/create-rmtp-stream`,data);
+        return Api.post(`/edit-rtmp-stream`,data);
     }
 
     async stop_stream(id) {

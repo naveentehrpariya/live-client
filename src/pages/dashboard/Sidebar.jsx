@@ -9,6 +9,7 @@ import { FaUserCog } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import { CgLogOut } from "react-icons/cg";
 import Time from '../common/Time';
+import Api from '../../api/Api';
 
 export default function Sidebar({toggle, trial, logout}) {
 
@@ -50,6 +51,21 @@ export default function Sidebar({toggle, trial, logout}) {
     const name = n;
     return name.split(' ')[0] || name;
   }
+
+  const [limit, setLimit] = React.useState(null);
+   const getAvailableLimit = () => { 
+      const resp = Api.get("/restStreamLimit");
+      resp.then((res) => {
+        setLimit(res.data.limit)
+      }).catch((err) => {
+         console.log(err);
+      });
+   }
+
+   React.useEffect(() => {
+    getAvailableLimit();
+   }, []);
+
 
   return (
     <>
@@ -101,8 +117,11 @@ export default function Sidebar({toggle, trial, logout}) {
                   {user.plan.name} 
                 </div>
                 <p className='text-gray-400 mt-3'>{user.plan.description} </p>
+                {limit ? <div className='flex justify-center'>
+                  <div className='mt-3 bg-gray-700 rounded-2xl px-3 py-1 text-white '>{limit}</div>
+                </div> : ""}
               </Link>
-              <Link to='/upgrade/subscription' className="justify-center px-10 py-3 mt-6 text-white capitalize text-sm bg-red-500 leading-[90%] rounded-[180px] block text-center max-md:px-5">
+              <Link to='/upgrade/subscription' className="justify-center px-10 py-3 mt-4 text-white capitalize text-sm bg-red-500 leading-[90%] rounded-[180px] block text-center max-md:px-5">
                   Upgrade Plan
               </Link>            
           </div> 

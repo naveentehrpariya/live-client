@@ -5,7 +5,7 @@ import Popup from '../../common/Popup';
 import MyFiles from './MyFiles';
 import { FaCircleCheck } from 'react-icons/fa6';
 
-  export default function UploadAudios({children, update, streamType, setRadio, getCloudFiles,removeUploadedAudio}) {
+  export default function UploadAudios({stream, children, update, streamType, setRadio, getCloudFiles,removeUploadedAudio}) {
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState();
   const handleFile = (e) => {
@@ -14,10 +14,10 @@ import { FaCircleCheck } from 'react-icons/fa6';
     setSelected([...old, ...files]);
   };
 
-  const [audioType, setAudioType] = useState('music');
+  const [audioType, setAudioType] = useState(stream && stream.radio ? "radio" : 'music');
   const changeMusicType = (e) => {
     setAudioType(e);
-    setRadio('');
+    setRadio(null);
   }
 
   const removeLocalfile = (l) =>{
@@ -100,20 +100,20 @@ import { FaCircleCheck } from 'react-icons/fa6';
 
         <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mb-4'>
           {children}
-          {selected && selected.map((file, i) => (
+          {selected ? selected.map((file, i) => (
             <div key={`selected-${file.name}-${i}`} className='wrap'>
               <AddAudioBox removeFile={removeLocalfile} update={update} file={file} />
             </div>
-          ))}
-          {libraryFiles && libraryFiles.map((file, i) => (
+          )) : ""}
+          {libraryFiles ? libraryFiles.map((file, i) => (
             <div key={`cloud-file-${i}-${file.name}`} className='wrap'>
               <CloudFile file={file} />
             </div>
-          ))}
+          )) : ""}
         </div> 
         </>
         : 
-        <input onChange={(e)=>setRadio(e.target.value)} name='radiostream' type={'text'} placeholder={"Radio stream url"} className="input" />
+        <input defaultValue={stream && stream.radio} onChange={(e)=>setRadio(e.target.value)} name='radiostream' type={'text'} placeholder={"Radio stream url"} className="input" />
       }
     </div>
   );

@@ -43,6 +43,7 @@ export default function MediaList() {
    const changeFilter = (e) => {
       setFilter(e);
       setPage(1);
+      GetFilesSize();
    }
 
    function formatBytes(bytes, decimals = 2) {
@@ -92,7 +93,7 @@ export default function MediaList() {
                      {filter === 'image'? 
                         <div className='relative bg-dark2 border border-gray-800 rounded-xl' key={`imagefile-${filter}-${index}`}>
                            <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
-                           <RemoveMedia page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                           <RemoveMedia updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                            <div className='p-3 text-white ' >
                               <p className='mb-1 line-clamp-1'>{item.name}</p>
                               <p>Size : {size.toFixed(2)}MB</p>
@@ -110,7 +111,7 @@ export default function MediaList() {
                            <video playsInline className='w-full h-[200px]' src={item.url} controls type={item.mime}>
                               {/* <source src={item.url} type={item.mime} /> */}
                            </video>
-                           <RemoveMedia page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                           <RemoveMedia updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                         </div>
                      </div>
                      : '' } 
@@ -126,7 +127,7 @@ export default function MediaList() {
                                  <source src={item.url} type={item.mime} />
                               </audio>
                            </div>
-                           <RemoveMedia page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+                           <RemoveMedia updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
                         </div>
                      : '' }  
                      </> 

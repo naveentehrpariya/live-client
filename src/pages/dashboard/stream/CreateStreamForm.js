@@ -426,7 +426,7 @@ export default function CreateStreamForm() {
                               <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
                             ))}
                           </select>
-                        }
+                        } 
 
                         {data.platformtype === 'youtube' ?
                           <textarea className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />

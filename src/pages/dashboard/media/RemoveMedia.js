@@ -3,7 +3,7 @@ import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
 import { MdDelete } from "react-icons/md";
 
-export default function RemoveMedia({id, classes, update, page}) {
+export default function RemoveMedia({id, classes, update, page, updateSize}) {
 
    const [loading, setLoading] = React.useState(false);
 
@@ -14,8 +14,9 @@ export default function RemoveMedia({id, classes, update, page}) {
       resp.then((res) => {
           console.log(res.data);
           toast.success(res.data.message);
-          setLoading(false);
-          update && update(page);
+          setLoading(false); 
+          update && update(page); 
+          updateSize && updateSize();
       }).catch((err) => {
           console.log(err);
           toast.error('Failed to delete file. Please try again');

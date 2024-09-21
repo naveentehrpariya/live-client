@@ -29,15 +29,15 @@ export default function Stream({data, reload}) {
       <div className='stream box border border-gray-800 overflow-hidden'>
          <div className='stream-img w-full relative' >
             <div className='min-h-[200px]'>
-               <img src={data.thumbnail || defaultimg} className='img-fluid w-full min-h-[200px] max-h-[200px] object-cover' alt='stream thumbnail'  />
+               <img src={defaultimg} className='img-fluid w-full min-h-[200px] max-h-[200px] object-cover' alt='stream thumbnail'  />
             </div>
             <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status bg-green-700 text-white rounded-xl px-3 py-1 ${isLive ? "bg-red-800 " : "bg-yellow-700"}`} >
             {data.status === '1' ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
             {data.platformtype ? <div className="text-[8px] md:text-[11px] absolute bottom-3 left-3 z-1 stream-status bg-green-800 text-white rounded-xl px-3 py-1 uppercase">{data.platformtype || 'Youtube'} Stream </div> : '' }
-            {/* {data.status === '1' ? 
+            {data.status === '1' ? 
                <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl'
-               to={`/edit-stream/${data.streamId}`} >Edit Stream</Link>
-            : '' } */}
+               to={`/edit-stream/${data._id}`} >Edit Stream</Link>
+            : '' }
          </div>
          <div className='stream-info p-6'>
             <div className='stream-desc text-white font-bold text-xl mb-4'> {data.title}</div>
