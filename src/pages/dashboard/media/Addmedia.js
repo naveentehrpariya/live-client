@@ -49,12 +49,13 @@ export default function Addmedia({update, classes, updateSize}) {
                updateSize && updateSize();
                setTimeout(()=>{
                   setOpen('');
-               }, 500);
+               }, 500); 
+               setUploading(false); 
             }, 1000);
          } else {
             toast.error(res.data.message);
+            setUploading(false);
          }
-         setUploading(false);
       }).catch(err => {
          Errors(err);
          toast.error('File upload failed');
@@ -80,7 +81,7 @@ export default function Addmedia({update, classes, updateSize}) {
                            : ""
                         }
                         { fileMime === 'video'?
-                           <video playsInline className='w-full h-full rounded-xl min-h-[200px]' controls >
+                           <video playsInline className='w-full h-full rounded-xl min-h-[200px] max-h-[300px]' controls >
                               <source src={URL.createObjectURL(file)} type={file.type} />
                            </video>
                            : ""
@@ -105,7 +106,11 @@ export default function Addmedia({update, classes, updateSize}) {
                   }
 
                   <div className='flex justify-center'>
-                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > {uploading ? `${progress ? `${progress}%` : "" } Uploading..` : "Upload"}</button>
+                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > 
+                        {uploading ? 
+                           `${progress ? `${progress === 100 ? "Processing..." : `${progress} Uploading...` }` : "" } `
+                        : "Upload"}
+                     </button>
                   </div>
                </div>
             </div>

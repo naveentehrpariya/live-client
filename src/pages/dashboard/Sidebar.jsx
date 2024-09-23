@@ -100,8 +100,6 @@ export default function Sidebar({toggle, trial, logout}) {
               label="Logout" />
             </div>
         </div>
-         
-
         {user && user.plan && user.plan._id ? 
           <div className='px-6 pb-8'>
               <Link to="/my-subscription" className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
@@ -127,7 +125,6 @@ export default function Sidebar({toggle, trial, logout}) {
           </div> 
           : 
           <>
-         
           <UpgradePlan /> 
           </>
         }
