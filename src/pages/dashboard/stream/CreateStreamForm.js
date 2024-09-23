@@ -183,6 +183,7 @@ export default function CreateStreamForm() {
       setPlaylistsCreating(false);
     }).catch(err => {
       Errors(err);
+      toast.error(err?.data?.message || "Please try again");
       setPlaylistsCreating(false);
       setStreamStarted(false);
     });

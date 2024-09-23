@@ -62,7 +62,7 @@ function App() {
                     {/* <Route path="/subscription/success/:id" element={<SubscriptionConfirmation />} />
                     <Route path="/subscription/cancel/:id" element={<SubscriptionConfirmation />} /> */}
                     <Route path="/media" element={<Media />} />
-                    <Route path="/privacy-policy" element={<Privacy />} />
+                    <Route path="/privacy" element={<Privacy />} />
                     <Route path="/support" element={<Support />} />
                     <Route path="/terms-of-service" element={<Terms />} />
                     <Route path="/cancellation-and-refund-policy" element={<Refund />} />
