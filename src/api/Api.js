@@ -1,6 +1,6 @@
 import axios from 'axios';
-const APP_URL = "https://serverrai.runstream.co";
-// const APP_URL = "http://localhost:8080";
+// const APP_URL = "https://serverrai.runstream.co";
+const APP_URL = "http://localhost:8080";
 
 function getToken(){
   const data = localStorage && localStorage.getItem('token');
@@ -14,7 +14,7 @@ let Api = axios.create({
     'Authorization': `Bearer ${getToken()}`,
     'Access-Control-Allow-Origin': '*'
   }
-});
+}); 
 
 Api.interceptors.request.use(
   async (config) => {

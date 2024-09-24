@@ -6,7 +6,6 @@ import { UserContext } from "../context/AuthProvider";
 import TimeCounter from "../pages/common/TimeCounter";
 import {Helmet} from "react-helmet";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import Api from "../api/Api";
 
  
 
@@ -31,11 +30,6 @@ export default function AuthLayout({children, heading}) {
   }, []);
   
   const [toggle, setToggle] = React.useState(false);
-
-  
-
-
-  
 
   return (
     <>

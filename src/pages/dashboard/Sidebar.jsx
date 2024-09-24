@@ -2,13 +2,10 @@ import React, { useContext } from 'react'
 import Logo from '../common/Logo';
 import { Link, NavLink } from 'react-router-dom';
 import { UserContext } from '../../context/AuthProvider';
-import TimeFormat from '../common/TimeFormat';
 import { DiHtml5Multimedia } from "react-icons/di";
 import { TbHome } from "react-icons/tb";
 import { FaUserCog } from "react-icons/fa";
-import { SlCalender } from "react-icons/sl";
 import { CgLogOut } from "react-icons/cg";
-import Time from '../common/Time';
 import Api from '../../api/Api';
 
 export default function Sidebar({toggle, trial, logout}) {
@@ -23,9 +20,6 @@ export default function Sidebar({toggle, trial, logout}) {
       </NavLink>
     );
   }
-
-  const time = Time();
-
 
   function UpgradePlan() {
     return (
@@ -64,7 +58,7 @@ export default function Sidebar({toggle, trial, logout}) {
 
    React.useEffect(() => {
     getAvailableLimit();
-   }, []);
+   }, [pathname]);
 
 
   return (

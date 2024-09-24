@@ -201,10 +201,11 @@ export default function EditStream() {
           setPlaylist(res.data);
           console.log("data stream",data)
           handleCreateStream({
-            objectID:stream._id,
+            id:stream._id,
             streamId : data.streamkey || stream.streamkey,
             title: data.title, 
             video: res.data.video,
+            platformtype: stream.platformtype,
             audio: res.data.audio,
             playlistId: res.data.playlistId,
             streamkey: data.streamkey || stream.streamkey,
@@ -244,7 +245,7 @@ export default function EditStream() {
   const handleCreateStream = (payload) => {
     console.log("payload",payload)
     setLoading(true);
-    const resp = data && data.platformtype === "youtube" ? Api.post(`/edit-stream`,payload) : Api.post(`/edit-rtmp-stream`,payload) ;
+    const resp = payload.platformtype === "youtube" ? Api.post(`/edit-stream`,payload) : Api.post(`/edit-rtmp-stream`,payload) ;
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
