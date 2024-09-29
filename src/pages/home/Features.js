@@ -22,8 +22,8 @@ export default function Features() {
                     .feature-item-${i}.open { opacity: 1; transition: 0.9s; max-height: 300px; overflow: visible; }
                 `}</style>
                 <div className="mb-6 transition-all duration-200 bg-dark1 rounded-[20px] cursor-pointer">
-                    <button onClick={openItem} type="button" className="flex items-center justify-between w-full p-7">
-                        <span className="flex text-[21px] font-semibold text-white font-mona"> {item.title} </span>
+                    <button onClick={openItem} type="button" className="flex items-center justify-between w-full p-6">
+                        <span className="flex text-start pe-3 text-[19px] font-semibold text-white font-mona"> {item.title} </span>
                         <svg
                             className={`w-6 h-6 text-gray-400 ${opened === i ? 'rotate-180' : ''}`}
                             xmlns="http://www.w3.org/2000/svg"

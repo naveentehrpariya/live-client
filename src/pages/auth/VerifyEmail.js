@@ -3,6 +3,7 @@ import Api from '../../api/Api';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Endpoints from '../../api/Endpoints';
+import Button from '../common/Button';
 export default function VerifyEmail(){
 
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,11 @@ export default function VerifyEmail(){
     return () => clearInterval(interval);
   },[]);
 
+  const goback = () => { 
+    localStorage.removeItem("token");
+    window.location.href = "/signup";
+  }
+
   return (
     <div>
       <div class="relative flex flex-wrap min-h-screen flex-col items-center justify-center overflow-hidden py-6 sm:py-12 bg-dark1">
@@ -59,6 +65,7 @@ export default function VerifyEmail(){
               We’ll sent you a verification link to the email address to verify your account.</p>
             <button onClick={verify} class="mt-3 inline-block w-full max-w-[300px] rounded-xl bg-main px-5 py-3 font-medium text-white shadow-md  hover:opacity-[0.6]">{loading ? "Sending..." : sent ? "Link Sent" : "Send Link →"}</button>
          </div>
+            <button onClick={goback} className='text-main'> Go Back</button>
       </div>
     </div>
   )

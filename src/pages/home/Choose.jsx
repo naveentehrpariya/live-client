@@ -68,7 +68,7 @@ export default function Choose(){
                      return (
                      <div className='fea-box p-4 bg-dark1 rounded-[20px]'>
                         <div className='fea-img' >
-                           <img src={l.imageSrc} className='w-full' alt='upstream' />
+                           <img src={l.imageSrc} className='w-full' alt='RunStream' />
                         </div>
                         <h2 className='text-white font-bold mt-3 ' >{l.title}</h2>
                         <p className='text-gray-400 text-[14px] mt-1' >{l.description}</p>
