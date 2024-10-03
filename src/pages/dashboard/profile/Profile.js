@@ -22,27 +22,6 @@ export default function Profile() {
                            {user && user?.name || ''}
                         </dd>
                      </div>
-                     {/* <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-md font-medium text-gray-500">
-                           Username
-                        </dt>
-                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           {user && user?.username || ''}
-                        </dd>
-                     </div> */}
-                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt className="text-md font-medium text-gray-500">
-                           Active Subscription
-                        </dt>
-                        <dd className="mt-1 text-md text-gray-400 sm:mt-0 sm:col-span-2">
-                           {user && user.plan ? <>
-                              <p>{user && user.plan && user.plan.name} for {user?.plan_months} months</p>
-                              {/* <p className=''>${user && user.plan && user.plan.price}/month</p> */}
-                              <p>End on : {time(user && user.plan_end_on)}</p>
-                           </> : "No Subscription"
-                           }
-                        </dd>
-                     </div>
                      <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-md font-medium text-gray-500">
                            Country

@@ -7,6 +7,7 @@ import { TbHome } from "react-icons/tb";
 import { FaUserCog } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import Api from '../../api/Api';
+import { SlCalender } from 'react-icons/sl';
 
 export default function Sidebar({toggle, trial, logout}) {
 
@@ -43,7 +44,7 @@ export default function Sidebar({toggle, trial, logout}) {
 
   const sortName = (n) => { 
     const name = n;
-    return name.split(' ')[0] || name;
+    return name && name.split(' ')[0] || name;
   }
 
   const [limit, setLimit] = React.useState(null);
@@ -84,9 +85,9 @@ export default function Sidebar({toggle, trial, logout}) {
             label="Collections" />
 
 
-            {/* <MenuItem path="/subscriptions"
+            <MenuItem path="/my-subscription"
             icon={<SlCalender size={'1.3rem'}  />}
-            label="My Subscription" /> */}
+            label="My Subscription" />
 
             <div className='xl:hidden'>
               <MenuItem onclick={logout}
@@ -94,7 +95,7 @@ export default function Sidebar({toggle, trial, logout}) {
               label="Logout" />
             </div>
         </div>
-        {user && user.plan && user.plan._id ? 
+        {user && user.streamLimit > 0 ? 
           <div className='px-6 pb-8'>
               <Link to="/my-subscription" className="bg-dark1 mx-auto sticky bottom-0 flex flex-col p-4 mt-4 text-base text-center rounded-[30px]">
                 <img
@@ -103,12 +104,8 @@ export default function Sidebar({toggle, trial, logout}) {
                   alt="Upgrade your plan"
                   className="z-10 self-center mt-0 aspect-[1.2] w-[100px]" />
                 <div className="mt-2.5 text-white text-lg">
-                  Active Plan
+                  Subscription Active
                 </div>
-                <div className="mt-2.5 leading-6 text-neutral-200 text-main font-bold text-2xl">
-                  {user.plan.name} 
-                </div>
-                <p className='text-gray-400 mt-3'>{user.plan.description} </p>
                 {limit ? <div className='flex justify-center'>
                   <div className='mt-3 bg-gray-700 rounded-2xl px-3 py-1 text-white '>{limit}</div>
                 </div> : ""}

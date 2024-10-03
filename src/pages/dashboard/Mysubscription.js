@@ -42,115 +42,59 @@ export default function Mysubscription () {
    return (
       <>
       <AuthLayout heading={"My Subscription"} >
-         {data ?
-         <>
-            {user?.planStatus === 'active' ? 
-            <>
-              <div className=" mt-6 lg:max-w-[400px] m-auto items-center justify-center">
 
-                <div className='flex lg:justify-center'>
-                  <div className='subscription-icon w-auto bg-dark2 border border-gray-600 rounded-xl px-[15px] py-[8px]'>
-                    <FaAddressCard size={'90px'} color='white' />
-                  </div>
+        <div className='flex flex-wrap text-white text-lg mb-3' >
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Total Stream Limit {user && user.streamLimit}</p>
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Storage Limit : {user && user.storageLimit} GB</p>
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Stream Resolutions : {user && user.allowed_resolutions.join(',')}</p>
+        </div>
+        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
+          {data && data.map((item,i)=>{
+            return <div className="bg-dark1 p-6 rounded-2xl">
+                <h2 className='text-white font-bold mt-3 text-2xl' >{item && item.plan && item.plan.name}</h2>
+                <p className='text-gray-200 text-md mb-4 mt-2' >{item && item.plan && item.plan.description}</p>
+                
+                <div className='mt-8'>
+                  <h3 className='text-gray-400 font-bold text-md' >Plan : </h3>
+                  <h3 className='text-white text-md' > {currency(item && item.plan && item.plan.price, "USD")}/month</h3>
                 </div>
 
-                  <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
-                  <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
-                  
-                  <div className='flex justify-between mt-8'>
-                    <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white text-md' > {currency(data && data.plan && data.plan.price, "USD")}/month</h3>
-                  </div>
-
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
-                  </div>
-
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Start On : </h3>
-                    <h3 className='text-white text-md ' >{time(data && data.createdAt)}</h3>
-                  </div>
-
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Expire On : </h3>
-                    <h3 className='text-white text-md ' >{time(data && data.endOn)}</h3>
-                  </div>
-
-                  {/* <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
-                    <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
-                  </div>
-
-                  <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Video quality</h2>
-                    <div className='max-w-[50%] text-white text-lg'>{vr.join(", ")}</div>
-                  </div>
-                  
-                  <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
-                    <div className='text-white text-lg'>320kbps</div>
-                  </div> */}
-
-              </div> 
-            </>
-            : 
-            <div className=" mt-6 lg:max-w-[400px] m-auto items-center justify-center">
-
-                <div className='flex lg:justify-center'>
-                  <div className='subscription-icon w-auto bg-dark2 border border-gray-600 rounded-xl px-[15px] py-[8px]'>
-                    <FaAddressCard size={'90px'} color='white' />
-                  </div>
+                <div className='mt-4'>
+                  <h3 className='text-gray-400 font-bold text-md' >Plan Duration : </h3>
+                  <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
                 </div>
 
-                <h2 className='text-white font-bold lg:text-center mt-3 text-2xl' >{data && data.plan && data.plan.name}</h2>
-                <p className='text-gray-200 text-center  text-md mb-4 mt-2' >{data && data.plan && data.plan.description}</p>
-                  
-                  <h2 className='text-red-500 text-xl my-2 lg:text-center'>Your Subscription has been expired.</h2>
-                  <div className='flex justify-between mt-8'>
-                    <h3 className='text-white font-bold text-md' >Plan : </h3>
-                    <h3 className='text-white text-md' > {currency(data && data.plan && data.plan.price, "USD")}/month</h3>
-                  </div>
+                <div className=' mt-4'>
+                  <h3 className='text-gray-400 font-bold text-md' >Start On : </h3>
+                  <h3 className='text-white text-md ' >{time(item && item.createdAt)}</h3>
+                </div>
 
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Plan Duration : </h3>
-                    <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
-                  </div>
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Started From : </h3>
-                    <h3 className='text-white text-md ' >{time(data && data.createdAt)}</h3>
-                  </div>
-                  <div className='flex justify-between mt-4'>
-                    <h3 className='text-white font-bold text-md' >Expired On : </h3>
-                    <h3 className='text-white  text-md ' >{time(data && data.endOn)}</h3>
-                  </div>
+                <div className=' mt-4'>
+                  <h3 className='text-gray-400 font-bold text-md' >Expire On : </h3>
+                  <h3 className='text-white text-md ' >{time(item && item.endOn)}</h3>
+                </div>
 
-                  {/* <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
-                    <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
-                  </div>
-                  <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Video quality</h2>
-                    <div className='max-w-[50%] text-white text-lg'>{vr.join(", ")}</div>
-                  </div>
-                  <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
-                    <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
-                    <div className='text-white text-lg'>320kbps</div>
-                  </div> */}
-                  <Link to='/upgrade/subscription' className="block text-normal mt-6 px-4 py-3 rounded-3xl text-center text-white uppercase bg-[var(--main)]">
-                    Renew Plan
-                </Link>
-              </div>
-          } 
-         </>
-         : 
-          <div className="rounded-xl max-w-[400px] py-6 m-auto items-center justify-center text-start">
-                <h2 className="text-white text-2xl mb-3">There are no active subscriptions.</h2>
-                <Link to='/upgrade/subscription' className="block text-normal mt-4 px-4 py-3 rounded-3xl text-center text-white uppercase bg-green-600">
-                  Renew Plan
-                </Link>
-            </div>
-         }
+                {/* <div className='checklist mt-6 border-t border-gray-800 py-3 flex items-center justify-between'>
+                  <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Streams</h2>
+                  <div className='text-white text-lg'>{data?.plan?.allowed_streams} streams</div>
+                </div>
+
+                <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
+                  <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Video quality</h2>
+                  <div className='max-w-[50%] text-white text-lg'>{vr.join(", ")}</div>
+                </div>
+                
+                <div className='checklist border-t border-gray-800 py-3 flex items-center justify-between'>
+                  <h2 className='flex items-center text-lg text-gray-200'><FaCheck size={'22px'} className='me-2' color='var(--main)' /> Audio quality</h2>
+                  <div className='text-white text-lg'>320kbps</div>
+                </div> */}
+
+            </div> 
+          })}
+        </div>
+        {/* <Link to='/upgrade/subscription' className="block text-normal mt-4 px-4 py-3 rounded-3xl text-center text-white uppercase bg-green-600">
+          Renew Plan
+        </Link> */}
       </AuthLayout>
       </>
    )

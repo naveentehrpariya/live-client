@@ -74,7 +74,7 @@ export default function MediaList() {
   return (
     <div className='medias-lists'>
 
-      {totalSize ? <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.plan ? user.plan.storage : 1}GB</div> : ''}
+      {totalSize ? <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.storageLimit ? user.storageLimit : 1}GB</div> : ''}
       <div className='sm:flex justify-between mb-6 ' >
             <div className='flex items-center'>
                <button className={`${filter === 'image' ? "text-white" : 'text-gray-500 border-transparent'} pe-2 py-2 me-3 sm:me-6 sm:text-[18px] border-b border-b-2 `} onClick={(e)=>changeFilter("image")} >Images</button>
