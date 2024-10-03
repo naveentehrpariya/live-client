@@ -8,7 +8,7 @@ export default function Footer() {
         <footer className="mx-auto max-w-screen-2xl px-4 md:px-8">
           <div className="flex flex-col items-center justify-between gap-4 border-t border-b border-gray-900 py-6 md:flex-row">
             <nav className="flex flex-wrap justify-center gap-x-4 gap-y-2 md:justify-start md:gap-6">
-              <a href="https://runstream.co/privacy" className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Privacy Policy</a>
+              <a href="https://runstream.co/privacy-policy" className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Privacy Policy</a>
               <Link to={'/support'} className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Support</Link>
               <a href="https://runstream.co/terms-of-service" className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Terms of service</a>
               <Link to="/cancellation-and-refund-policy" className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">Cancellation & Refund</Link>
