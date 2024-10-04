@@ -56,29 +56,70 @@ export default function Subscriptions() {
   
   const ITEM = ({item}) => { 
     const [status, setStatus] = useState(item.status);
+    const [cancelStatus, setCancelStatus] = useState(item.cancelledAt ? true : false);
+    const cancelSubscription = () => { 
+      const resp = AdminApi.get(`/cancel-subscription/${item._id}`);
+      resp.then((res)=> { 
+        if(res.data.status){ 
+          setCancelStatus(!cancelStatus);
+          toast.success(res.data.message);
+          fetch(1)
+        } else { 
+          toast.error(res.data.message); 
+        }
+      }).catch((err)=>{
+        console.log(err);
+        Errors(err);
+      });
+    }  
 
     return <tr className="border-b border-gray-900">
-    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.name}</td>
-    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.user.email}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.plan ? <>{item?.plan?.name || "N/A"} ({currency(item?.plan?.price) || "N/A"} / {item.duration}{item.duration > 2 ? "month" : "months"}) </> : "--"}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.createdAt ? time(item?.createdAt) : "N/A"}</td>
-    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">{item?.endOn ? time(item?.endOn) : "N/A"}</td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">
+      <p>{item?.user?.name || "N/A"}</p>
+      <p>{item?.user?.email || "N/A"}</p>
+    </td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
+      <p>
+        {item?.plan ? <>{item?.plan?.name || "N/A"} ({currency(item?.plan?.price) || "N/A"} / {item.duration}{item.duration > 2 ? " month" : " months"}) </> : "--"}
+      </p>
+      <p>Allowed Streams : {item.plan.allowed_streams}</p>
+      </td>
+    <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
+      <p>Start Date : {item?.createdAt ? time(item?.createdAt) : "N/A"}</p>
+      <p>End Date : {item?.endOn ? time(item?.endOn) : "N/A"}</p>
+      {item?.cancelledAt ?  <p className='text-red-500'>Cancelled Date : {time(item?.cancelledAt)} </p> : ""}
+    </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       {status === "active" ? <span className={`text-white rounded-xl py-1 px-3 bg-green-600`}>
-        Paid
-      </span> : ""}
+        Active
+      </span> : ""} 
       {status === "expired" ? <span className={`text-white rounded-xl py-1 px-3 bg-red-600`}>
         Expired
-      </span> : ""}
+      </span> : ""} 
+
       {status === "pending" ? <span className={`text-white rounded-xl py-1 px-3 bg-yellow-600`}>
         Pending
       </span> : ""}
+
+      {status === "cancelled" ? <span className={`text-white rounded-xl py-1 px-3 bg-yellow-600`}>
+      cancelled
+      </span> : ""}
+
       {status === "inactive" ? <span className={`text-white rounded-xl py-1 px-3 bg-indigo-600`}>
         Inactive
       </span> : ""}
       {status === "payment_failed" ? <span className={`text-white rounded-xl py-1 px-3 bg-danger-600`}>
         Payment Failed
       </span> : ""}
+    </td>
+    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
+      {cancelStatus ?
+      <p>{item.status}</p>
+      :
+      <button onClick={cancelSubscription} className={` ${item.status === 'active' ? "sdf" : "disabled"} capitalize text-white rounded-xl py-1 px-3 ${cancelStatus ? "bg-green-600" : "bg-red-500  " }`}>
+        Cancel Plan
+      </button>
+      }
     </td>
   </tr>
   }
@@ -90,9 +131,9 @@ export default function Subscriptions() {
         <AdminTitle heading="Subscriptions">
             <div>
               <button className={`${type === 'all' ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("all")}>All</button>
-              <button className={`${type === "paid" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("active")}>Paid</button>
-              {/* <button className={`${type === "pending" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("pending")}>Pending</button> */}
-              <button className={`${type === "inactive" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("inactive")}>Inactive</button>
+              <button className={`${type === "active" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("active")}>Active</button>
+              <button className={`${type === "expired" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("expired")}>Expired</button>
+              <button className={`${type === "cancelled" ? 'bg-main' :  'bg-dark3'} text-white px-4 py-1 rounded-xl ms-3`}  onClick={()=>handleState("cancelled")}>Cancelled</button>
             </div>
         </AdminTitle>
         {loading ? <Loading /> :
@@ -104,11 +145,10 @@ export default function Subscriptions() {
             <thead className=" border-b border-gray-800 lg:table-header-group">
               <tr className="">
                 <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">User</td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Plan</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Start Date</td>
-                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Ended On</td>
                 <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
+                <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Action</td>
               </tr>
             </thead>
             <tbody className="bg-dark1 lg:border-gray-100">

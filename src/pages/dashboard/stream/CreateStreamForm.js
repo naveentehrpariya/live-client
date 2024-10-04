@@ -28,9 +28,16 @@ const resolutions = [
   { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
   { title:"Shorts 720x1080" ,label: '720x1080', value: '720x1080' },
 ];
-const freeresolutions = [
-  { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
-];
+
+const resolutionsTitle = {
+  "1080p":"1080p 1920x1080",
+  "2160p":"2160p 3840x2160",
+  "720p":"720p 1280x720",
+  "720x1080":"Shorts 720x1080",
+};
+
+
+ 
 
 export default function CreateStreamForm() {
   const [status, setStatus] = useState();
@@ -341,7 +348,7 @@ export default function CreateStreamForm() {
               </div>
               <div className='flex justify-center mt-8' >
                 <button  onClick={proceedSteps} 
-                className={`${data.platformtype === '' ? 'disabled' : ''} ${(user && (user.trialStatus === 'active' || user.planStatus === 'active')) ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
+                className={`${data.platformtype === '' ? 'disabled' : ''} ${(user && (user.streamLimit > 0 || user.trialStatus === "active")) ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
                     Create New Stream
                 </button>
               </div> 
@@ -415,16 +422,14 @@ export default function CreateStreamForm() {
                         <input name={'stream_url'} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-4" />
                         </> : ''}
 
-                        { user && user.plan ?
+                        { user.trialStatus === "active" ?
                           <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                          {filteredResolutions && filteredResolutions.map((resolution, index) => (
-                            <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                          ))}
+                              <option value={'720x1080'}>720x1080</option>
                           </select> 
                           :
                           <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                            {freeresolutions && freeresolutions.map((resolution, index) => (
-                              <option key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
+                            {user && user.allowed_resolutions && user.allowed_resolutions.map((resolution, index) => (
+                              <option key={index} value={resolution}>{resolutionsTitle[resolution]}</option>
                             ))}
                           </select>
                         } 

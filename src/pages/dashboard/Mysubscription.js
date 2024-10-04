@@ -37,28 +37,39 @@ export default function Mysubscription () {
     const currency = CurrencyFormat(); 
     const time = Time();
 
-    const vr = data && data.plan ? JSON.parse(data.plan.resolutions) : [];
-    
    return (
       <>
       <AuthLayout heading={"My Subscription"} >
 
         <div className='flex flex-wrap text-white text-lg mb-3' >
-          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Total Stream Limit {user && user.streamLimit}</p>
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Total Stream Limit : {user && user.streamLimit}</p>
           <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Storage Limit : {user && user.storageLimit} GB</p>
           <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Stream Resolutions : {user && user.allowed_resolutions.join(',')}</p>
         </div>
         <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
           {data && data.map((item,i)=>{
-            return <div className="bg-dark1 p-6 rounded-2xl">
+            const rs = JSON.parse(item.plan.resolutions);
+            return <div className={`bg-dark1 p-6 rounded-2xl ${item.status ==='active' ? 'border border-gray-500' : 'border border-red-500'} `}>
                 <h2 className='text-white font-bold mt-3 text-2xl' >{item && item.plan && item.plan.name}</h2>
                 <p className='text-gray-200 text-md mb-4 mt-2' >{item && item.plan && item.plan.description}</p>
                 
+                <div className='mt-8'>
+                  <h3 className='text-gray-400 font-bold text-md' >Plan Status : </h3>
+                  <h3 className={`text-lg uppercase ${item.status ==='active' ? 'text-green-500' : 'text-red-500'}`} > {item.status}</h3>
+                </div>
                 <div className='mt-8'>
                   <h3 className='text-gray-400 font-bold text-md' >Plan : </h3>
                   <h3 className='text-white text-md' > {currency(item && item.plan && item.plan.price, "USD")}/month</h3>
                 </div>
 
+                <div className='mt-4'>
+                  <h3 className='text-gray-400 font-bold text-md' >Allowed Resolution : </h3>
+                  <h3 className='text-white text-md ' >{item && item.plan && item.plan.resolutions && rs.join(',')}</h3>
+                </div>
+                <div className='mt-4'>
+                  <h3 className='text-gray-400 font-bold text-md' >Stream Limit : </h3>
+                  <h3 className='text-white text-md ' >{item && item.plan && item.plan.allowed_streams}</h3>
+                </div>
                 <div className='mt-4'>
                   <h3 className='text-gray-400 font-bold text-md' >Plan Duration : </h3>
                   <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>

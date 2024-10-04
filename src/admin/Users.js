@@ -51,6 +51,7 @@ export default function Users() {
 
   const ITEM = ({item, index}) => { 
     const [status, setStatus] = useState(item.status)
+
     const changeStatus = () => { 
       const resp = AdminApi.get(`/admin/user/enable-disable-user/${item._id}`);
       resp.then((res)=> {
@@ -84,21 +85,22 @@ export default function Users() {
       {index+(limit*page-1)}
     </td> */}
     <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left">
-      {item.name}
+      <p>{item.name}</p>
+      <p>{item.email}</p>
     </td>
-    <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.email}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{item.country} ({item.country_code})</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{time(item.createdAt)}</td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell">{formatBytes(parseInt(item.uploaded_content) || 0)}</td>
     <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
-      <p>{item?.plan?.name || "N/A"}</p>
-      {item?.plan?.price ? <p>{currency(item?.plan?.price)} for {item?.plan_months || 1} months</p> :""}
+      <p>Stream Limit : {item?.streamLimit|| "0"}</p>
+      <p>Storage Limit : {item?.storageLimit|| "0"} GB</p>
     </td>
     <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
       <button onClick={changeStatus} className={`capitalize text-white rounded-xl py-1 px-3 ${status === 'active' ? "bg-green-600 " : "bg-red-500" }`}>
         {status}
       </button>
     </td>
+    
   </tr>
   }
 
@@ -119,11 +121,10 @@ export default function Users() {
                 <thead className=" border-b border-gray-800 lg:table-header-group">
                   <tr className="">
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Name</td>
-                    <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Email</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Country</td>
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Joined Date</td>
                     <td className="whitespace-normal py-4 text-sm font-semibold text-gray-200 sm:px-3">Uploaded Media</td>
-                    <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Active Plan</td>
+                    <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Stream Limit / Storage Limit</td>
                     <td className="whitespace-normal py-4 text-sm font-medium text-gray-200 sm:px-3">Status</td>
                   </tr>
                 </thead>

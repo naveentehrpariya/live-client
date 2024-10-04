@@ -97,7 +97,7 @@ export default function Brand(){
                                 
                                 <div className='flex items-center'>
                                  <div className='icon me-2 w-[50px] h-[50px] flex justify-center items-center bg-[#4e4e4e23] text-white rounded-full p-3'>{item.image}</div>
-                                 <p className='text-center font-mono font-bold text-gray-400 text-[20px] mt-2' >{item.title}</p>
+                                 <p className='text-center font-mono font-bold text-gray-400 text-[20px]' >{item.title}</p>
                                 </div>
                               </div>
                            </SwiperSlide>
