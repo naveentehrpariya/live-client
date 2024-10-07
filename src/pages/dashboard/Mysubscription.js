@@ -42,9 +42,9 @@ export default function Mysubscription () {
       <AuthLayout heading={"My Subscription"} >
 
         <div className='flex flex-wrap text-white text-lg mb-3' >
-          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Total Stream Limit : {user && user.streamLimit}</p>
-          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Storage Limit : {user && user.storageLimit} GB</p>
-          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Stream Resolutions : {user && user.allowed_resolutions.join(',')}</p>
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Total Stream Limit : {user?.streamLimit || 0}</p>
+          <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Storage Limit : {user?.storageLimit || 1} GB</p>
+          {user && user?.allowed_resolutions ? <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Stream Resolutions : {user && user.allowed_resolutions.join(',')}</p> :''}
         </div>
         <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
           {data && data.map((item,i)=>{
@@ -101,7 +101,7 @@ export default function Mysubscription () {
                 </div> */}
 
             </div> 
-          })}
+          })} 
         </div>
         {/* <Link to='/upgrade/subscription' className="block text-normal mt-4 px-4 py-3 rounded-3xl text-center text-white uppercase bg-green-600">
           Renew Plan

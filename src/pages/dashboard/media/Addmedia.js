@@ -106,7 +106,7 @@ export default function Addmedia({update, classes, updateSize}) {
                   }
 
                   <div className='flex justify-center'>
-                     <button onClick={UploadMedia} className='btn w-full max-w-xs' > 
+                     <button disabled={uploading} onClick={UploadMedia} className='btn w-full max-w-xs' > 
                         {uploading ? 
                            `${progress ? `${progress === 100 ? "Processing..." : `${progress}% Uploading...` }` : "" } `
                         : "Upload"}

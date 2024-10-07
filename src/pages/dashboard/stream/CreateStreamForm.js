@@ -348,7 +348,7 @@ export default function CreateStreamForm() {
               </div>
               <div className='flex justify-center mt-8' >
                 <button  onClick={proceedSteps} 
-                className={`${data.platformtype === '' ? 'disabled' : ''} ${(user && (user.streamLimit > 0 || user.trialStatus === "active")) ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
+                className={`${data.platformtype === '' ? 'disabled' : ''} ${(user && (user.streamLimit > 0 || user?.trialStatus === "active")) ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
                     Create New Stream
                 </button>
               </div> 
@@ -422,7 +422,7 @@ export default function CreateStreamForm() {
                         <input name={'stream_url'} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-4" />
                         </> : ''}
 
-                        { user.trialStatus === "active" ?
+                        { user && user?.trialStatus === "active" ?
                           <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
                               <option value={'720x1080'}>720x1080</option>
                           </select> 
