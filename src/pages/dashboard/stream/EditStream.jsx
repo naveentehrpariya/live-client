@@ -25,9 +25,13 @@ const resolutions = [
   { title:"720p 1280x720" ,label: '720p', value: '1280x720' },
   { title:"Shorts 720x1080" ,label: '720x1080', value: '720x1080' },
 ];
-const freeresolutions = [
-  { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
-];
+const resolutionsTitle = {
+  "1080p":"1080p 1920x1080",
+  "2160p":"2160p 3840x2160",
+  "720p":"720p 1280x720",
+  "720x1080":"Shorts 720x1080",
+};
+
 
 export default function EditStream() {
 
@@ -89,7 +93,7 @@ export default function EditStream() {
   const [cloudAudios, setCloudAudios] = useState([]);
   const [videos, setVideos] = useState([]);
   const [audios, setaudios] = useState([]);
-  const [image, setImage] = useState(stream ? stream.thumbnail : '');
+  const [image, setImage] = useState(stream?.thumbnail || false);
   const [radio, setRadio] = useState(null);
   const [combineVideos, setCombineVideos] = useState([]);
   const [combineAudios, setCombineAudios] = useState([]);
@@ -377,7 +381,7 @@ export default function EditStream() {
   }
 
   return (
-    <AuthLayout heading={stream.title || "Edit Stream"}>
+    <AuthLayout heading={`${stream.title ? `Edit ${stream.title}` :"Edit Stream"}`}   >
       { checking ? <Loading /> : 
         <div className='create-stream-form m-auto mt-4 md:mt-6 lg:mt-10 '>
           <div className={` pages-steps  lg:max-w-[700px] m-auto`} >
@@ -405,19 +409,17 @@ export default function EditStream() {
                     </> : ''}
 
 
-                    { user && user.plan ?
-                      <select  className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {filteredResolutions && filteredResolutions.map((resolution, index) => (
-                          <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                        ))}
-                      </select>
-                        :
-                      <select defaultValue={stream.resolution} className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
-                        {freeresolutions && freeresolutions.map((resolution, index) => (
-                          <option selected={stream.resolution === resolution.label} key={index} value={resolution.label}>{resolution.label} ({resolution.value})</option>
-                        ))}
-                      </select>
-                    }
+                    { user && user?.trialStatus === "active" ?
+                          <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                              <option value={'720x1080'}>720x1080</option>
+                          </select> 
+                          :
+                          <select className='input mt-6' onChange={(e)=>setData({ ...data, resolution: e.target.value})} >
+                            {user && user.allowed_resolutions && user.allowed_resolutions.map((resolution, index) => (
+                              <option key={index} value={resolution}>{resolutionsTitle[resolution]}</option>
+                            ))}
+                          </select>
+                    } 
 
                     {stream.platformtype === 'youtube' ? 
                     <textarea defaultValue={stream.description} className='input mt-6' onChange={(e)=>setData({ ...data, description:e.target.value}) } placeholder='Description' />
@@ -426,14 +428,11 @@ export default function EditStream() {
               </div>
 
               <div className={step === 2 ? "" : "hidden"}>
-                {chhoseNewThumb ? 
-                  <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
-                :
-                <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize w-full max-h-[500px] rounded-2xl overflow-hidden relative' >
-                  <img className="h-full w-full object-cover max-w-full" src={stream.thumbnail || defaultimg} alt="Cloud" />
+                {/* <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize w-full max-h-[500px] rounded-2xl overflow-hidden relative' >
+                  <img className="h-full w-full object-cover max-w-full" src={image || defaultimg} alt="Cloud" />
                   <button onClick={(e)=>setchhoseNewThumb(true)} className='absolute bg-red-600 px-2 py-1 uppercase text-[13px] rounded-lg text-white top-2 right-2' >Remove</button>
-                </div>
-                }
+                </div> */}
+                <UploadThumbnail exists={stream.thumbnail} update={getImageFile}  />
 
 
                 <div className='bg-dark2 text-white  p-4 sm:p-6 rounded-xl'>

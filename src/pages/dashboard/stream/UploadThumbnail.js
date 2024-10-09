@@ -51,9 +51,9 @@ export default function UploadThumbnail({update, exists}) {
    <>
       {/* <h2 className='text-main mb-4 text-xl'>Choose Video Thumbnail</h2> */}
       {src  ? 
-         <div className='selectedMedia border border-gray-600 mb-6 thumbnailsize max-h-[400px] rounded-3xl overflow-hidden relative' >
+         <div className='selectedMedia w-full border border-gray-600 mb-6 thumbnailsize max-h-[400px] rounded-3xl overflow-hidden relative' >
             <button onClick={removeFile} className='bg-red-800 rounded-xl px-3 py-2 text-sm text-white absolute top-2 right-2 z-[2]'>Remove</button>
-            <img className="w-full h-full object-cover  max-h-[260px]" src={src} alt="Cloud" />
+            <img className="w-full h-full object-cover " src={src} alt="Cloud" />
          </div> :  
          <div className="flex justify-center w-full mx-auto mb-4">
             <div className="relative w-full sm:rounded-lg">

@@ -107,6 +107,9 @@ export default function Pricing({classes, colclasses, heading, type}) {
             </Popup>
          </>
       }
+
+
+      
       const currency = CurrencyFormat(); 
          return <div key={p._id} className={`bg-dark2 px-4 py-8 text-lg leading-6 text-white rounded-3xl bg-white bg-opacity-10`}>
             <div className='px-4'>

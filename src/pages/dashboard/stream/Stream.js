@@ -38,6 +38,8 @@ export default function Stream({data, reload}) {
                <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl'
                to={`/edit-stream/${data._id}`} >Edit Stream</Link>
             : '' } 
+            <Link className='absolute z-[2] top-3 right-3 bg-blue-600 text-white px-3 py-1 uppercase text-[13px] rounded-xl'
+               to={`/edit-stream/${data._id}`} >Edit Stream</Link>
          </div>
          <div className='stream-info p-6'>
             <div className='stream-desc text-white font-bold text-xl mb-4'> {data.title}</div>
