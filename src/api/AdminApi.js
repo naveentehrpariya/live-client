@@ -1,9 +1,10 @@
 import axios from 'axios';
-// const APP_URL = "https://serverrai.runstream.co";
-const APP_URL = "http://localhost:8080";
+const APP_URL = "https://serverrai.runstream.co";
+// const APP_URL = "http://localhost:8080";
+
 function getToken(){
   const data = localStorage && localStorage.getItem('admintoken');
-  return data; 
+  return data;
 }
 
 let AdminApi = axios.create({
