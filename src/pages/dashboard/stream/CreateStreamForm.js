@@ -503,8 +503,8 @@ export default function CreateStreamForm() {
                         ))}
 
                         { data.platformtype === 'rtmp' ? <>
-                        <input name={' '} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-4" />
-                        <input name={'stream_url'} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-4" />
+                          <input name={'streamkey'} onChange={handleinput} type={'text'} placeholder={"Enter Stream Key"} className="input !mt-4" />
+                          <input name={'stream_url'} onChange={handleinput} type={'text'} placeholder={"Enter Stream URL"} className="input !mt-4" />
                         </> : ''}
 
                         { user && user?.trialStatus === "active" ?
