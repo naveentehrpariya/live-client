@@ -49,6 +49,9 @@ export default function CheckYoutube({set}) {
       });
     }
 
+    const yticon = 'https://1.bp.blogspot.com/-hY5-pNrOcKw/XeI_00cpCgI/AAAAAAAAF4A/J7jS49V8kNozycy0PgY6wfc7SUU9gulTgCLcBGAsYHQ/s320/Youtube-Icon-square-2340x2340.png'
+    const [url, setUrl] = useState(channel?.snippet?.thumbnails?.high.url || yticon);
+
   return (
     <div>
       {status === 'notactive' ? <ConnectYoutube  /> :
@@ -56,7 +59,7 @@ export default function CheckYoutube({set}) {
          {channel && channel.snippet ?  
          <div className=" mb-6 sm:flex items-center justify-between youtube-wrap bg-white p-3 rounded-xl" >
             <div className='sm:flex items-center'>
-               <img alt="" src={channel && channel.snippet.thumbnails.high.url}
+               <img alt="" onError={(e)=>setUrl(yticon)} src={url || yticon}
                className="mx-auto h-14 w-14  rounded-[50%] object-cover"
                />
                <div className='ps-3'>
