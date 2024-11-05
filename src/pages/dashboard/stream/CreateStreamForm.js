@@ -3,10 +3,7 @@ import Endpoints from '../../../api/Endpoints';
 import { UserContext } from '../../../context/AuthProvider';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiVideo } from "react-icons/fi";
-import { LuImage } from "react-icons/lu";
 import { ImYoutube2 } from "react-icons/im";
- 
 import UploadVideos from './UploadVideos';
 import UploadAudios from './UploadAudios';
 import ManageFiles from './ManageFiles';
@@ -18,9 +15,6 @@ import create_stream from '../../../img/create-stream.png';
 import video from '../../../img/videostream.png';
 import images from '../../../img/imagestream.png';
 import { FaYoutube } from "react-icons/fa";
-
-
-
 
 const resolutions = [
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -36,18 +30,11 @@ const resolutionsTitle = {
   "720x1080":"Shorts 720x1080",
 };
 
-
- 
-
 export default function CreateStreamForm() {
   const [status, setStatus] = useState();
   const {Errors, user} = useContext(UserContext);
   const [streamType, setStreamType] = useState("video");
   const [loop, setLoop] = useState(true);
-
-  const filterLabels = user && user.plan && user.plan.resolutions ? JSON.parse(user.plan.resolutions) : [];
-  const filteredResolutions = resolutions.filter(resolution => filterLabels.includes(resolution.label));
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const inputFields = [

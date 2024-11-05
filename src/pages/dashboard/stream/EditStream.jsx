@@ -363,6 +363,8 @@ export default function EditStream() {
       setCombineAudios(cremoved);
     }
     const size = file.size / 1024 / 1024;
+
+    
     return<>
       <div className="flex justify-center w-full mx-auto">
       <div className='selectedMedia w-full relative border border-gray-500 rounded-xl' >

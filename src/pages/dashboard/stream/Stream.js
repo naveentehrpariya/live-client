@@ -26,11 +26,13 @@ export default function Stream({data, reload}) {
       });
    }
 
+
+   const [thumbURL, setthumbURL] = useState(data.thumbnail || defaultimg);
    return (
       <div className='stream box border border-gray-800 overflow-hidden'>
          <div className='stream-img w-full relative' >
             <div className='min-h-[200px]'>
-               <img src={data.thumbnail || defaultimg} className='img-fluid w-full min-h-[200px] max-h-[200px] object-cover' alt='stream thumbnail'  />
+               <img onError={() => setthumbURL(defaultimg)} src={thumbURL} className='img-fluid w-full min-h-[200px] max-h-[200px] object-cover' alt='stream thumbnail'  />
             </div>
             <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status bg-green-700 text-white rounded-xl px-3 py-1 ${isLive ? "bg-red-800 " : "bg-yellow-700"}`} >
             {data.status === '1' ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
