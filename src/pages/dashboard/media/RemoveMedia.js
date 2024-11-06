@@ -15,7 +15,7 @@ export default function RemoveMedia({id, classes, update, page, updateSize, remo
           console.log(res.data);
           toast.success(res.data.message);
           setLoading(false); 
-         //  update && update(page); 
+          update && update(page, "silent_load"); 
          updateSize && updateSize();
          removeded && removeded(true)
       }).catch((err) => {

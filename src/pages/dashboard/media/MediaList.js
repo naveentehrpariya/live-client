@@ -17,9 +17,11 @@ export default function MediaList() {
    const [totalPages, setTotalPages] = useState(0);
    const [hasMore, setHasMore] = useState(true);
 
-   function fetchMedias(p) {
+   function fetchMedias(p, load) {
      if(loading) return false;
-     setLoading(true);
+     if(load !== "silent_load"){
+        setLoading(true);
+     }
      const m = new Endpoints();
      const resp = m.mymedia(filter,p,15);
      resp.then((res) => {
@@ -78,7 +80,7 @@ export default function MediaList() {
       }
       return <>
       {filter === 'image'? 
-         <div className={`${removed ? "hidden" : ""} relative bg-dark2 border border-gray-800 rounded-xl`} key={`imagefile-${filter}-${index}`}>
+         <div className={`${removed ? "hiddens" : ""} relative bg-dark2 border border-gray-800 rounded-xl`} key={`imagefile-${filter}-${index}`}>
             <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
             <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
             <div className='p-3 text-white ' >
@@ -89,7 +91,7 @@ export default function MediaList() {
       : '' }  
 
       {filter === 'video'? 
-      <div className={`${removed ? "hidden" : ""} border border-gray-800 rounded-xl overflow-hidden`} key={`videofile-${filter}-${index}`}>
+      <div className={`${removed ? "hiddens" : ""} border border-gray-800 rounded-xl overflow-hidden`} key={`videofile-${filter}-${index}`}>
          <div className='p-3 text-white ' >
             <p className='mb-1 text-gray-300 line-clamp-1'>{item.name}</p>
             <p className='text-gray-500 text-sm'>Size : {size.toFixed(2)}MB</p>
@@ -104,7 +106,7 @@ export default function MediaList() {
       : '' } 
 
       {filter === 'audio'? 
-         <div  className={`${removed ? "hidden" : ""} relative border border-gray-600  rounded-xl overflow-hidden`} key={`audiofile-${filter}-${index}`}>
+         <div  className={`${removed ? "hiddens" : ""} relative border border-gray-600  rounded-xl overflow-hidden`} key={`audiofile-${filter}-${index}`}>
             <div className=' p-3'>
                <h2 className='text-gray-300 mb-1 max-w-[90%] text-normal  line-clamp-1'>{item.name}</h2>
                <p className='text-gray-400'>Size : {size.toFixed(2)}MB</p>
