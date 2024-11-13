@@ -15,6 +15,8 @@ import create_stream from '../../../img/create-stream.png';
 import video from '../../../img/videostream.png';
 import images from '../../../img/imagestream.png';
 import { FaYoutube } from "react-icons/fa";
+import Popup from '../../common/Popup';
+import MyFiles from './MyFiles';
 
 const resolutions = [
   { title:"1080p 1920x1080 " ,label: '1080p', value: '1920x1080' },
@@ -299,6 +301,17 @@ export default function CreateStreamForm() {
     </div>
   }
 
+  const [open, setOpen] = useState();
+  const getThumbnail = (thumb) => {
+    setSrc(thumb.url);
+    setImage(thumb.url);
+    setData({ ...data, ["thumbnail"]:thumb.url});
+    setOpen("close");
+    setTimeout(() => {
+      setOpen(false);
+    },1000);
+  }
+
   const chooseMedia = () => { 
     if(data.platformtype === 'youtube' && status === 'notactive'){
       toast.error('Please Connect Your Youtube Account First');
@@ -350,9 +363,12 @@ export default function CreateStreamForm() {
   const [src, setSrc] = useState('');
 
   const removeFile = async (e) => {
-     setFile(null);
-     getImageFile(null);
-     setSrc(false)
+    setFile(null);
+    getImageFile(null);
+    setSrc(null)
+    setImage(null);
+    setData({ ...data, ["thumbnail"]:''});
+
   }
   const handleFile = async (e) => {
      setFile(e.target.files[0]);
@@ -427,7 +443,7 @@ export default function CreateStreamForm() {
                 <div className='pt-[20px] md:pt-0 min-h-[90vh] md:flex items-center' >
                   <div className=' m-auto' >
                     <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-8'>
-                      <div className='part1'>
+                      <div className='part1 w-full'>
                         <>
                           {src  ? 
                               <div className='selectedMedia w-full border border-gray-600 mb-6 thumbnailsize max-h-[400px] rounded-3xl overflow-hidden relative' >
@@ -480,6 +496,13 @@ export default function CreateStreamForm() {
                           }
                         </>
 
+                        <Popup bg="bg-dark1 darkpopup" action={open} space={'p-6 sm:p-10'} btntext={"Or Choose from your library"} 
+                        btnclasses={'text-white rounded-[30px] w-full p-3 mb-4 bg-main'} >
+                            <h2 className='text-white text-bold text-lg mb-3'>Choose Thumbnail</h2>
+                            <div className='max-h-[70vh] overflow-auto' > 
+                              <MyFiles sendFile={getThumbnail} type={'image'} />
+                            </div>
+                          </Popup>
                         { data.platformtype === 'rtmp' ?
                         <p className='text-green-600 !mb-6 md:mb-0'>Note : In custom RTMP server thumbnail will only use for system. This will not update on live stream.</p> : "" }
                       </div>

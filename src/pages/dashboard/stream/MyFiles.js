@@ -37,15 +37,19 @@ export default function MyFiles({type, sendFile}) {
       fetchFiles(page);
    },[]);
    
-   function selectFile(file) {
-      let temp = [...selected];
-      const fileIndex = temp.indexOf(file); 
-      if (fileIndex > -1) {
-         temp.splice(fileIndex, 1);
+   function selectFile(file, type) {
+      if(type === 'image'){
+         setSelected(file);
       } else {
-         temp.push(file);
+         let temp = [...selected];
+         const fileIndex = temp.indexOf(file); 
+         if (fileIndex > -1) {
+            temp.splice(fileIndex, 1);
+         } else {
+            temp.push(file);
+         }
+         setSelected(temp);
       }
-      setSelected(temp);
    }
 
    const getSize = (size) =>{ 
@@ -130,9 +134,8 @@ export default function MyFiles({type, sendFile}) {
                               return (
                                  <li 
                                     key={index} 
-                                    onClick={()=>selectFile(file.url)} 
-                                    className={`${selected && selected.includes(file) ? "bg-green-900" : ""} border-gray-400 flex rounded-xl flex-row mb-2`}
-                                 >
+                                    onClick={()=>selectFile(file, 'image')} 
+                                    className={`${selected && selected === file? "bg-green-900" : ""} border-gray-400 flex rounded-xl flex-row mb-2`}>
                                     <div className="select-none cursor-pointer bg-dark2 rounded-md flex flex-1 items-center p-4 transition duration-500 ease-in-out transform">
                                        <div className="flex flex-col rounded-md overflow-hidden w-10 h-10 bg-gray-300 justify-center items-center mr-4">
                                           <img className='w-full h-full object-cover' src={file.url} alt="ThumbImage" />
