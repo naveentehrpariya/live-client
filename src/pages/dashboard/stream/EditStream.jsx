@@ -289,7 +289,6 @@ export default function EditStream() {
         return false;
     }
 
-
     if(type === "next" && step === 2 && stream && stream.streamType === 'video' && combineVideos.length < 1  ){
         toast.error("Please select atleast one video for this stream.");
         return false;

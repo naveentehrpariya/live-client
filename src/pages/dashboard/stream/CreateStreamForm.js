@@ -368,7 +368,6 @@ export default function CreateStreamForm() {
     setSrc(null)
     setImage(null);
     setData({ ...data, ["thumbnail"]:''});
-
   }
   const handleFile = async (e) => {
      setFile(e.target.files[0]);
