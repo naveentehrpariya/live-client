@@ -11,6 +11,7 @@ export default function StreamLayout({children, disabled,  onclick, step, title}
          <title>Create Stream | Runstream</title>
          <link rel="canonical" href={window.location.href || "https://runstream.co"} />
       </Helmet>
+      
       <div className="bg-dark1 stream-auth-wrap">
             <CheckLogin takeaction={true} />
             <div className="bg-dark1 absolute w-full top-0 flex justify-between items-center p-6 border-b border-gray-800 " >

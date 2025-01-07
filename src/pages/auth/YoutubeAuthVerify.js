@@ -13,6 +13,7 @@ export default function YoutubeAuthVerify(){
    const code = urlParams.get('code');
    const scope = urlParams.get('scope');
 
+
    const navigate = useNavigate();
    const verify = () => { 
       setLoading(true);
