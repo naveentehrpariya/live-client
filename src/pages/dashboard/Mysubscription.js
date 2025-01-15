@@ -9,6 +9,7 @@ import Loading from '../common/Loading';
 import Popup from '../common/Popup';
 import toast from 'react-hot-toast';
 import Endpoints from '../../api/Endpoints';
+import NoContent from '../common/NoContent';
 
 export default function Mysubscription () {
     const { user } = useContext(UserContext);
@@ -77,48 +78,62 @@ export default function Mysubscription () {
           <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Storage Limit : {user?.storageLimit || 1} GB</p>
           {user && user?.allowed_resolutions && user?.allowed_resolutions.length ? <p className='mb-3 p-2 rounded-2xl px-4 me-2 bg-main'>Stream Resolutions : {user && user.allowed_resolutions.join(',')}</p> :''}
         </div>
-        <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
-          {data && data.map((item,i)=>{
-            const rs = JSON.parse(item.plan.resolutions);
-            return <div className={`bg-dark1 p-6 rounded-[30px] ${item.status ==='active' ? 'border border-gray-700' : 'border border-red-500'} `}>
-                <h2 className='text-white font-bold   text-2xl' >{item && item.plan && item.plan.name}</h2>
-                <div className='mt-4'> 
-                  <h3 className='text-gray-400 font-bold text-md' >Plan Status : </h3>
-                  <h3 className={`text-lg uppercase ${item.status ==='active' ? 'text-green-500' : 'text-red-500'}`} > {item.status}</h3>
-                </div>
-                <div className='mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Plan : </h3>
-                  <h3 className='text-white text-md' > {currency(item && item.plan && item.plan.price, "USD")}/month</h3>
-                </div>
 
-                <div className='mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Allowed Resolution : </h3>
-                  <h3 className='text-white text-md ' >{item && item.plan && item.plan.resolutions && rs.join(',')}</h3>
-                </div>
-                <div className='mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Stream Limit : </h3>
-                  <h3 className='text-white text-md ' >{item && item.plan && item.plan.allowed_streams}</h3>
-                </div>
-                <div className='mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Plan Duration : </h3>
-                  <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
-                </div>
+        {loading ? <Loading /> :
+          <>
+            {data && data.length > 0 ? 
+              <>
+                <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
+                  {data && data.map((item,i)=>{
+                    const rs = JSON.parse(item.plan.resolutions);
+                    return <div className={`bg-dark1 p-6 rounded-[30px] ${item.status ==='active' ? 'border border-gray-700' : 'border border-red-500'} `}>
+                        <h2 className='text-white font-bold   text-2xl' >{item && item.plan && item.plan.name}</h2>
+                        <div className='mt-4'> 
+                          <h3 className='text-gray-400 font-bold text-md' >Plan Status : </h3>
+                          <h3 className={`text-lg uppercase ${item.status ==='active' ? 'text-green-500' : 'text-red-500'}`} > {item.status}</h3>
+                        </div>
+                        <div className='mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Plan : </h3>
+                          <h3 className='text-white text-md' > {currency(item && item.plan && item.plan.price, "USD")}/month</h3>
+                        </div>
 
-                <div className=' mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Start On : </h3>
-                  <h3 className='text-white text-md ' >{time(item && item.createdAt)}</h3>
-                </div>
+                        <div className='mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Allowed Resolution : </h3>
+                          <h3 className='text-white text-md ' >{item && item.plan && item.plan.resolutions && rs.join(',')}</h3>
+                        </div>
+                        <div className='mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Stream Limit : </h3>
+                          <h3 className='text-white text-md ' >{item && item.plan && item.plan.allowed_streams}</h3>
+                        </div>
+                        <div className='mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Plan Duration : </h3>
+                          <h3 className='text-white text-md ' >{user?.plan_months || 1} Months</h3>
+                        </div>
 
-                <div className=' mt-4'>
-                  <h3 className='text-gray-400 font-bold text-md' >Expire On : </h3>
-                  <h3 className='text-white text-md ' >{time(item && item.endOn)}</h3>
-                </div>
-                
-                {item.status !=='active' ? <Subscribe p={item} />  : ''}
+                        <div className=' mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Start On : </h3>
+                          <h3 className='text-white text-md ' >{time(item && item.createdAt)}</h3>
+                        </div>
 
-            </div> 
-          })} 
-        </div>
+                        <div className=' mt-4'>
+                          <h3 className='text-gray-400 font-bold text-md' >Expire On : </h3>
+                          <h3 className='text-white text-md ' >{time(item && item.endOn)}</h3>
+                        </div>
+                        
+                        {item.status !=='active' ? <Subscribe p={item} />  : ''}
+
+                    </div> 
+                  })} 
+                </div>
+              </>
+            :
+              <>
+                <NoContent subheading={true} subtext="Currently you don't have any active subscription." />
+              </>
+            }
+          </>
+        }
+
       </AuthLayout>
       </>
    )
