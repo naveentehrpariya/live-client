@@ -61,7 +61,7 @@ export default function MediaList() {
       const resp = Api.get("/total-uploaded-size");
       resp.then((res) => {
          const size = res.data.totalSize
-         const formattedSize = formatBytes(size, 2); // Defaults to 2 decimal places
+         const formattedSize = formatBytes(size, 2);
          setTotalSize(formattedSize);
       }).catch((err) => {
          console.log(err);
@@ -79,49 +79,51 @@ export default function MediaList() {
          setRemoved(removed);
       }
       return <>
-      {filter === 'image'? 
-         <div className={`${removed ? "hiddens" : ""} relative bg-dark2 border border-gray-800 rounded-xl`} key={`imagefile-${filter}-${index}`}>
-            <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
-            <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
-            <div className='p-3 text-white ' >
-               <p className='text-gray-300 mb-1 line-clamp-1'>{item.name}</p>
-               <p className='text-gray-500 text-sm'>Size : {size.toFixed(2)}MB</p>
+         {filter === 'image'? 
+            <div className={`${removed ? "hiddens" : ""} relative bg-dark2 border border-gray-800 rounded-xl`} key={`imagefile-${filter}-${index}`}>
+               <img className=" w-full object-cover max-w-full h-[130px] sm:h-[200px] rounded-lg" src={item.url} alt="Cloud" />
+               <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+               <div className='p-3 text-white ' >
+                  <p className='text-gray-300 mb-1 line-clamp-1'>{item.name}</p>
+                  <p className='text-gray-500 text-sm'>Size : {size.toFixed(2)}MB</p>
+               </div>
             </div>
-         </div>
-      : '' }  
+         : '' }  
 
-      {filter === 'video'? 
-      <div className={`${removed ? "hiddens" : ""} border border-gray-800 rounded-xl overflow-hidden`} key={`videofile-${filter}-${index}`}>
-         <div className='p-3 text-white ' >
-            <p className='mb-1 text-gray-300 line-clamp-1'>{item.name}</p>
-            <p className='text-gray-500 text-sm'>Size : {size.toFixed(2)}MB</p>
-         </div>
-         <div  className='relative' >
-            <video preload="none" className='w-full h-[200px]' src={item.url} controls type={item.mime}>
-               {/* <source src={item.url} type={item.mime} /> */}
-            </video>
-            <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
-         </div>
-      </div>
-      : '' } 
+         {filter === 'video'? 
+            <div className={`${removed ? "hiddens" : ""} border border-gray-800 rounded-xl overflow-hidden`} key={`videofile-${filter}-${index}`}>
+               <div className='p-3 text-white ' >
+                  <p className='mb-1 text-gray-300 line-clamp-1'>{item.name}</p>
+                  <p className='text-gray-500 text-sm'>Size : {size.toFixed(2)}MB</p>
+               </div>
+               <div  className='relative' >
+                  <video preload="none" className='w-full h-[200px]' src={item.url} controls type={item.mime}>
+                     {/* <source src={item.url} type={item.mime} /> */}
+                  </video>
+                  <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
+               </div>
+            </div>
+         : '' } 
 
-      {filter === 'audio'? 
-         <div  className={`${removed ? "hiddens" : ""} relative border border-gray-600  rounded-xl overflow-hidden`} key={`audiofile-${filter}-${index}`}>
-            <div className=' p-3'>
-               <h2 className='text-gray-300 mb-1 max-w-[90%] text-normal  line-clamp-1'>{item.name}</h2>
-               <p className='text-gray-400'>Size : {size.toFixed(2)}MB</p>
+         {filter === 'audio'? 
+            <div  className={`${removed ? "hiddens" : ""} relative border border-gray-600  rounded-xl overflow-hidden`} key={`audiofile-${filter}-${index}`}>
+               <div className=' p-3'>
+                  <h2 className='text-gray-300 mb-1 max-w-[90%] text-normal  line-clamp-1'>{item.name}</h2>
+                  <p className='text-gray-400'>Size : {size.toFixed(2)}MB</p>
+               </div>
+               <div className='p-3 pt-0'>
+                  <audio preload='none' className='w-full' controls >
+                     <source src={item.url} type={item.mime} />
+                  </audio>
+               </div>
+               <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
             </div>
-            <div className='p-3 pt-0'>
-               <audio preload='none' className='w-full' controls >
-                  <source src={item.url} type={item.mime} />
-               </audio>
-            </div>
-            <RemoveMedia removeded={removeded} updateSize={GetFilesSize} page={page} update={fetchMedias} id={item._id} classes={'absolute top-2 right-2 bg-danger-600 text-white px-3 py-2 rounded-[30px'}  />
-         </div>
-      : '' }  
+         : '' }  
       </> 
    }
-  return (
+
+
+   return (
     <div className='medias-lists'>
 
       {totalSize ? <div className='text-white font-semibold mb-2 text-lg'> {totalSize} is used out of {user && user.storageLimit ? user.storageLimit : 1}GB</div> : ''}
