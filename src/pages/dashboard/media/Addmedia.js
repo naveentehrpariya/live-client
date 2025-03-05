@@ -5,13 +5,12 @@ import toast from 'react-hot-toast';
 import { UserContext } from '../../../context/AuthProvider';
 
 export default function Addmedia({update, classes, updateSize}) {
-
+   
    const [open, setOpen] = useState();
    const [uploading, setUploading] = useState(false);
    const [file, setFile] = useState(null);
    const [fileMime, setFileMime] = useState(null);
    const {Errors} = useContext(UserContext);
-
    const handleFile = async (e) => {
       setFile(e.target.files[0]);
       console.log(e.target.files[0]);
@@ -64,7 +63,6 @@ export default function Addmedia({update, classes, updateSize}) {
    }
 
   return (
-   <>
       <Popup action={open} space={'p-6 sm:p-10'} btntext={"+ Add More"} btnclasses={classes ? classes : 'bg-main text-white rounded-[30px] px-3 md:px-4 py-[4px] md:py-[11px] text-[12px] md:text-[15px]   uppercase  '} >
             <div className="flex justify-center w-full mx-auto">
                <div className=" w-full bg-white sm:rounded-lg">
@@ -115,6 +113,5 @@ export default function Addmedia({update, classes, updateSize}) {
                </div>
             </div>
       </Popup> 
-   </>
   )
 }

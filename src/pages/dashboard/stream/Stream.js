@@ -59,6 +59,7 @@ export default function Stream({data, reload}) {
             // <path d="M17.6016 8.23338L17.6016 8.2334L17.6057 8.2356C17.9259 8.40584 18.1937 8.65999 18.3804 8.9708C18.5672 9.28161 18.6658 9.63737 18.6658 9.99997C18.6658 10.3626 18.5672 10.7183 18.3804 11.0291C18.1937 11.34 17.9259 11.5941 17.6057 11.7643L17.6057 11.7643L17.6016 11.7665L6.92498 17.5724L6.92479 17.5725C5.52301 18.3355 3.83301 17.3336 3.83301 15.8066V4.19414C3.83301 2.66654 5.52289 1.665 6.92495 2.42671C6.92501 2.42674 6.92506 2.42677 6.92512 2.4268L17.6016 8.23338Z" stroke="white"/>
             // </svg> &nbsp; {isLive ? "Watch Live" : "Watch Video"}</Link>
              }
+             
             {data.endedAt ? "" :
                <> 
                <button onClick={()=>endStream(data._id)} className={`${isLive ? "" :  "sdisabled"} mt-3 btn w-full btn-main sm flex items-center justify-center`}>
