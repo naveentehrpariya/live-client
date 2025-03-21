@@ -346,9 +346,12 @@ export default function CreateStreamForm() {
                 </div>
                   
               </div>
+              ${(user?.streamLimit > 0 || user?.trialStatus === "active") ? '' : <p className='w-full text-center text-red-500 text-lg text-center my-3'>You don't have free trial and any active subscription to create a live stream.</p>}
               <div className='flex justify-center mt-8' >
                 <button  onClick={proceedSteps} 
-                className={`${data.platformtype === '' ? 'disabled' : ''} ${(user && (user.streamLimit > 0 || user?.trialStatus === "active")) ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
+                className={`
+                ${data.platformtype === '' ? 'disabled' : ''} 
+                ${(user?.streamLimit > 0 || user?.trialStatus === "active") ? '' : 'disabled'} btn mt-4 sm:mt-0 btn-main lg`}  >
                     Create New Stream
                 </button>
               </div> 
