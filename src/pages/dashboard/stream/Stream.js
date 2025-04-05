@@ -4,9 +4,11 @@ import Endpoints from '../../../api/Endpoints';
 import toast from 'react-hot-toast';
 import TimeFormat from '../../common/TimeFormat';
 import { Link } from 'react-router-dom';
+
+import { IoTrash } from "react-icons/io5";
+
 export default function Stream({data, reload}) {
 
-   console.log('data',data)
    const [loading, setLoading] = useState(false);
    const [isLive, setisLive] = useState(data.status === '1' ? true : false);
    const endStream = (e) => {
@@ -25,15 +27,36 @@ export default function Stream({data, reload}) {
          setLoading(false);
       });
    }
+   const deleteStream = (e) => {
+      setLoading(true);
+      const m = new Endpoints();
+      const resp = m.delete_stream(data?._id);
+      resp.then((res) => {
+         setLoading(false);
+         if(res.data.status){
+            reload && reload();
+            toast.success(res.data.message);
+         } else {
+            toast.error(res.data.message);
+         }
+      }).catch((err) => {
+         setLoading(false);
+      });
+   }
 
 
    const [thumbURL, setthumbURL] = useState(data.thumbnail || defaultimg);
    return (
       <div className='stream box border border-gray-800 overflow-hidden'>
          <div className='stream-img w-full relative' >
-            <div className='min-h-[200px]'>
-               <img onError={() => setthumbURL(defaultimg)} src={thumbURL} className='img-fluid w-full min-h-[200px] max-h-[200px] object-cover' alt='stream thumbnail'  />
+            <div className='min-h-[170px]'>
+               <img onError={() => setthumbURL(defaultimg)} src={thumbURL} className='img-fluid w-full min-h-[170px] max-h-[170px] object-cover' alt='stream thumbnail'  />
             </div>
+
+            {data.status !== '1' ? <div onClick={deleteStream} className={`text-[10px] cursor-pointer absolute top-4 right-4 z-1 `} >
+               <IoTrash size={'1rem'} color='red' />
+            </div> : ''}
+
             <div className={`text-[10px] md:text-[13px] absolute top-3 left-3 z-1 stream-status bg-green-700 text-white rounded-xl px-3 py-1 ${isLive ? "bg-red-800 " : "bg-yellow-700"}`} >
             {data.status === '1' ? <div className="flex items-center"><span className="pulse block w-2 h-2 me-2 bg-red-500 rounded-[50%] "></span>LIVE </div> : "Ended"}</div>
             {data.platformtype ? <div className="text-[8px] md:text-[11px] absolute bottom-3 left-3 z-1 stream-status bg-green-800 text-white rounded-xl px-3 py-1 uppercase">{data.platformtype || 'Youtube'} Stream </div> : '' }
@@ -43,8 +66,8 @@ export default function Stream({data, reload}) {
             : '' } 
             
          </div>
-         <div className='stream-info p-6'>
-            <div className='stream-desc text-white font-bold text-xl mb-4'> {data.title}</div>
+         <div className='stream-info p-4'>
+            <div className='stream-desc line-clamp-1 text-white font-bold text-xl mb-4'> {data.title}</div>
             <div className='mb-4'>
                <div className='stream-date text-xs text-gray-200'>Start At : <TimeFormat date={data.createdAt} /></div>
                {data.endedAt ? <div className='stream-date text-xs text-main mt-2'>Ended At : <TimeFormat date={data.endedAt} /></div> : ''}

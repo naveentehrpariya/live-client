@@ -36,6 +36,9 @@ class Endpoints extends Component {
     async stop_stream(id) {
         return Api.get(`/kill-stream/${id}`,);
     }
+    async delete_stream(id) {
+        return Api.get(`/delete/stream/${id}`,);
+    }
 
     async lists_streams() {
         return Api.get(`/my-streams`);

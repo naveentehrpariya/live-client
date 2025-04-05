@@ -114,8 +114,12 @@ export default function Streams() {
     }
 
     return <tr className="border-b border-gray-900">
-      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left"><p>{item.title}</p> <p>{item.user.email}</p></td>
-      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left"><p>Started : {time(item?.createdAt)}</p><p className='text-red-500'>Ended : {time(item?.endedAt)}</p></td>
+      <td className="whitespace-no-wrap py-4 text-left text-sm text-gray-300 sm:px-3 lg:text-left"><p className='text-lg capitalize line-clamp-1'>{item.title}</p> <p className='line-clamp-1'>{item.user.email}</p></td>
+      <td className="py-4 text-left text-sm text-gray-300 sm:px-3 lg:table-cell lg:text-left">
+        <p>Started : {time(item?.createdAt)}</p>
+        {item?.endedAt ? <p className='text-red-500'>Ended : {time(item?.endedAt)}</p>:''}
+        {item?.deletedAt ? <p className='text-red-500'>Deleted At : {time(item?.deletedAt)}</p>:''}
+        </td>
       <td className="py-4 text-sm font-normal text-gray-300 sm:px-3 lg:table-cell capitalize">
           <StreamDetails />
       </td>

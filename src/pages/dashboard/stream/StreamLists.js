@@ -24,7 +24,7 @@ export default function StreamLists({lists, reload, loading}) {
   return (
     <>
       
-      <div className='streams-lists grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5'>
+      <div className='streams-lists grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
          <AddMoreStream />
          {lists && lists.length ? lists.map((item, index) => {
             return <Stream reload={reload} key={index} data={item} />
