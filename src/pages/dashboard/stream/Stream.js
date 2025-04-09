@@ -70,7 +70,7 @@ export default function Stream({data, reload}) {
             <div className='stream-desc line-clamp-1 text-white font-bold text-xl mb-4'> {data.title}</div>
             <div className='mb-4'>
                <div className='stream-date text-xs text-gray-200'>Start At : <TimeFormat date={data.createdAt} /></div>
-               {data.endedAt ? <div className='stream-date text-xs text-main mt-2'>Ended At : <TimeFormat date={data.endedAt} /></div> : ''}
+               {data.endedAt ? <div className='stream-date text-xs text-main mt-2'>Ended At : <TimeFormat date={data.endedAt} /></div> : <div className=' opacity-0 stream-date text-xs text-main mt-2'>.</div>}
             </div>
             
             { data.platformtype === 'youtube' ? 
