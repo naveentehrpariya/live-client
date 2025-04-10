@@ -72,3 +72,7 @@ body{background:var(--dark);font-family:'productsans';}
   height: 100%;
   min-height: 100vh !important;
 }
+
+.static a {
+  color: #E13939;
+}
