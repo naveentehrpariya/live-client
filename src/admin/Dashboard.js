@@ -4,15 +4,11 @@ import { Link } from 'react-router-dom'
 import useFetch from '../hooks/useFetch';
 import Loading from '../pages/common/Loading';
 import CurrencyFormat from '../pages/common/CurrencyFormat';
-import axios from 'axios';
 import AdminApi from '../api/AdminApi';
 
 export default function AdminDashboard(){
-
   const { loading, data  } = useFetch({url:'/admin/dashboard'});
-
   const [earnings, setearnings] = React.useState([]);
-
   async function fetchEarnings() {
     const resp = AdminApi.get('/admin/earnings');
     resp.then((res)=>{
@@ -21,7 +17,6 @@ export default function AdminDashboard(){
       console.log(err);
     });
   }
-
 
   useEffect(() => {
     fetchEarnings();

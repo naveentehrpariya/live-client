@@ -10,7 +10,6 @@ import CheckAdmin from "./CheckAdmin";
 
 export default function AdminLogin() {
   
-
     const {Errors, setIsAuthenticated, setUser} = useContext(UserContext);
     function LoginForm(){
 
@@ -43,7 +42,7 @@ export default function AdminLogin() {
       resp.then((res) => {
         setLoading(false);
         if(res.data.status && res.data.user.role === '1'){
-            navigate("/admin");
+            navigate("/admin/runstream/x93tzwkdtsmf");
             toast.success(res.data.message);
             localStorage.setItem("admintoken", res.data.token);
             setUser(res.data.user);

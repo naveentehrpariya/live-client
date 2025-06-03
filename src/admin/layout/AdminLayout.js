@@ -22,7 +22,7 @@ export default function AdminLayout({children, heading}) {
 
   const logout = () => {
     localStorage.removeItem("admintoken");
-    window.location.href = "/admin/login";
+    window.location.href = "/admin/runstream/x93tzwkdtsmf/login/super/access";
   };
 
   const [windowWidth, setWindowWidth] = React.useState(window && window.innerWidth);

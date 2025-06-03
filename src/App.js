@@ -75,21 +75,21 @@ function App() {
                     <Route path="/live-stream/:streamkey" element={<LiveRTMP /> } />
 
                     {/* Stream Routes */}
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    <Route path="/admin/login" element={<AdminLogin />} />
-                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                    <Route path="/admin/users" element={<Users />} />
-                    <Route path="/admin/users/:type" element={<Users />} />
-                    <Route path="/admin/streams/:type" element={<AdminStreams />} />
-                    <Route path="/admin/pricing" element={<AdminPlans />} />
-                    <Route path="/admin/pricing/add" element={<AddPricingPlan /> } />
-                    <Route path="/admin/edit-plan/:id" element={<AddPricingPlan /> } />
-                    <Route path="/admin/subscriptions/:type" element={<Subscriptions /> } />
-                    <Route path="/admin/media/:type" element={<AdminMedia /> } />
-                    <Route path="/admin/logs" element={<ReadLogs /> } />
-                    <Route path="/admin/site-features" element={<SiteFeatures /> } />
-                    <Route path="/admin/testimonials" element={<SiteTestimonials /> } />
-                    <Route path="/admin/inquiries" element={<Inquiries /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf" element={<AdminDashboard />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/login/super/access" element={<AdminLogin />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/dashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/users" element={<Users />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/users/:type" element={<Users />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/streams/:type" element={<AdminStreams />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/pricing" element={<AdminPlans />} />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/pricing/add" element={<AddPricingPlan /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/edit-plan/:id" element={<AddPricingPlan /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/subscriptions/:type" element={<Subscriptions /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/media/:type" element={<AdminMedia /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/logs" element={<ReadLogs /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/site-features" element={<SiteFeatures /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/testimonials" element={<SiteTestimonials /> } />
+                    <Route path="/admin/runstream/x93tzwkdtsmf/inquiries" element={<Inquiries /> } />
                     <Route path="*" element={<Error404 />} /> 
                   </Routes>
                 </div>

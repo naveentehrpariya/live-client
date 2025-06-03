@@ -22,8 +22,8 @@ class Endpoints extends Component {
         return Api.patch(`/user/resetpassword/${id}`, data);
     }
 
-    async user_profile() {
-        return Api.get(`/user/profile`);
+    async user_profile(signal) {
+        return Api.get(`/user/profile`, {signal:signal});
     }
     
     async create_stream(data) {

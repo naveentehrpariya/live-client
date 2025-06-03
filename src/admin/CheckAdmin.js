@@ -12,11 +12,11 @@ export default function CheckAdmin() {
         if(res.data.status && res.data.user.role === '1'){
           setAdmin(res.data.user);
         } else {
-          navigate('/admin/login');
+          navigate('/admin/runstream/x93tzwkdtsmf/login/super/access');
         }
     }).catch((err) => {
       console.log("errors",err); 
-      navigate('/admin/login');
+      navigate('/admin/runstream/x93tzwkdtsmf/login/super/access');
     });
   }
 
