@@ -16,7 +16,7 @@ export default function AdminSidebar({toggle}) {
   const {pathname} = window.location;
   function MenuItem({ icon, label, path }) {
     return (
-      <NavLink to={path || "/home"} 
+      <NavLink to={path || "/admin/runstream/x93tzwkdtsmf/home"} 
       className={`${pathname === path ? "bg-main text-white" : "bg-dark1  text-neutral-400 "} flex gap-4 py-4 pr-5 pl-5 mt-5 rounded-xl leading-[150%]max-md:pr-5`}>
         {icon} <div className="my-auto">{label}</div>
       </NavLink>
@@ -25,7 +25,7 @@ export default function AdminSidebar({toggle}) {
 
   const logout = () => {
     localStorage.removeItem("admintoken");
-    window.location.href = "admin/login";
+    window.location.href = "/admin/runstream/x93tzwkdtsmf/login";
   };
 
   return (
@@ -34,45 +34,45 @@ export default function AdminSidebar({toggle}) {
          
         <div className='sticky top-0 p-8 bg-dark flex justify-center items-center sidebar-logo' >
           <div className='text-center'>
-            <Link to='/admin' > <Logo /></Link>
+            <Link to='/admin/runstream/x93tzwkdtsmf' > <Logo /></Link>
          </div>
         </div>
 
         <div className='menus p-8 pt-0' >
             
-            <MenuItem path="/admin"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf"
             icon={<TbHome size={'2rem'}  />}
             label="Dashboard" />
 
-            <MenuItem path="/admin/users/active"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/users/active"
             icon={<FaUserCog size={'2rem'}  />}
             label="Users" />
 
-            <MenuItem path="/admin/streams/all"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/streams/all"
             icon={<MdLiveTv size={'1.52rem'} />}
             label="Live Streams" />
 
-            <MenuItem path="/admin/pricing"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/pricing"
             icon={<SlCalender size={'1.3rem'}  />}
             label="Pricing Plans" />
 
-            <MenuItem path="/admin/subscriptions/all"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/subscriptions/all"
             icon={<CiCalendarDate size={'2rem'}  />}
             label="Subscription" /> 
 
-            <MenuItem path="/admin/media/image"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/media/image"
             icon={<DiHtml5Multimedia size={'2rem'}  />}
             label="Media Collections" />
 
-            <MenuItem path="/admin/site-features"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/site-features"
             icon={<MdFeaturedPlayList size={'1.5rem'}  />}
             label="Features" />
 
-            <MenuItem path="/admin/testimonials"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/testimonials"
             icon={<TfiWrite  size={'1.5rem'}  />}
             label="Testimonials" />
 
-            <MenuItem path="/admin/inquiries"
+            <MenuItem path="/admin/runstream/x93tzwkdtsmf/inquiries"
             icon={<MdOutlineContactSupport  size={'1.5rem'}  />}
             label="Inquiries" />
 

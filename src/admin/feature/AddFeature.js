@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Popup from '../../pages/common/Popup';
 import Api from '../../api/Api';
 import toast from 'react-hot-toast';
+import { parseApiErrors } from "../util/parseApiErrors";
 
 export default function AddFeature({fetch, item, classes, text}) {
 
@@ -44,13 +45,13 @@ export default function AddFeature({fetch, item, classes, text}) {
             toast.success(res.data.message);
          } else { 
             toast.error(res.data.message);
-         }
+         } 
          setLoading(false);
          fetch && fetch();
          setOpen('close');
-      }).catch((err)=>{
-         console.log(err);
+      }).catch((err)=>{ 
          setLoading(false);
+         parseApiErrors(err);
          toast.error("Failed to add feature. Something went wrong.");
       });
    }

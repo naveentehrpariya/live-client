@@ -126,7 +126,7 @@ export default function Pricing({classes, colclasses, heading, type}) {
             ))}
             {admin && admin.role === '1' ? 
             <>
-            <Link to={`/admin/edit-plan/${p._id}`} className="btn md mt-8">Edit Plan</Link>
+            <Link to={`/admin/runstream/x93tzwkdtsmf/edit-plan/${p._id}`} className="btn md mt-8">Edit Plan</Link>
             {p.status === "active" ?
                <button onClick={()=>disablePlan(p._id)}  className={`btn !bg-red-800 md mt-3 cursor-pointer`} >{"Disable Plan"}</button>
             :

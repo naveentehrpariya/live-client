@@ -46,7 +46,7 @@ export default function Users() {
 
   const navigate = useNavigate();
   const handleState = (e) => {
-    navigate(`/admin/users/${e}`);
+    navigate(`/admin/runstream/x93tzwkdtsmf/users/${e}`);
   }
 
   const ITEM = ({item, index}) => { 

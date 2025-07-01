@@ -9,7 +9,7 @@ export default function CheckLogin({redirect, takeaction}) {
   const navigate = useNavigate();
  
   useEffect(()=>{
-    if(window.location.pathname.startsWith("/admin")){
+    if(window.location.pathname.startsWith("/admin/runstream/x93tzwkdtsmf")){
       return;
     }
     const controller = new AbortController();

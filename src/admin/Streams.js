@@ -43,7 +43,7 @@ export default function Streams() {
   }, [type]);
   const navigate = useNavigate();
   const handleState = (e) => {
-    navigate(`/admin/streams/${e}`);
+    navigate(`/admin/runstream/x93tzwkdtsmf/streams/${e}`);
   }
 
   const time = Time();

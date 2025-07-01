@@ -108,7 +108,7 @@ export default function AddPricingPlan() {
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
-        navigate('/admin/pricing');
+        navigate('/admin/runstream/x93tzwkdtsmf/pricing');
       } else {
         toast.error(res.data.message);
       }
@@ -128,7 +128,7 @@ export default function AddPricingPlan() {
     resp.then(res => {
       if(res.data.status){
         toast.success(res.data.message);
-        navigate('/admin/pricing');
+        navigate('/admin/runstream/x93tzwkdtsmf/pricing');
       } else {
         toast.error(res.data.message);
       }

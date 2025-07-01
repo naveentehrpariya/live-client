@@ -49,7 +49,7 @@ export default function Subscriptions() {
 
   const navigate = useNavigate();
   const handleState = (e) => {
-    navigate(`/admin/subscriptions/${e}`);
+    navigate(`/admin/runstream/x93tzwkdtsmf/subscriptions/${e}`);
   }
 
   const currency = CurrencyFormat(); 

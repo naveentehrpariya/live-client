@@ -48,7 +48,7 @@ export default function AdminMedia() {
   const navigate = useNavigate();
   const handleState = (e) => {
     setPage(1);
-    navigate(`/admin/media/${e}`);
+    navigate(`/admin/runstream/x93tzwkdtsmf/media/${e}`);
   }
 
   return (

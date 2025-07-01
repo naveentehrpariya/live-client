@@ -10,7 +10,7 @@ export default function AdminDashboard(){
   const { loading, data  } = useFetch({url:'/admin/dashboard'});
   const [earnings, setearnings] = React.useState([]);
   async function fetchEarnings() {
-    const resp = AdminApi.get('/admin/earnings');
+    const resp = AdminApi.get('/admin/runstream/x93tzwkdtsmf/earnings');
     resp.then((res)=>{
       setearnings(res.data.result || []);
     }).catch((err)=>{
